@@ -6,6 +6,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import bomberman.server.api.ServerInterface;
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.rmi.ConnectException;
 import javax.swing.JOptionPane;
 
@@ -29,6 +33,20 @@ public class Main extends Thread
     Registry registry;
     try
     {
+          Toolkit.getDefaultToolkit().getSystemEventQueue().push(
+            new EventQueue()
+            {
+              @Override
+              protected void dispatchEvent(AWTEvent event) 
+              {
+                if (event instanceof KeyEvent) 
+                {
+                  keyEvent((KeyEvent)event);     
+                }
+                super.dispatchEvent(event); 
+              }
+            });
+      
       // Create main frame
       new MainFrame().setVisible(true);
       
@@ -48,6 +66,18 @@ public class Main extends Thread
     catch (Exception ex) 
     {
       ex.printStackTrace();
+    }
+  }
+  
+  /**
+   * Processes ALL KeyEvents the MainFrame receives.
+   * @param event
+   */
+  private void keyEvent(KeyEvent event)
+  {
+    if(event.getID() == KeyEvent.KEY_PRESSED)
+    {
+      System.out.println(event);  
     }
   }
 }

@@ -198,7 +198,7 @@ public class LobbyPanel extends javax.swing.JPanel
   private void btnCreateGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateGameActionPerformed
     try
     {
-      String[] msg = {"Bitte geben Sie einen Namen f\u00E4r das Spiel an!"};
+      String[] msg = {"Bitte geben Sie einen Namen f\u00FCr das Spiel an!"};
       String gameName = JOptionPane.showInputDialog(msg);
       Session session = bomberman.client.Main.Session;
       bomberman.client.Main.Server.createGame(session, gameName);

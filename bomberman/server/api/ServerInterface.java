@@ -55,6 +55,4 @@ public interface ServerInterface extends Remote
    */
   boolean placeBomb(Session session)
     throws RemoteException, InvalidSessionException;
-  
-
 }

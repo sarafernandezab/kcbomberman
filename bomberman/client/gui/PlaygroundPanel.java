@@ -5,11 +5,22 @@
 
 package bomberman.client.gui;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -51,9 +62,9 @@ public class PlaygroundPanel extends JPanel
         add(this.elementPainter[y][x], gbc);        
       } 
     }
-
+    
     MainFrame.getInstance().setSize(
-            (cols + 2) * ElementPainter.DEFAULT_SIZE,
-            (rows + 2) * ElementPainter.DEFAULT_SIZE);
+        (cols + 2) * ElementPainter.DEFAULT_SIZE,
+        (rows + 2) * ElementPainter.DEFAULT_SIZE);
   }
 }
