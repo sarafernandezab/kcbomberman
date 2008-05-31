@@ -1,15 +1,37 @@
+/*
+ *  KC Bomberman
+ *  Copyright 2008 Christian Lins <christian.lins@web.de>
+ *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package bomberman.client;
 
 import bomberman.client.gui.MainFrame;
+import bomberman.client.gui.PlaygroundPanel;
 import bomberman.server.Session;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import bomberman.server.api.ServerInterface;
 import java.awt.AWTEvent;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.rmi.ConnectException;
 import javax.swing.JOptionPane;
 
@@ -77,7 +99,11 @@ public class Main extends Thread
   {
     if(event.getID() == KeyEvent.KEY_PRESSED)
     {
-      System.out.println(event);  
+      Container cnt = MainFrame.getInstance().getContentPane();
+      if(cnt instanceof KeyListener)
+      {
+        ((KeyListener)cnt).keyPressed(event);
+      }
     }
   }
 }
