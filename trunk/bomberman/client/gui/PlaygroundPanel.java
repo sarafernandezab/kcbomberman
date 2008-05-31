@@ -1,33 +1,45 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  KC Bomberman
+ *  Copyright 2008 Christian Lins <christian.lins@web.de>
+ *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package bomberman.client.gui;
 
-import java.awt.AWTEvent;
+import bomberman.client.Main;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+import java.rmi.RemoteException;
+
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 
 /**
- *
+ * Panel that displays a game's playground. The client
+ * receives changes from the server and displays this changes
+ * on a PlaygroundPanel.
  * @author Kai Ritterbusch
  * @author Christian Lins
  */
-public class PlaygroundPanel extends JPanel
+public class PlaygroundPanel 
+        extends JPanel
+        implements KeyListener
 {
   private ElementPainter[][] elementPainter;
   
@@ -66,5 +78,55 @@ public class PlaygroundPanel extends JPanel
     MainFrame.getInstance().setSize(
         (cols + 2) * ElementPainter.DEFAULT_SIZE,
         (rows + 2) * ElementPainter.DEFAULT_SIZE);
+  }
+  
+  public void keyTyped(KeyEvent event) {}
+  public void keyReleased(KeyEvent event) {}
+  
+  /**
+   * Reacts on player actions.
+   * @param event
+   */
+  public void keyPressed(KeyEvent event)
+  {
+    try
+    {
+      switch(event.getKeyCode())
+      {
+        case KeyEvent.VK_UP:
+        {
+          System.out.println("UP");
+          Main.Server.move(Main.Session, 0, -1);
+          break;
+        }
+        case KeyEvent.VK_DOWN:
+        {
+          System.out.println("DOWN");
+          Main.Server.move(Main.Session, 0, +1);
+          break;
+        }
+        case KeyEvent.VK_LEFT:
+        {
+          System.out.println("<=");
+          Main.Server.move(Main.Session, -1, 0);
+          break;
+        }
+        case KeyEvent.VK_RIGHT:
+        {
+          System.out.println("=>");
+          Main.Server.move(Main.Session, +1, 0);
+          break;
+        }
+        case KeyEvent.VK_SPACE:
+        {
+          Main.Server.placeBomb(Main.Session);
+          break;
+        }
+      }
+    }
+    catch(RemoteException ex)
+    {
+      ex.printStackTrace();
+    }
   }
 }
