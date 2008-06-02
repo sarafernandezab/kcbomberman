@@ -35,6 +35,7 @@ import java.awt.event.KeyListener;
 import java.rmi.ConnectException;
 import javax.swing.JOptionPane;
 
+/**/
 public class Main extends Thread
 {
   public static ServerInterface Server;
