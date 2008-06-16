@@ -45,6 +45,7 @@ public class Game implements Serializable
   public void addPlayer(int x, int y, Player player)
   {
     this.playground.setElement(x, y, player);
+    System.out.println("Player"+ player.getId() +"added to Playground ("+player.getNickname() +")");
   }
   
   public Session getCreator()

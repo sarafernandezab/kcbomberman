@@ -74,6 +74,12 @@ public class ServerListener
     System.out.println("Game start");
   }
   
+  public void gameStopped() throws RemoteException
+  {
+    MainFrame.getInstance().setContentPane(new LobbyPanel());
+    System.out.println("Game stopped");
+  }
+  
   public void gameJoined(String gameName) throws RemoteException
   {
     System.out.println("Game joined");
