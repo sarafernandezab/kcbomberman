@@ -191,10 +191,34 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     game.getPlayers().add(session);
     
     // Set PlayerNumber
-    players.get(session).setId(game.getPlayers().size() + 1);
+    Player player = players.get(session);
+    player.setId(game.getPlayers().size() + 1);
+    //players.get(session).setId(game.getPlayers().size() + 1);
     
-    // Adds player to playground
-    
+    // Adds player to playground view, sets starting position
+    int x = 0;
+    int y = 0;
+    if(player.getId() == 1)
+    {
+      x = 1;
+      y = 1;
+    }
+    else if(player.getId() == 2)
+    {
+      x = 15;
+      y = 13;
+    }
+    else if(player.getId() == 3)
+    {
+      x = 15;
+      y = 1;      
+    }
+    else if(player.getId() == 4)
+    {
+      x = 1;
+      y = 13;
+    }    
+    game.addPlayer(x, y, players.get(session)); 
     
     // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
