@@ -1,0 +1,3 @@
+#summary Beschreibung des Algorithmus der Künstlichen Intelligenz
+#labels deutsch,ki,ai
+
