@@ -120,7 +120,7 @@ public class LoginPanel extends javax.swing.JPanel {
     try
     {
       // The Client request a login
-      bomberman.client.Main.Server.login(nickname, bomberman.client.Main.ServerListener);
+      bomberman.client.ClientThread.Server.login(nickname, bomberman.client.ClientThread.ServerListener);
     }
     catch(Exception ex)
     {

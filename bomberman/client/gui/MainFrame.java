@@ -58,7 +58,7 @@ public class MainFrame extends JFrame
         try
         {
           System.out.println("ausgeloggt");
-          bomberman.client.Main.Server.logout(bomberman.client.Main.Session);
+          bomberman.client.ClientThread.Server.logout(bomberman.client.ClientThread.Session);
         }
         catch(Exception re)
         {

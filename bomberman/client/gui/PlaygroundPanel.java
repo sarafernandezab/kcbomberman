@@ -19,7 +19,7 @@
 
 package bomberman.client.gui;
 
-import bomberman.client.Main;
+import bomberman.client.ClientThread;
 import bomberman.server.Playground;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -99,30 +99,30 @@ public class PlaygroundPanel
         case KeyEvent.VK_UP:
         {
           System.out.println("UP");
-          Main.Server.move(Main.Session, 0, -1);
+          ClientThread.Server.move(ClientThread.Session, 0, -1);
           break;
         }
         case KeyEvent.VK_DOWN:
         {
           System.out.println("DOWN");
-          Main.Server.move(Main.Session, 0, +1);
+          ClientThread.Server.move(ClientThread.Session, 0, +1);
           break;
         }
         case KeyEvent.VK_LEFT:
         {
           System.out.println("<=");
-          Main.Server.move(Main.Session, -1, 0);
+          ClientThread.Server.move(ClientThread.Session, -1, 0);
           break;
         }
         case KeyEvent.VK_RIGHT:
         {
           System.out.println("=>");
-          Main.Server.move(Main.Session, +1, 0);
+          ClientThread.Server.move(ClientThread.Session, +1, 0);
           break;
         }
         case KeyEvent.VK_SPACE:
         {
-          Main.Server.placeBomb(Main.Session);
+          ClientThread.Server.placeBomb(ClientThread.Session);
           break;
         }
       }

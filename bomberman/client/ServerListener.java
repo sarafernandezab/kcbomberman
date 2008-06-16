@@ -106,7 +106,7 @@ public class ServerListener
   
   public void loggedIn(Session session) throws RemoteException
   {
-    bomberman.client.Main.Session = session;
+    bomberman.client.ClientThread.Session = session;
     
     MainFrame.getInstance().setContentPane(new LobbyPanel());
     MainFrame.getInstance().setVisible(true);

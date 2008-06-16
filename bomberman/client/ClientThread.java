@@ -36,7 +36,7 @@ import java.rmi.ConnectException;
 import javax.swing.JOptionPane;
 
 /**/
-public class Main extends Thread
+public class ClientThread extends Thread
 {
   public static ServerInterface Server;
   public static ServerListener  ServerListener;
@@ -45,7 +45,7 @@ public class Main extends Thread
   private String[] args;
   
   // Konstruktor mit uebergabe von Argumenten
-  public Main(String[] args)
+  public ClientThread(String[] args)
   {
     this.args = args;
   }
