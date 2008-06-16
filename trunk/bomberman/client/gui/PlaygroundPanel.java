@@ -71,14 +71,16 @@ public class PlaygroundPanel
       for(int x = 0; x < cols; x++)
       {
         gbc.gridx = x;
-        this.elementPainter[y][x] = new ElementPainter(null);
+        this.elementPainter[y][x] = new ElementPainter();
         add(this.elementPainter[y][x], gbc);        
       } 
-    }
+    }    
     
     MainFrame.getInstance().setSize(
         (cols + 2) * ElementPainter.DEFAULT_SIZE,
         (rows + 2) * ElementPainter.DEFAULT_SIZE);
+    
+    MainFrame.getInstance().repaint();
   }
   
   public void keyTyped(KeyEvent event) {}
@@ -136,7 +138,7 @@ public class PlaygroundPanel
   {
     for(int x=0; x< elementPainter.length; x++)    
       for(int y=0; y < elementPainter[x].length; y++)        
-       elementPainter[x][y] = new ElementPainter(playground.getElement(x, y));
+       elementPainter[x][y].setElement(playground.getElement(x, y));
     
   }
 }
