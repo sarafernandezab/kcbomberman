@@ -17,26 +17,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bomberman;
+package bomberman.server;
 
-/**
- *
- * @author chris
- */
-public class Main 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class ServerThread extends Thread
 {
-  public static void main(String[] args)
+  @Override
+  public void run()
   {
-    for(int n = 0; n < args.length; n++)
+    try
     {
-      if(args[n].equals("--client"))
-      {
-        new bomberman.client.ClientThread(args).start();
-      }
-      else if(args[n].equals("--server"))
-      {
-        new bomberman.server.ServerThread().start();
-      }
+      Server server = new Server();
+      
+      // Erzeuge neue lokale Registry
+      Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+      
+      // Binde Server an Namen
+      registry.rebind("Server", server);
+      
+      System.out.println("Bombermanserver bereit ...");
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+      System.exit(1);
     }
   }
 }

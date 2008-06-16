@@ -199,7 +199,7 @@ public class LobbyPanel extends javax.swing.JPanel
     String text = this.txtChatInput.getText();
     try
     {
-      bomberman.client.Main.Server.sendChatMessage(bomberman.client.Main.Session, text);
+      bomberman.client.ClientThread.Server.sendChatMessage(bomberman.client.ClientThread.Session, text);
       this.txtChatInput.setText("");
     }
     catch(RemoteException ex)
@@ -213,8 +213,8 @@ public class LobbyPanel extends javax.swing.JPanel
     {
       String[] msg = {"Bitte geben Sie einen Namen f\u00FCr das Spiel an!"};
       String gameName = JOptionPane.showInputDialog(msg);
-      Session session = bomberman.client.Main.Session;
-      bomberman.client.Main.Server.createGame(session, gameName);
+      Session session = bomberman.client.ClientThread.Session;
+      bomberman.client.ClientThread.Server.createGame(session, gameName);
     }
     catch(Exception ex)
     {
@@ -228,7 +228,7 @@ public class LobbyPanel extends javax.swing.JPanel
     {
       int row = tblGamelist.getSelectedRow();
       String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-      bomberman.client.Main.Server.joinGame(bomberman.client.Main.Session, name);
+      bomberman.client.ClientThread.Server.joinGame(bomberman.client.ClientThread.Session, name);
     }
     catch(Exception ex)
     {
