@@ -20,10 +20,14 @@
 package bomberman.server;
 
 import bomberman.server.api.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Element
 {
-  private String   nickname;
+  protected List<Bomb> bombs = new ArrayList<Bomb>();
+  
+  private String nickname;
   private int    id;
      
   public Player(String nickname)
