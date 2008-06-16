@@ -68,9 +68,9 @@ public class ServerListener
     }
   }
   
-  public void gameStarted()
-          throws RemoteException
+  public void gameStarted() throws RemoteException
   {
+    MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
     System.out.println("Game start");
   }
   
