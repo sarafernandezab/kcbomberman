@@ -128,7 +128,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }
           
   
-  
+  // TODO: kaputt
   public boolean move(Session session, int x, int y) throws RemoteException
   {
     checkSession(session);
@@ -142,10 +142,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Debug
     System.out.println(player.getNickname() + " moved to (" + x + "/"+ y + ")" + "on Playground " + game.toString() );
     
-    // Moves player    
-    game.addPlayer(x, y, players.get(session));    
+    // Moves player
     game.removePlayer(players.get(session).getX(), players.get(session).getY(), players.get(session));   
-    
+    game.addPlayer(players.get(session).getX()+x, players.get(session).getY()+y, players.get(session));    
     
     // Updates Playground when moved
     for(Session sess : game.getPlayers())
