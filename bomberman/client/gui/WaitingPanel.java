@@ -122,8 +122,7 @@ public class WaitingPanel extends javax.swing.JPanel
   {     
     try
     {
-      bomberman.client.Main.Server.startGame(bomberman.client.Main.Session, this.gameName);
-      MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
+      bomberman.client.Main.Server.startGame(bomberman.client.Main.Session, this.gameName);     
     }
     catch(RemoteException rexc)
     {
