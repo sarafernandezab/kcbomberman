@@ -19,6 +19,7 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.io.Resource;
 import bomberman.server.ExplodableWall;
 import bomberman.server.SolidWall;
 import bomberman.server.Wall;
@@ -30,6 +31,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -39,39 +41,23 @@ import javax.swing.JComponent;
 public class ElementPainter extends JComponent
 {
   public static final int DEFAULT_SIZE = 40;
-  private BufferedImage image = null;
+  private ImageIcon image = null;
   
-  public ElementPainter(Element element)
-  { 
-    try
-    {
-      if(element instanceof SolidWall)
-      {
-        image = ImageIO.read(new File("resource/gfx/solid_wall.png") );
-      }
-      else if(element instanceof ExplodableWall)
-      {
-        image = ImageIO.read(new File("resource/gfx/explodable_wall.png") );
-      } 
-      else
-        image = null;
-    }
-    catch(IOException e)
-    {
-      e.printStackTrace();
-    }
+  public ElementPainter()
+  {     
+    
   }
   
   @Override
   public void paintComponent(Graphics g)
-  {
-    if(image == null)
+  {    
+    if(image == null) // No Image, background
     {
       g.setColor(Color.GREEN.darker().darker());
       g.fillRect(0, 0, getWidth(), getHeight());
     }
-    else
-      g.drawImage(this.image,0,0,null);    
+    else // Image loaded
+      g.drawImage(this.image.getImage(),0,0,null);    
   }
   
   @Override
@@ -84,5 +70,19 @@ public class ElementPainter extends JComponent
   public Dimension getMinimumSize()
   {
     return getPreferredSize();
+  }
+  
+  public void setElement(Element element)
+  {
+    if(element instanceof SolidWall)
+    {
+      image = Resource.getImage("resource/gfx/solid_wall.png");
+    }
+    else if(element instanceof ExplodableWall)
+    {
+      image = Resource.getImage("resource/gfx/explodable_wall.png");
+    } 
+    else
+      image = null;
   }
 }
