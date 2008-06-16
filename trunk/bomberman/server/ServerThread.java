@@ -19,11 +19,16 @@
 
 package bomberman.server;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class ServerThread extends Thread
 {
+  private static Registry Registry = null;
+  
+  private Server    server;
+  
   public ServerThread(boolean daemon)
   {
     setDaemon(daemon);
@@ -34,20 +39,44 @@ public class ServerThread extends Thread
   {
     try
     {
-      Server server = new Server();
+      this.server = new Server();
       
       // Erzeuge neue lokale Registry
-      Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+      if(Registry == null)
+        Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
       
       // Binde Server an Namen
-      registry.rebind("Server", server);
+      Registry.rebind("KCBombermanServer", server);
       
       System.out.println("Bombermanserver bereit ...");
+      
+      synchronized(this)
+      {
+        wait();
+      }
+      
+      System.out.println("Server gestoppt!");
     }
     catch(Exception ex)
     {
       ex.printStackTrace();
       System.exit(1);
+    }
+  }
+  
+  public void stopThread()
+  {
+    try
+    {
+      Registry.unbind("KCBombermanServer");
+      synchronized(this)
+      {
+        notify();
+      }
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
     }
   }
 }

@@ -25,11 +25,30 @@ import bomberman.server.ServerThread;
  *
  * @author  chris
  */
-public class ServerControlPanel extends javax.swing.JPanel {
+public class ServerControlPanel extends javax.swing.JPanel 
+{
+  private ServerThread serverThread;
   
   /** Creates new form ServerControlPanel */
-  public ServerControlPanel(ServerThread thread) {
+  public ServerControlPanel(ServerThread thread) 
+  {   
     initComponents();
+    setThread(thread);
+  }
+  
+  private void setThread(ServerThread thread)
+  {
+    this.serverThread = thread;
+    if(thread == null || !thread.isAlive())
+    {
+      btnStartServer.setEnabled(true);
+      btnStopServer.setEnabled(false);
+    }
+    else
+    {
+      btnStartServer.setEnabled(false);
+      btnStopServer.setEnabled(true);
+    }
   }
   
   /** This method is called from within the constructor to
@@ -40,50 +59,60 @@ public class ServerControlPanel extends javax.swing.JPanel {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    jLabel1 = new javax.swing.JLabel();
-    jButton1 = new javax.swing.JButton();
-    jButton2 = new javax.swing.JButton();
-    jLabel2 = new javax.swing.JLabel();
-    jLabel3 = new javax.swing.JLabel();
+    lblCaption = new javax.swing.JLabel();
+    btnStartServer = new javax.swing.JButton();
+    btnStopServer = new javax.swing.JButton();
+    lblStartServer = new javax.swing.JLabel();
+    lblStopServer = new javax.swing.JLabel();
     tabbedPane = new javax.swing.JTabbedPane();
-    jPanel1 = new javax.swing.JPanel();
+    tabLog = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
     jTextArea1 = new javax.swing.JTextArea();
-    jPanel2 = new javax.swing.JPanel();
+    tabGames = new javax.swing.JPanel();
     jScrollPane2 = new javax.swing.JScrollPane();
     jList1 = new javax.swing.JList();
     jButton3 = new javax.swing.JButton();
-    jPanel3 = new javax.swing.JPanel();
+    tabUsers = new javax.swing.JPanel();
     jScrollPane3 = new javax.swing.JScrollPane();
     jList2 = new javax.swing.JList();
     jButton4 = new javax.swing.JButton();
 
-    jLabel1.setText("Hier können Sie den KC Bomberman Server verwalten:");
+    lblCaption.setText("Hier können Sie den KC Bomberman Server verwalten:");
 
-    jButton1.setText("Server starten");
+    btnStartServer.setText("Server starten");
+    btnStartServer.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnStartServerActionPerformed(evt);
+      }
+    });
 
-    jButton2.setText("Server stoppen");
+    btnStopServer.setText("Server stoppen");
+    btnStopServer.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnStopServerActionPerformed(evt);
+      }
+    });
 
-    jLabel2.setText("Der Server wird auf dem lokalen Host gestartet");
+    lblStartServer.setText("Der Server wird auf dem lokalen Host gestartet");
 
-    jLabel3.setText("Den laufenden Server und alle Spiele beenden");
+    lblStopServer.setText("Den laufenden Server und alle Spiele beenden");
 
     jTextArea1.setColumns(20);
     jTextArea1.setRows(5);
     jScrollPane1.setViewportView(jTextArea1);
 
-    javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-    jPanel1.setLayout(jPanel1Layout);
-    jPanel1Layout.setHorizontalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    javax.swing.GroupLayout tabLogLayout = new javax.swing.GroupLayout(tabLog);
+    tabLog.setLayout(tabLogLayout);
+    tabLogLayout.setHorizontalGroup(
+      tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
     );
-    jPanel1Layout.setVerticalGroup(
-      jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    tabLogLayout.setVerticalGroup(
+      tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
     );
 
-    tabbedPane.addTab("Log", jPanel1);
+    tabbedPane.addTab("Log", tabLog);
 
     jList1.setModel(new javax.swing.AbstractListModel() {
       String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -94,28 +123,28 @@ public class ServerControlPanel extends javax.swing.JPanel {
 
     jButton3.setText("Beenden");
 
-    javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-    jPanel2.setLayout(jPanel2Layout);
-    jPanel2Layout.setHorizontalGroup(
-      jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+    javax.swing.GroupLayout tabGamesLayout = new javax.swing.GroupLayout(tabGames);
+    tabGames.setLayout(tabGamesLayout);
+    tabGamesLayout.setHorizontalGroup(
+      tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(jButton3)
         .addContainerGap())
     );
-    jPanel2Layout.setVerticalGroup(
-      jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel2Layout.createSequentialGroup()
+    tabGamesLayout.setVerticalGroup(
+      tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
           .addComponent(jButton3))
         .addContainerGap())
     );
 
-    tabbedPane.addTab("Spiele", jPanel2);
+    tabbedPane.addTab("Spiele", tabGames);
 
     jList2.setModel(new javax.swing.AbstractListModel() {
       String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -126,28 +155,28 @@ public class ServerControlPanel extends javax.swing.JPanel {
 
     jButton4.setText("Kicken");
 
-    javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-    jPanel3.setLayout(jPanel3Layout);
-    jPanel3Layout.setHorizontalGroup(
-      jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+    javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
+    tabUsers.setLayout(tabUsersLayout);
+    tabUsersLayout.setHorizontalGroup(
+      tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(jButton4)
         .addContainerGap())
     );
-    jPanel3Layout.setVerticalGroup(
-      jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(jPanel3Layout.createSequentialGroup()
+    tabUsersLayout.setVerticalGroup(
+      tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
           .addComponent(jButton4))
         .addContainerGap())
     );
 
-    tabbedPane.addTab("User", jPanel3);
+    tabbedPane.addTab("User", tabUsers);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -157,54 +186,73 @@ public class ServerControlPanel extends javax.swing.JPanel {
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-          .addComponent(jLabel1)
+          .addComponent(lblCaption)
           .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-              .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+              .addComponent(btnStartServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+              .addComponent(btnStopServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(jLabel3)
-              .addComponent(jLabel2))))
+              .addComponent(lblStopServer)
+              .addComponent(lblStartServer))))
         .addContainerGap())
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jLabel1)
+        .addComponent(lblCaption)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jButton1)
-          .addComponent(jLabel2))
+          .addComponent(btnStartServer)
+          .addComponent(lblStartServer))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jButton2)
-          .addComponent(jLabel3))
+          .addComponent(btnStopServer)
+          .addComponent(lblStopServer))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
         .addContainerGap())
     );
   }// </editor-fold>//GEN-END:initComponents
+
+  private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
+    if(this.serverThread != null)
+    {
+      this.serverThread.stopThread();
+    }
+    
+    this.serverThread = new ServerThread(true);
+    this.serverThread.start();
+    setThread(this.serverThread);
+  }//GEN-LAST:event_btnStartServerActionPerformed
+
+  private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
+    if(this.serverThread != null)
+    {
+      this.serverThread.stopThread();
+      setThread(null);
+    }
+  }//GEN-LAST:event_btnStopServerActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton jButton1;
-  private javax.swing.JButton jButton2;
+  private javax.swing.JButton btnStartServer;
+  private javax.swing.JButton btnStopServer;
   private javax.swing.JButton jButton3;
   private javax.swing.JButton jButton4;
-  private javax.swing.JLabel jLabel1;
-  private javax.swing.JLabel jLabel2;
-  private javax.swing.JLabel jLabel3;
   private javax.swing.JList jList1;
   private javax.swing.JList jList2;
-  private javax.swing.JPanel jPanel1;
-  private javax.swing.JPanel jPanel2;
-  private javax.swing.JPanel jPanel3;
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JTextArea jTextArea1;
+  private javax.swing.JLabel lblCaption;
+  private javax.swing.JLabel lblStartServer;
+  private javax.swing.JLabel lblStopServer;
+  private javax.swing.JPanel tabGames;
+  private javax.swing.JPanel tabLog;
+  private javax.swing.JPanel tabUsers;
   private javax.swing.JTabbedPane tabbedPane;
   // End of variables declaration//GEN-END:variables
   
