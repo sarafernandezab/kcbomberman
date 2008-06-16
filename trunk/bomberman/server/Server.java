@@ -235,17 +235,19 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           throws RemoteException
   {
     checkSession(session);
-    
+    System.out.println("Session ok");
     if(!games.containsKey(gameName)) // No such game
       return false;
     else
     {
+      System.out.println("Spiel vorhanden ok");
       Game game = this.games.get(gameName);
       
       // Check if the client is the creator of the game,
       // say it is allowed to start the game
       if(game.getCreator().equals(session))
       {
+        System.out.println("Creator ok");
         // Send game start message
         ArrayList<Session> sessions = game.getPlayers();
         for(Session sess : sessions)
