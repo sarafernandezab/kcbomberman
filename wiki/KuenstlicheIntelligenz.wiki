@@ -14,7 +14,7 @@ In dieser Hauptroutine führt der KI-Spieler nach Priorität folgende Aktionen a
 
 == Pfadsuche ==
 
-Zur Pfadsuche verwenden wir den A*-Algorithmus, der im Umfeld der KI- und Spiele-
+Zur Pfadsuche verwenden wir den A{{{*}}}-Algorithmus, der im Umfeld der KI- und Spiele-
 Programmierung recht bekannt ist. Er taucht in einer seiner Formen in nahezu jedem
 professionellem Computerspiel auf.
 Im Wesentlichen funktioniert der Algorithmus folgendermaßen:
@@ -26,5 +26,5 @@ Der Ablauf:
   # Falls die Position der gewünschte Zielpunkt ist, berechne den Weg mit Hilfe von ClosedNodes zurück: --> Erfolg.
   # Falls die Position nicht der gewünschte Zielpunkt ist, suche alle Nachbarpunkt der Position und füge sie OpenNodes hinzu. Falls es Nachbarn gab, füge die Position der ClosedNodes-Liste hinzu.
 
-Dieser Ablauf beschreibt einen vereinfachten A*-Algorithmus, der nicht den optimalen Pfad
+Dieser Ablauf beschreibt einen vereinfachten A{{{*}}}-Algorithmus, der nicht den optimalen Pfad
 sondern den zuerst gefunden Pfad zurück gibt. Dies vereinfacht den Aufwand erheblich, bei langen Wegen kann der Pfad jedoch recht unrealistisch aussehen. In einer späteren Version werden wir dies vielleicht beheben.
