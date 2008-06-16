@@ -26,9 +26,8 @@ import java.util.List;
 public class Player extends Element
 {
   protected List<Bomb> bombs = new ArrayList<Bomb>();
-  
-  private String nickname;
-  private int    id;
+  protected String nickname;
+  protected int    id;
      
   public Player(String nickname)
   {
@@ -54,5 +53,11 @@ public class Player extends Element
   public void setID(int id) 
   {
     this.id = id;
+  }
+  
+  public void setPosition(int x, int y)
+  {
+    this.gridX = x;
+    this.gridY = y;
   }
 }

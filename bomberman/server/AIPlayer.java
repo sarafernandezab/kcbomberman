@@ -24,6 +24,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
@@ -33,13 +35,25 @@ import java.util.Random;
 public class AIPlayer extends Player
 {
   private List<int[]> currentPath = new ArrayList<int[]>();
+  private Game        game;
   private Playground  playground;
   
-  public AIPlayer(Playground playground)
+  public AIPlayer(Game game, Playground playground)
   {
     super("KI-Knecht");
     
+    this.game       = game;
     this.playground = playground;
+    
+    // Set working timer
+    Timer timer = new Timer();
+    timer.schedule(new TimerTask()
+    {
+      public void run()
+      {
+        tick();
+      }
+    }, 0, 200);
   }
   
   private boolean isTargetZone(Point pnt)
@@ -237,16 +251,27 @@ public class AIPlayer extends Player
   
   private boolean move(int dx, int dy, boolean weissnich)
   {
-    return true;
+    //System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
+    boolean moved = this.game.movePlayer(this, dy, dx);
+    
+    if(moved)
+    {
+      this.game.forceClientUpdate();
+    }
+    
+    return moved;
   }
   
   private void placeBomb()
   {
-    
+    System.out.println(this.nickname + " has placed bomb at " + gridX + "/" + gridY);
   }
   
   public void tick()
-  {			
+  {
+    if(!this.game.isRunning())
+      return;
+    
     // In dieser Methode werden die Aktionen des KI-Spielers ausgeführt.
     // Dabei ist zwischen verschiedenen Aktionen zu unterscheiden:
     // - Stelle für Bombe suchen
