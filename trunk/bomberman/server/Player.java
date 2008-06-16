@@ -24,6 +24,7 @@ import bomberman.server.api.Element;
 public class Player extends Element
 {
   private String   nickname;
+  private int    id;
      
   public Player(String nickname)
   {
@@ -39,5 +40,15 @@ public class Player extends Element
   public String toString()
   {
     return this.nickname;
+  }
+
+  public int getId() 
+  {
+    return id;
+  }
+
+  public void setId(int id) 
+  {
+    this.id = id;
   }
 }

@@ -21,6 +21,7 @@ package bomberman.client.gui;
 
 import bomberman.client.io.Resource;
 import bomberman.server.ExplodableWall;
+import bomberman.server.Player;
 import bomberman.server.SolidWall;
 import bomberman.server.Wall;
 import bomberman.server.api.Element;
@@ -82,6 +83,17 @@ public class ElementPainter extends JComponent
     {
       image = Resource.getImage("resource/gfx/explodable_wall.png");
     } 
+    else if(element instanceof Player)
+    {
+      if( ((Player)element).getId() == 1)                         
+        image = Resource.getImage("resource/gfx/player1/6.png");
+      else if( ((Player)element).getId() == 2)
+        image = Resource.getImage("resource/gfx/player2/6.png");
+      else if( ((Player)element).getId() == 3)
+        image = Resource.getImage("resource/gfx/player3/6.png");
+      else if( ((Player)element).getId() == 4)
+        image = Resource.getImage("resource/gfx/player4/6.png");
+    }
     else
       image = null;
   }

@@ -181,12 +181,20 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     checkSession(session);
     
     Game game = games.get(gameName);
+   
+    
     playerToGame.put(session, game);
     if(game == null)
       return false; // No such game
     
     // Add the client as player
     game.getPlayers().add(session);
+    
+    // Set PlayerNumber
+    players.get(session).setId(game.getPlayers().size() + 1);
+    
+    // Adds player to playground
+    
     
     // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
