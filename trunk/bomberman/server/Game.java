@@ -48,4 +48,10 @@ public class Game implements Serializable
   {
     return this.players;
   }
+  
+  @Override
+  public String toString()
+  {
+    return this.gameName;
+  }
 }
