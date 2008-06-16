@@ -32,11 +32,13 @@ public class Game implements Serializable
   private Session            creator   = null;
   private String             gameName  = null;
   private ArrayList<Session> players   = new ArrayList<Session>();
+  private Playground         playground;
 
   public Game(String name, Session creator)
   {
     this.gameName = name;
     this.creator  = creator;
+    this.playground = new Playground(14, 16);
   }
   
   public Session getCreator()
@@ -53,5 +55,15 @@ public class Game implements Serializable
   public String toString()
   {
     return this.gameName;
+  }
+
+  public Playground getPlayground() 
+  {
+    return playground;
+  }
+
+  public void setPlayground(Playground playground) 
+  {
+    this.playground = playground;
   }
 }
