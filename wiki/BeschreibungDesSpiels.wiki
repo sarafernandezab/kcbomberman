@@ -1,0 +1,2 @@
+#summary Eine kurze Beschreibung von KC Bomberman
+#labels deutsch
