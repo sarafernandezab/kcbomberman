@@ -30,6 +30,7 @@ import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * TODO: Shared resources of this class have to be synchronized
@@ -45,7 +46,39 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session, Game> playerToGame  = new HashMap<Session, Game>();
   
   public Server() throws RemoteException
-  {   
+  {
+    Thread updater = new Thread()
+    {
+      @Override
+      public void run()
+      {
+        for(;;)
+        {
+          for(Entry<String, Game> e : games.entrySet())
+          {
+            try
+            {
+              if(e.getValue().isPlaygroundUpdateRequired())
+              {
+                Game game = e.getValue();
+                // Updates Playground when moved
+                for(Session sess : game.getPlayerSessions())
+                  clients.get(sess).playgroundUpdate(game.getPlayground());
+              }
+            }
+            catch(RemoteException ex)
+            {
+              ex.printStackTrace();
+            }
+            yield();
+          }
+        }
+      }
+    };
+    updater.setPriority(Thread.MIN_PRIORITY);
+    updater.setDaemon(true);
+    updater.start();
+    
     System.out.println("ServerInstanz erstellt");
   }
   
@@ -265,7 +298,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     else
     {
       // Create a new Game
-      Game game = new Game(this, gameName, session);
+      Game game = new Game(gameName, session);
       games.put(gameName, game);
 
       // Send a game list update
@@ -312,7 +345,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         // playing
         gameListUpdate();
         
-        playgroundUpdate(game);
+        // Updates Playground when moved
+        for(Session sess : game.getPlayerSessions())
+          clients.get(sess).playgroundUpdate(game.getPlayground());
         
         // Add AI-controlled players if there are not enough human players
         game.addAI();
@@ -322,20 +357,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       }
       else
         return false; // Not allowed
-    }
-  }
-  
-  void playgroundUpdate(Game game)
-  {
-    try
-    {
-      // Updates Playground when moved
-      for(Session sess : game.getPlayerSessions())
-        clients.get(sess).playgroundUpdate(game.getPlayground());
-    }
-    catch(Exception ex)
-    {
-      ex.printStackTrace();
     }
   }
 }

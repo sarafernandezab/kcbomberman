@@ -53,7 +53,7 @@ public class AIPlayer extends Player
       {
         tick();
       }
-    }, 0, 200);
+    }, 0, 500);
   }
   
   private boolean isTargetZone(Point pnt)
@@ -147,7 +147,10 @@ public class AIPlayer extends Player
 
   // Funktion zum Berechnen eines Fluchtweges
   private List<int[]> calculateHidePath(Element bomb)
-  {			
+  {
+    if(bomb == null)
+      return null;
+    
     int x = bomb.getX();
     int y = bomb.getY();
 			
@@ -256,7 +259,7 @@ public class AIPlayer extends Player
     
     if(moved)
     {
-      this.game.forceClientUpdate();
+      this.game.forcePlaygroundUpdate();
     }
     
     return moved;
@@ -264,7 +267,7 @@ public class AIPlayer extends Player
   
   private void placeBomb()
   {
-    System.out.println(this.nickname + " has placed bomb at " + gridX + "/" + gridY);
+    //System.out.println(this.nickname + " has placed bomb at " + gridX + "/" + gridY);
   }
   
   public void tick()
