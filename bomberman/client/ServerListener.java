@@ -74,11 +74,11 @@ public class ServerListener
     System.out.println("Game start");
   }
   
-  public void gameJoined(String name) throws RemoteException
+  public void gameJoined(String gameName) throws RemoteException
   {
     System.out.println("Game joined");
      
-    MainFrame.getInstance().setContentPane(new WaitingPanel());
+    MainFrame.getInstance().setContentPane(new WaitingPanel(gameName));
     //MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16)); // TODO:
     MainFrame.getInstance().setVisible(true);
   }

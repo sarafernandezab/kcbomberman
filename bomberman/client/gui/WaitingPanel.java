@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.client.io.Resource;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.rmi.RemoteException;
 import javax.swing.JTextArea;
 
 /**
@@ -34,10 +35,12 @@ import javax.swing.JTextArea;
 public class WaitingPanel extends javax.swing.JPanel 
 {
   private Image background = null;
+  private String gameName;
   
   /** Creates new form WaitingPanel */
-  public WaitingPanel() 
+  public WaitingPanel(String gameName) 
   {
+    this.gameName = gameName;
     this.background = Resource.getImage("resource/gfx/waitscreen.jpg").getImage();
     initComponents();
     
@@ -115,9 +118,17 @@ public class WaitingPanel extends javax.swing.JPanel
   // End of variables declaration//GEN-END:variables
   
   
-  private void btnStartGameActionPerformed(java.awt.event.ActionEvent evt) 
-  {                                         
-    MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
+  private void btnStartGameActionPerformed(java.awt.event.ActionEvent evt)
+  {     
+    try
+    {
+      bomberman.client.Main.Server.startGame(bomberman.client.Main.Session, this.gameName);
+      MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
+    }
+    catch(RemoteException rexc)
+    {
+      rexc.printStackTrace();
+    }    
   }    
   
   @Override
