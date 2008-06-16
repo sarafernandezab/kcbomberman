@@ -21,6 +21,7 @@ package bomberman.server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -45,7 +46,7 @@ public class Game implements Serializable
   public void addPlayer(int x, int y, Player player)
   {
     this.playground.setElement(x, y, player);
-    System.out.println("Player"+ player.getId() +"added to Playground ("+player.getNickname() +")");
+    System.out.println("Player"+ player.getID() +"added to Playground ("+player.getNickname() +")");
   }
   
   // Removes a player to the playground
@@ -55,12 +56,24 @@ public class Game implements Serializable
       this.playground.setElement(x, y, null);    
   }
   
+  /**
+   * Moves a player in the game's playground if possible.
+   * @param player
+   * @param dx
+   * @param dy
+   * @return
+   */
+  public boolean movePlayer(Player player, int dx, int dy)
+  {
+    return false;
+  }
+  
   public Session getCreator()
   {
     return this.creator;
   }
   
-  public ArrayList<Session> getPlayers()
+  public List<Session> getPlayers()
   {
     return this.players;
   }
