@@ -20,6 +20,7 @@
 package bomberman.client.gui;
 
 import bomberman.client.Main;
+import bomberman.server.Playground;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -70,7 +71,7 @@ public class PlaygroundPanel
       for(int x = 0; x < cols; x++)
       {
         gbc.gridx = x;
-        this.elementPainter[y][x] = new ElementPainter();
+        this.elementPainter[y][x] = new ElementPainter(null);
         add(this.elementPainter[y][x], gbc);        
       } 
     }
@@ -128,5 +129,14 @@ public class PlaygroundPanel
     {
       ex.printStackTrace();
     }
+  }
+  
+  
+  public void updatePlaygroundView(Playground playground) // TODO: 
+  {
+    for(int x=0; x< elementPainter.length; x++)    
+      for(int y=0; y < elementPainter[x].length; y++)        
+       elementPainter[x][y] = new ElementPainter(playground.getElement(x, y));
+    
   }
 }

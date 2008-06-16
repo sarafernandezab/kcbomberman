@@ -19,9 +19,17 @@
 
 package bomberman.client.gui;
 
+import bomberman.server.ExplodableWall;
+import bomberman.server.SolidWall;
+import bomberman.server.Wall;
+import bomberman.server.api.Element;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -31,12 +39,39 @@ import javax.swing.JComponent;
 public class ElementPainter extends JComponent
 {
   public static final int DEFAULT_SIZE = 40;
+  private BufferedImage image = null;
+  
+  public ElementPainter(Element element)
+  { 
+    try
+    {
+      if(element instanceof SolidWall)
+      {
+        image = ImageIO.read(new File("resource/gfx/solid_wall.png") );
+      }
+      else if(element instanceof ExplodableWall)
+      {
+        image = ImageIO.read(new File("resource/gfx/explodable_wall.png") );
+      } 
+      else
+        image = null;
+    }
+    catch(IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
   
   @Override
   public void paintComponent(Graphics g)
   {
-    g.setColor(Color.GREEN.darker().darker());
-    g.fillRect(0, 0, getWidth(), getHeight());
+    if(image == null)
+    {
+      g.setColor(Color.GREEN.darker().darker());
+      g.fillRect(0, 0, getWidth(), getHeight());
+    }
+    else
+      g.drawImage(this.image,0,0,null);    
   }
   
   @Override
