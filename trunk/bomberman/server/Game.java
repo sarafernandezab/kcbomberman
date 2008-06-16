@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Element;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,23 +31,73 @@ import java.util.List;
  */
 public class Game implements Serializable
 {
-  private Session            creator   = null;
-  private String             gameName  = null;
-  private ArrayList<Session> players   = new ArrayList<Session>();
-  private Playground         playground;
-
-  public Game(String name, Session creator)
+  private Session       creator        = null;
+  private String        gameName       = null;
+  private List<Session> playerSessions = new ArrayList<Session>();
+  private List<Player>  players        = new ArrayList<Player>();
+  private Playground    playground;
+  private boolean       running        = false;
+  private Server        server;
+  
+  public Game(Server server, String name, Session creator)
   {
     this.gameName = name;
     this.creator  = creator;
     this.playground = new Playground(14, 16);
+    this.server     = server;
+  }
+  
+  /**
+   * Fills up the game with AI-controlled players.
+   */
+  public void addAI()
+  {
+    while(players.size() < 4)
+      addPlayer(new AIPlayer(this, playground));
   }
   
   // Adds a player to the playground
-  public void addPlayer(int x, int y, Player player)
+  public void addPlayer(Player player)
   {
+    player.setID(players.size() + 1);
+    
+    // Adds player to playground view, set starting position
+    int x = 0;
+    int y = 0;
+    if(player.getID() == 1)
+    {
+      x = 1;
+      y = 1;
+    }
+    else if(player.getID() == 2)
+    {
+      x = playground.getWidth() - 2;
+      y = playground.getHeight() - 2;
+    }
+    else if(player.getID() == 3)
+    {
+      x = 1;
+      y = playground.getHeight() - 2;      
+    }
+    else if(player.getID() == 4)
+    {
+      x = playground.getWidth() - 2;
+      y = 1;
+    }    
     this.playground.setElement(x, y, player);
+    player.setPosition(x, y);
+    
+    players.add(player);
+    
     System.out.println("Player"+ player.getID() +"added to Playground ("+player.getNickname() +")");
+  }
+  
+  /**
+   * Forces the server to update the Playground, e.g. when an AI player has moved.
+   */
+  public void forceClientUpdate()
+  {
+    //this.server.playgroundUpdate(this);
   }
   
   // Removes a player to the playground
@@ -63,9 +114,30 @@ public class Game implements Serializable
    * @param dy
    * @return
    */
-  public boolean movePlayer(Player player, int dx, int dy)
+  public boolean movePlayer(Player player, int dy, int dx) // TODO: Warum hier x/y vertauschen?
   {
-    return false;
+    // Check if we can move in that direction
+    int nx = player.getX() + dx;
+    int ny = player.getY() + dy;
+    
+    if(nx < 0 || ny < 0 
+            || this.playground.getWidth() <= nx 
+            || this.playground.getHeight() <= ny)
+      return false;
+    
+    Element el = this.playground.getElement(nx, ny);
+    if(el == null) // oder Extra
+    {
+      // Set old position in Playground to null...
+      this.playground.setElement(player.getX(), player.getY(), null);
+      // ...and set new position
+      player.setPosition(nx, ny);
+      this.playground.setElement(player.getX(), player.getY(), player);
+      
+      return true;
+    }
+    else
+      return false;
   }
   
   public Session getCreator()
@@ -73,9 +145,9 @@ public class Game implements Serializable
     return this.creator;
   }
   
-  public List<Session> getPlayers()
+  public List<Session> getPlayerSessions()
   {
-    return this.players;
+    return this.playerSessions;
   }
   
   @Override
@@ -92,5 +164,15 @@ public class Game implements Serializable
   public void setPlayground(Playground playground) 
   {
     this.playground = playground;
+  }
+
+  public boolean isRunning() 
+  {
+    return running;
+  }
+
+  public void setRunning(boolean running) 
+  {
+    this.running = running;
   }
 }

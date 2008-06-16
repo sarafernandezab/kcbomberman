@@ -133,11 +133,13 @@ public class PlaygroundPanel
     }
   }
   
-  
-  public void updatePlaygroundView(Playground playground) // TODO: 
+  public void updatePlaygroundView(Playground playground)
   {
-    for(int x=0; x< elementPainter.length; x++)    
-      for(int y=0; y < elementPainter[x].length; y++)        
+    int width  = playground.getWidth();
+    int height = playground.getHeight();
+    
+    for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
        elementPainter[x][y].setElement(playground.getElement(x, y));
     repaint(); 
   }

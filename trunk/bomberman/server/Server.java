@@ -120,7 +120,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   public void logoutMessage(Game game) throws RemoteException
   {
     System.out.println("LogoutMessage");
-    for(Session sess : game.getPlayers())
+    for(Session sess : game.getPlayerSessions())
       clients.get(sess).gameStopped();
     games.remove(game.toString()); 
   }
@@ -135,6 +135,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    */
   public boolean move(Session session, int x, int y) throws RemoteException
   {
+    if(x == y)
+      return false;
+        
     checkSession(session);
     
     // Get Game
@@ -146,7 +149,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     if(game.movePlayer(player, x, y))
     {
       // Updates Playground when moved
-      for(Session sess : game.getPlayers())
+      for(Session sess : game.getPlayerSessions())
         clients.get(sess).playgroundUpdate(game.getPlayground());
       return true;
     }
@@ -214,64 +217,33 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     Game game = games.get(gameName);
    
-    
     playerToGame.put(session, game);
     if(game == null)
       return false; // No such game
     
     // Add the client as player
-    game.getPlayers().add(session);
+    game.getPlayerSessions().add(session);
     
-    // Set PlayerNumber
-    Player player = players.get(session);
-    player.setID(game.getPlayers().size());
-    
-    //players.get(session).setId(game.getPlayers().size() + 1);
-    
-    // Adds player to playground view, set starting position
-    int x = 0;
-    int y = 0;
-    if(player.getID() == 1)
-    {
-      x = 1;
-      y = 1;
-    }
-    else if(player.getID() == 2)
-    {
-      x = 13;
-      y = 15;
-    }
-    else if(player.getID() == 3)
-    {
-      x = 1;
-      y = 15;      
-    }
-    else if(player.getID() == 4)
-    {
-      x = 13;
-      y = 1;
-    }    
-    game.addPlayer(x, y, players.get(session)); 
+    Player player = players.get(session);   
+    game.addPlayer(player);
     
     // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
    
     // Sends loginMessage to Waiting Panel
-    for(Session sess : game.getPlayers())
+    for(Session sess : game.getPlayerSessions())
       clients.get(sess).receiveChatMessage(players.get(session).getNickname() + " has joined Game");
 
     // Check if the game has now four players.
     // If this is the case, we have to send a game start
     // message to all players.
-    if(game.getPlayers().size() == 4)
+    if(game.getPlayerSessions().size() == 4)
     {
-      for(Session sess : game.getPlayers())
+      for(Session sess : game.getPlayerSessions())
       {
         this.clients.get(sess).gameStarted();
       }
     }
-    
-   
     
     return false;
   }
@@ -293,7 +265,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     else
     {
       // Create a new Game
-      Game game = new Game(gameName, session);
+      Game game = new Game(this, gameName, session);
       games.put(gameName, game);
 
       // Send a game list update
@@ -328,7 +300,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       {
         System.out.println("Creator ok");
         // Send game start message
-        List<Session> sessions = game.getPlayers();
+        List<Session> sessions = game.getPlayerSessions();
         for(Session sess : sessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
@@ -340,14 +312,30 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         // playing
         gameListUpdate();
         
-        // Updates Playground when moved
-        for(Session sess : game.getPlayers())
-          clients.get(sess).playgroundUpdate(game.getPlayground());
+        playgroundUpdate(game);
+        
+        // Add AI-controlled players if there are not enough human players
+        game.addAI();
+        game.setRunning(true);
         
         return true;
       }
       else
         return false; // Not allowed
+    }
+  }
+  
+  void playgroundUpdate(Game game)
+  {
+    try
+    {
+      // Updates Playground when moved
+      for(Session sess : game.getPlayerSessions())
+        clients.get(sess).playgroundUpdate(game.getPlayground());
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
     }
   }
 }

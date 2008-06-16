@@ -20,6 +20,7 @@
 package bomberman.server;
 
 import bomberman.server.api.Element;
+
 import java.io.Serializable;
 
 /**
@@ -78,9 +79,26 @@ public class Playground implements Serializable
     }
   }
 
+  public int getWidth()
+  {
+    return matrix.length;
+  }
+  
+  public int getHeight()
+  {
+    return matrix[0].length;
+  }
+  
   public Element getElement(int x, int y)
   {
-    return this.matrix[x][y];
+    try
+    {
+      return this.matrix[x][y];
+    }
+    catch(ArrayIndexOutOfBoundsException ex)
+    {
+      return null;
+    }
   }
 
   public void setElement(int x, int y, Element e)
