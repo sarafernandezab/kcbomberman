@@ -53,7 +53,7 @@ public class Playground implements Serializable
                 (x == 1 && (y == rows - 2 || y == rows - 3)) || (x == 2 && y == rows - 2) || // Links unten
                 (x == cols - 2 && (y == rows - 2 || y == rows - 3)) || (x == cols - 3 && y == rows - 3) // Rechts unten
                 )
-        {
+        {          
           continue;
         }
         // Solid walls within

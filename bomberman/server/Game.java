@@ -41,6 +41,12 @@ public class Game implements Serializable
     this.playground = new Playground(14, 16);
   }
   
+  // Adds a player to the playground
+  public void addPlayer(int x, int y, Player player)
+  {
+    this.playground.setElement(x, y, player);
+  }
+  
   public Session getCreator()
   {
     return this.creator;
