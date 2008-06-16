@@ -80,7 +80,7 @@ public class ClientThread extends Thread
       else
         registry = LocateRegistry.getRegistry(args[1], Registry.REGISTRY_PORT);
       
-      Server = (ServerInterface)registry.lookup("Server");
+      Server = (ServerInterface)registry.lookup("KCBombermanServer");
     }
     catch (ConnectException ex)
     {
