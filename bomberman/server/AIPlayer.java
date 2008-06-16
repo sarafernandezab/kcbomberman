@@ -19,18 +19,14 @@
 
 package bomberman.server;
 
-import bomberman.server.api.Element;
-
 /**
- * Represents a wall on the playground.
+ *
  * @author chris
  */
-public class Wall extends Element
+public class AIPlayer extends Player
 {
-  private boolean exploadable = false;
-  
-  public Wall(boolean exploadable)
+  public AIPlayer()
   {
-    this.exploadable = exploadable;
+    super("KI-Knecht");
   }
 }
