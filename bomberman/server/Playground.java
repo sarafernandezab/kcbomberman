@@ -29,7 +29,6 @@ import java.io.Serializable;
  */
 public class Playground implements Serializable
 {
-
   private Element[][] matrix = null;
 
   public Playground(int cols, int rows)
@@ -70,7 +69,7 @@ public class Playground implements Serializable
           }
           else
           {
-            matrix[x][y] = new ExploadableWall(); // Exploadable wall
+            matrix[x][y] = new ExplodableWall(); // Exploadable wall
  
             // Extras are placed later when a Wall explodes.
           }

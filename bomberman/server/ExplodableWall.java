@@ -9,7 +9,7 @@ package bomberman.server;
  *
  * @author chris
  */
-public class ExploadableWall extends Wall implements Exploadable
+public class ExplodableWall extends Wall implements Explodable
 {
 
 }
