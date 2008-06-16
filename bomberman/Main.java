@@ -19,24 +19,51 @@
 
 package bomberman;
 
+import bomberman.client.ClientThread;
+import bomberman.server.ServerThread;
+import bomberman.server.gui.ServerFrame;
+
 /**
- *
- * @author chris
+ * Main entry point of both Server and Client.
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Main 
 {
   public static void main(String[] args)
   {
+    /** Should we omit the Server GUI? */
+    boolean headlessServer = false;
+    boolean startServer = false;
+    boolean startClient = false;
+    
     for(int n = 0; n < args.length; n++)
     {
       if(args[n].equals("--client"))
       {
-        new bomberman.client.ClientThread(args).start();
+        startClient = true;
+      }
+      else if(args[n].equals("--headless"))
+      {
+        headlessServer = true;
       }
       else if(args[n].equals("--server"))
       {
-        new bomberman.server.ServerThread().start();
+        startServer = true;
       }
     }
+    
+    if(startServer)
+    {
+      ServerThread serverThread = new ServerThread(headlessServer);
+      serverThread.start();
+      
+      if(!headlessServer)
+      {
+        new ServerFrame(serverThread).setVisible(true);
+      }
+    }
+    
+    if(startClient)
+      new ClientThread(args).start();
   }
 }

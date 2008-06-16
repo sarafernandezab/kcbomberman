@@ -19,6 +19,8 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.ServerThread;
+
 /**
  *
  * @author  chris
@@ -26,7 +28,7 @@ package bomberman.server.gui;
 public class ServerControlPanel extends javax.swing.JPanel {
   
   /** Creates new form ServerControlPanel */
-  public ServerControlPanel() {
+  public ServerControlPanel(ServerThread thread) {
     initComponents();
   }
   

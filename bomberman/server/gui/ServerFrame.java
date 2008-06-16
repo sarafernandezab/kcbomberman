@@ -19,6 +19,7 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.ServerThread;
 import javax.swing.JFrame;
 
 /**
@@ -27,9 +28,11 @@ import javax.swing.JFrame;
  */
 public class ServerFrame extends JFrame
 {
-  public ServerFrame()
+  public ServerFrame(ServerThread thread)
   {
-    setContentPane(new ServerControlPanel());
+    setContentPane(new ServerControlPanel(thread));
     setSize(600, 450);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    setTitle("KC Bomberman Server Kontrolle");
   }
 }

@@ -47,6 +47,7 @@ public class ClientThread extends Thread
   // Konstruktor mit uebergabe von Argumenten
   public ClientThread(String[] args)
   {
+    setDaemon(true);
     this.args = args;
   }
   
@@ -56,19 +57,19 @@ public class ClientThread extends Thread
     Registry registry;
     try
     {
-          Toolkit.getDefaultToolkit().getSystemEventQueue().push(
-            new EventQueue()
+      Toolkit.getDefaultToolkit().getSystemEventQueue().push(
+        new EventQueue()
+        {
+          @Override
+          protected void dispatchEvent(AWTEvent event) 
+          {
+            if (event instanceof KeyEvent) 
             {
-              @Override
-              protected void dispatchEvent(AWTEvent event) 
-              {
-                if (event instanceof KeyEvent) 
-                {
-                  keyEvent((KeyEvent)event);     
-                }
-                super.dispatchEvent(event); 
-              }
-            });
+              keyEvent((KeyEvent)event);     
+            }
+            super.dispatchEvent(event); 
+          }
+        });
       
       // Create main frame
       new MainFrame().setVisible(true);
