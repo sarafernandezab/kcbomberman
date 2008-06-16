@@ -44,6 +44,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session,Player>                   players = new HashMap<Session,Player>(); 
   private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
   private HashMap<String, Game> games  = new HashMap<String, Game>();
+  private HashMap<Session, Game> playerToGame  = new HashMap<Session, Game>();
   
   public Server() throws RemoteException
   {   
@@ -101,11 +102,18 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     clients.remove(session);
   }
   
-  public boolean move(Session session, int x, int y) 
-          throws RemoteException
+  public boolean move(Session session, int x, int y) throws RemoteException
   {
     checkSession(session);
     
+    // get Game
+    Game game = playerToGame.get(session);
+    
+    // get Player
+    Player player = players.get(session);
+    
+    
+    System.out.println(player.getNickname() + " moved to (" + x + "/"+ y + ")" + "on Playground " + game.toString() );
     return false;
   }
   
@@ -168,6 +176,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     checkSession(session);
     
     Game game = games.get(gameName);
+    playerToGame.put(session, game);
     if(game == null)
       return false; // No such game
     
