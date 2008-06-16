@@ -96,11 +96,28 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   // Removes the player from game
   public void logout(Session session)  throws RemoteException          
   {
-    System.out.println(players.get(session).getNickname() + " logout");
+    System.out.println(players.get(session).getNickname() + " logout");    
+       
+    Game game = playerToGame.get(session);     
+    // send logoutmessage to other players in the game
+    if(game.getCreator().equals(session))
+      logoutMessage(game);
     
     players.remove(session);
     clients.remove(session);
   }
+  
+  // Sends logout-Message if Creator stopped Game
+  public void logoutMessage(Game game) throws RemoteException
+  {
+    System.out.println("LogoutMessage");
+    for(Session sess : game.getPlayers())
+      clients.get(sess).gameStopped();
+    games.remove(game);
+ 
+  }
+          
+  
   
   public boolean move(Session session, int x, int y) throws RemoteException
   {
@@ -192,10 +209,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Set PlayerNumber
     Player player = players.get(session);
-    player.setId(game.getPlayers().size() + 1);
+    player.setId(game.getPlayers().size());
+    
     //players.get(session).setId(game.getPlayers().size() + 1);
     
-    // Adds player to playground view, sets starting position
+    // Adds player to playground view, set starting position
     int x = 0;
     int y = 0;
     if(player.getId() == 1)
@@ -205,18 +223,18 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     else if(player.getId() == 2)
     {
-      x = 15;
-      y = 13;
+      x = 13;
+      y = 15;
     }
     else if(player.getId() == 3)
     {
-      x = 15;
-      y = 1;      
+      x = 1;
+      y = 15;      
     }
     else if(player.getId() == 4)
     {
-      x = 1;
-      y = 13;
+      x = 13;
+      y = 1;
     }    
     game.addPlayer(x, y, players.get(session)); 
     

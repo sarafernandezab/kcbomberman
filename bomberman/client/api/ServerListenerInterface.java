@@ -58,6 +58,9 @@ public interface ServerListenerInterface extends Remote
   public void gameJoined(String gameName)
     throws RemoteException;
   
+  public void gameStopped() 
+    throws RemoteException;
+  
   /**
    * Is called if the server starts the game this client has joined.
    * @throws java.rmi.RemoteException

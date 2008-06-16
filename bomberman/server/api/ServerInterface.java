@@ -39,6 +39,9 @@ public interface ServerInterface extends Remote
   void logout(Session session)
     throws RemoteException;
   
+  void logoutMessage(Game game)
+    throws RemoteException;
+  
   void sendChatMessage(Session session, String message)
     throws RemoteException, InvalidSessionException;
   
