@@ -30,5 +30,14 @@ public class Element implements Serializable
   {
       
   }
-
+  
+  public int getX()
+  {
+    return this.gridX;
+  }
+  
+  public int getY()
+  {
+    return this.gridY;
+  }
 }
