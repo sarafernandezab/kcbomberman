@@ -48,6 +48,13 @@ public class Game implements Serializable
     System.out.println("Player"+ player.getId() +"added to Playground ("+player.getNickname() +")");
   }
   
+  // Removes a player to the playground
+  public void removePlayer(int x, int y, Player player)
+  {  
+    if(this.playground.getElement(x, y).equals(player))   // Removes only the selected player 
+      this.playground.setElement(x, y, null);    
+  }
+  
   public Session getCreator()
   {
     return this.creator;
