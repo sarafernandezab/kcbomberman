@@ -19,7 +19,9 @@
 
 package bomberman.server.api;
 
-public class Element
+import java.io.Serializable;
+
+public class Element implements Serializable
 {
   protected int gridX;
   protected int gridY;
