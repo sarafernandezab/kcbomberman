@@ -91,6 +91,11 @@ public class ServerListener
       LobbyPanel lobby = (LobbyPanel)MainFrame.getInstance().getContentPane();
       lobby.addChatMessage(message);
     }
+    else if(MainFrame.getInstance().getContentPane() instanceof WaitingPanel)
+    {
+      WaitingPanel waitingPanel = (WaitingPanel)MainFrame.getInstance().getContentPane();
+      waitingPanel.addInfoText(message);
+    }
   }
   
   public void loggedIn(Session session) throws RemoteException
