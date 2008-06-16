@@ -20,7 +20,6 @@
 package bomberman.client;
 
 import bomberman.client.gui.MainFrame;
-import bomberman.client.gui.PlaygroundPanel;
 import bomberman.server.Session;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
