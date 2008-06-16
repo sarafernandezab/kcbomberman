@@ -43,6 +43,7 @@
                       <Component id="jScrollPane1" pref="530" max="32767" attributes="1"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnSpectateGame" max="32767" attributes="1"/>
                           <Component id="btnJoinGame" max="32767" attributes="1"/>
                           <Component id="btnCreateGame" alignment="0" max="32767" attributes="1"/>
                       </Group>
@@ -75,6 +76,8 @@
                       <Component id="btnCreateGame" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnJoinGame" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnSpectateGame" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -194,6 +197,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnJoinGameActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnSpectateGame">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Beobachter"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

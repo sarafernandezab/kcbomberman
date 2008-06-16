@@ -89,6 +89,7 @@ public class LobbyPanel extends javax.swing.JPanel
     lblUserlist = new javax.swing.JLabel();
     btnCreateGame = new javax.swing.JButton();
     btnJoinGame = new javax.swing.JButton();
+    btnSpectateGame = new javax.swing.JButton();
 
     lblLobbyTitle.setFont(new java.awt.Font("DejaVu Sans", 0, 24));
     lblLobbyTitle.setText("Lobby");
@@ -130,6 +131,8 @@ public class LobbyPanel extends javax.swing.JPanel
       }
     });
 
+    btnSpectateGame.setText("Beobachter");
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -157,6 +160,7 @@ public class LobbyPanel extends javax.swing.JPanel
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+              .addComponent(btnSpectateGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
               .addComponent(btnJoinGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
               .addComponent(btnCreateGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         .addContainerGap())
@@ -181,7 +185,9 @@ public class LobbyPanel extends javax.swing.JPanel
           .addGroup(layout.createSequentialGroup()
             .addComponent(btnCreateGame)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(btnJoinGame)))
+            .addComponent(btnJoinGame)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btnSpectateGame)))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -241,6 +247,7 @@ public class LobbyPanel extends javax.swing.JPanel
   private javax.swing.JButton btnChat;
   private javax.swing.JButton btnCreateGame;
   private javax.swing.JButton btnJoinGame;
+  private javax.swing.JButton btnSpectateGame;
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
