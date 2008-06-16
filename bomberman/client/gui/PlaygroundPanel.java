@@ -139,6 +139,6 @@ public class PlaygroundPanel
     for(int x=0; x< elementPainter.length; x++)    
       for(int y=0; y < elementPainter[x].length; y++)        
        elementPainter[x][y].setElement(playground.getElement(x, y));
-    
+    repaint(); 
   }
 }
