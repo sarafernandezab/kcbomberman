@@ -143,8 +143,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     System.out.println(player.getNickname() + " moved to (" + x + "/"+ y + ")" + "on Playground " + game.toString() );
     
     // Moves player    
-    game.removePlayer(players.get(session).getX(), players.get(session).getX(), players.get(session));
-    game.addPlayer(x, y, players.get(session));
+    game.addPlayer(x, y, players.get(session));    
+    game.removePlayer(players.get(session).getX(), players.get(session).getY(), players.get(session));   
     
     
     // Updates Playground when moved
