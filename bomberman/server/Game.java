@@ -36,15 +36,14 @@ public class Game implements Serializable
   private List<Session> playerSessions = new ArrayList<Session>();
   private List<Player>  players        = new ArrayList<Player>();
   private Playground    playground;
+  private boolean       playgroundUpdateRequired = false;
   private boolean       running        = false;
-  private Server        server;
   
-  public Game(Server server, String name, Session creator)
+  public Game(String name, Session creator)
   {
     this.gameName = name;
     this.creator  = creator;
     this.playground = new Playground(14, 16);
-    this.server     = server;
   }
   
   /**
@@ -95,9 +94,17 @@ public class Game implements Serializable
   /**
    * Forces the server to update the Playground, e.g. when an AI player has moved.
    */
-  public void forceClientUpdate()
+  public void forcePlaygroundUpdate()
   {
-    //this.server.playgroundUpdate(this);
+    this.playgroundUpdateRequired = true;
+  }
+  
+  public boolean isPlaygroundUpdateRequired()
+  {
+    boolean update = this.playgroundUpdateRequired;
+    this.playgroundUpdateRequired = false;
+    
+    return update;
   }
   
   // Removes a player to the playground
