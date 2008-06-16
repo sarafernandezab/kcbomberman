@@ -19,19 +19,17 @@
 
 package bomberman.server;
 
-import bomberman.client.api.ServerListenerInterface;
-import java.awt.Point;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import bomberman.server.api.Element;
-import bomberman.server.Game;
+import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
+import java.util.List;
 
 /**
  * TODO: Shared resources of this class have to be synchronized
@@ -126,31 +124,34 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       clients.get(sess).gameStopped();
     games.remove(game.toString()); 
   }
-          
-  
-  // TODO: kaputt
+     
+  /**
+   * Notifies the Server of a Client movement.
+   * @param session
+   * @param x
+   * @param y
+   * @return
+   * @throws java.rmi.RemoteException
+   */
   public boolean move(Session session, int x, int y) throws RemoteException
   {
     checkSession(session);
     
-    // get Game
+    // Get Game
     Game game = playerToGame.get(session);
     
-    // get Player
+    // Get Player
     Player player = players.get(session);    
     
-    // Debug
-    System.out.println(player.getNickname() + " moved to (" + x + "/"+ y + ")" + "on Playground " + game.toString() );
-    
-    // Moves player
-    game.removePlayer(players.get(session).getX(), players.get(session).getY(), players.get(session));   
-    game.addPlayer(players.get(session).getX()+x, players.get(session).getY()+y, players.get(session));    
-    
-    // Updates Playground when moved
-    for(Session sess : game.getPlayers())
-      clients.get(sess).playgroundUpdate(game.getPlayground());
-    
-    return false;
+    if(game.movePlayer(player, x, y))
+    {
+      // Updates Playground when moved
+      for(Session sess : game.getPlayers())
+        clients.get(sess).playgroundUpdate(game.getPlayground());
+      return true;
+    }
+    else
+      return false;
   }
   
   public boolean placeBomb(Session session) 
@@ -223,29 +224,29 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Set PlayerNumber
     Player player = players.get(session);
-    player.setId(game.getPlayers().size());
+    player.setID(game.getPlayers().size());
     
     //players.get(session).setId(game.getPlayers().size() + 1);
     
     // Adds player to playground view, set starting position
     int x = 0;
     int y = 0;
-    if(player.getId() == 1)
+    if(player.getID() == 1)
     {
       x = 1;
       y = 1;
     }
-    else if(player.getId() == 2)
+    else if(player.getID() == 2)
     {
       x = 13;
       y = 15;
     }
-    else if(player.getId() == 3)
+    else if(player.getID() == 3)
     {
       x = 1;
       y = 15;      
     }
-    else if(player.getId() == 4)
+    else if(player.getID() == 4)
     {
       x = 13;
       y = 1;
@@ -327,7 +328,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       {
         System.out.println("Creator ok");
         // Send game start message
-        ArrayList<Session> sessions = game.getPlayers();
+        List<Session> sessions = game.getPlayers();
         for(Session sess : sessions)
         {
           ServerListenerInterface client = this.clients.get(sess);

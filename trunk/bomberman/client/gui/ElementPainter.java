@@ -85,13 +85,13 @@ public class ElementPainter extends JComponent
     } 
     else if(element instanceof Player)
     {
-      if( ((Player)element).getId() == 1)                         
+      if( ((Player)element).getID() == 1)                         
         image = Resource.getImage("resource/gfx/player1/6.png");
-      else if( ((Player)element).getId() == 2)
+      else if( ((Player)element).getID() == 2)
         image = Resource.getImage("resource/gfx/player2/6.png");
-      else if( ((Player)element).getId() == 3)
+      else if( ((Player)element).getID() == 3)
         image = Resource.getImage("resource/gfx/player3/6.png");
-      else if( ((Player)element).getId() == 4)
+      else if( ((Player)element).getID() == 4)
         image = Resource.getImage("resource/gfx/player4/6.png");
     }
     else
