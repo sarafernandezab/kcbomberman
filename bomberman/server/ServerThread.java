@@ -19,7 +19,6 @@
 
 package bomberman.server;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -27,11 +26,16 @@ public class ServerThread extends Thread
 {
   private static Registry Registry = null;
   
-  private Server    server;
+  private Server server;
   
   public ServerThread(boolean daemon)
   {
     setDaemon(daemon);
+  }
+  
+  public Server getServer()
+  {
+    return this.server;
   }
   
   @Override
