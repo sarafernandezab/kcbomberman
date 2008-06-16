@@ -47,7 +47,6 @@ public class ClientThread extends Thread
   // Konstruktor mit uebergabe von Argumenten
   public ClientThread(String[] args)
   {
-    setDaemon(true);
     this.args = args;
   }
   
