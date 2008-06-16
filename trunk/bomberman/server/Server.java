@@ -151,6 +151,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Notify all users of the new user 
     for(Session sess : clients.keySet())    
       clients.get(sess).userListUpdate(nicknames);
+    
+    // Updates GameList
+    gameListUpdate();
   }
   
   /**
@@ -174,6 +177,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
    
+    // Sends loginMessage to Waiting Panel
+    for(Session sess : game.getPlayers())
+      clients.get(sess).receiveChatMessage(players.get(session).getNickname() + " has joined Game");
+
     // Check if the game has now four players.
     // If this is the case, we have to send a game start
     // message to all players.
@@ -184,6 +191,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         this.clients.get(sess).gameStarted();
       }
     }
+    
+   
     
     return false;
   }
