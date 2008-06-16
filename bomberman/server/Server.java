@@ -110,10 +110,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     Game game = playerToGame.get(session);
     
     // get Player
-    Player player = players.get(session);
+    Player player = players.get(session);    
     
-    
+    // Debug
     System.out.println(player.getNickname() + " moved to (" + x + "/"+ y + ")" + "on Playground " + game.toString() );
+    
+    // Updates Playground when moved
+    for(Session sess : game.getPlayers())
+      clients.get(sess).playgroundUpdate(game.getPlayground());
+    
     return false;
   }
   
