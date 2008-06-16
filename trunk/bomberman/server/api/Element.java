@@ -19,12 +19,10 @@
 
 package bomberman.server.api;
 
-import javax.swing.JComponent;
-
 public class Element
 {
-  private int gridX;
-  private int gridY;
+  protected int gridX;
+  protected int gridY;
 	
   public Element()
   {

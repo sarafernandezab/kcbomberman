@@ -23,7 +23,7 @@ package bomberman.server;
  * 
  * @author Christian Lins (christian.lins@web.de)
  */
-public interface Exploadable 
+public interface Explodable 
 {
 
 }

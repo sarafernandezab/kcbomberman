@@ -19,6 +19,10 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Element;
+import java.awt.Point;
+import java.util.List;
+
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
  * path finding.
@@ -26,20 +30,27 @@ package bomberman.server;
  */
 public class AIPlayer extends Player
 {
-  public AIPlayer()
+  private Playground playground;
+  
+  public AIPlayer(Playground playground)
   {
     super("KI-Knecht");
+    
+    this.playground = playground;
   }
-  /*
-  private boolean isTargetZone(node:Array)
+  
+  private boolean isTargetZone(Point pnt)
   {
     // Alle möglichen Nachbarn von node herausfinden
-    var n1 = Playground.Instance.getElementAt(node[0]+1, node[1]);
-    var n2 = Playground.Instance.getElementAt(node[0]-1, node[1]);
-    var n3 = Playground.Instance.getElementAt(node[0], node[1]+1);
-    var n4 = Playground.Instance.getElementAt(node[0], node[1]-1);
+    Element n1 = this.playground.getElement(pnt.x + 1, pnt.y);
+    Element n2 = this.playground.getElement(pnt.x - 1, pnt.y);
+    Element n3 = this.playground.getElement(pnt.x, pnt.y + 1);
+    Element n4 = this.playground.getElement(pnt.x, pnt.y - 1);
 			
-    if(n1 is Explodable || n2 is Explodable || n3 is Explodable || n4 is Explodable)
+    if(n1 instanceof Explodable || 
+       n2 instanceof Explodable || 
+       n3 instanceof Explodable || 
+       n4 instanceof Explodable)
     {
       if(n1 == this || n2 == this || n3 == this || n4 == this)
         return false;
@@ -49,121 +60,118 @@ public class AIPlayer extends Player
     else
       return false;
   }
+	/*	
+  // Funktion zum Berechnen eines Weges zu einem Bombenpunkt
+  private List calculateTargetPath()
+  {
+    int x = super.gridX;
+    int y = super.gridY;
+			
+    // The A* Algorithm			
+    var openNodes:Array   = new Array(); // Noch nicht besuchte Nodes
+    var closedNodes:Array = new Array(); // Schon abgearbeitete Punkte
+			
+    // Mit Startpunkt initialisieren
+    openNodes.push(new Array(x, y, 0, 0)); // Startpunkt (x, y) ist die Player-Position
+    while(openNodes.length > 0)
+    {
+      var node:Array = openNodes.pop();
+      if(isTargetZone(node) || closedNodes.lenght > 15) // Ist der Nachbarpunkt sprengbar?
+      {
+        // Den Pfad zurückverfolgen
+        var path:Array = new Array();
+        path.push(node);
+        while(closedNodes.length > 0)
+          path.push(closedNodes.pop());
+					
+        //trace("Target path length: " + path.length);
+        return path;
+      }
+      else
+      {
+        int r1 = Math.random() > 0.5 ? 1 : -1;
+        int r2 = r1 == 1 ? -1 : 1;
+					
+        // Alle möglichen Nachbarn von node herausfinden
+        var n1 = Playground.Instance.getElementAt(node[0] + r1, node[1]);
+        var n2 = Playground.Instance.getElementAt(node[0] + r2, node[1]);
+        var n3 = Playground.Instance.getElementAt(node[0], node[1] + r1);
+        var n4 = Playground.Instance.getElementAt(node[0], node[1] + r2);
+					
+        var saveNode:Boolean = false;
+					
+        if(n1 == null && node[2] != node[0] + r1)
+        {
+          openNodes.push(new Array(node[0] + r1, node[1], node[0], node[1]));
+          saveNode = true;
+        }
+        if(n2 == null && node[2] != node[0] + r2)
+        {
+          openNodes.push(new Array(node[0] + r2, node[1], node[0], node[1]));
+          saveNode = true;
+        }
+        if(n3 == null && node[3] != node[1] + r1)
+        {
+          openNodes.push(new Array(node[0], node[1] + r1, node[0], node[1]));
+          saveNode = true;
+        }
+        if(n4 == null && node[3] != node[1] + r2)
+        {
+          openNodes.push(new Array(node[0], node[1] + r2, node[0], node[1]));
+          saveNode = true;
+        }
+
+        if(saveNode)
+          closedNodes.push(node);
+      }
+    }		
+    return null;
+  }
 		
-		// Funktion zum Berechnen eines Weges zu einem Bombenpunkt
-		private function calculateTargetPath():Array
-		{
-			var x:int = getMatrixX();
-			var y:int = getMatrixY();
+  // Funktion zum Berechnen eines Fluchtweges
+  private List calculateHidePath(bomb:Sprite)
+  {			
+    int x = bomb.getMatrixX();
+    int y = bomb.getMatrixY();
 			
-			// Der A* Algorithmus			
-			var openNodes:Array   = new Array(); // Noch nicht besuchte Nodes
-			var closedNodes:Array = new Array(); // Schon abgearbeitete Punkte
-			
-			// Mit Startpunkt initialisieren
-			openNodes.push(new Array(x, y, 0, 0)); // Startpunkt (x, y) ist die Player-Position
-			while(openNodes.length > 0)
-			{
-				var node:Array = openNodes.pop();
-				if(isTargetZone(node) || closedNodes.lenght > 15) // Ist der Nachbarpunkt sprengbar?
-				{
-					// Den Pfad zurückverfolgen
-					var path:Array = new Array();
+    // Der A* Algorithmus			
+    var openNodes:Array = new Array();   // Noch nicht besuchte Nodes
+    var closedNodes:Array = new Array(); // Schon  abgearbeitete Punkte
+    
+    // Mit Startpunkt initialisieren
+    openNodes.push(new Array(x, y, 0, 0)); // Startpunkt (x, y) ist die Bombe
+    while(openNodes.length > 0)
+    {
+      var node:Array = openNodes.pop();
+      if(node[0] != x && node[1] != y) // Ist der Punkt sicher?
+      {
+        // Den Pfad zurückverfolgen
+        var path:Array = new Array();
+        path.push(node);
+        while(closedNodes.length > 0)
+          path.push(closedNodes.pop());
+
+        //trace("Hide path length: " + path.length);
+        return path;
+      }
+      else
+      {
+        // Alle möglichen Nachbarn von node herausfinden
+        var n1 = Playground.Instance.getElementAt(node[0]+1, node[1]);
+        var n2 = Playground.Instance.getElementAt(node[0]-1, node[1]);
+        var n3 = Playground.Instance.getElementAt(node[0], node[1]+1);
+        var n4 = Playground.Instance.getElementAt(node[0], node[1]-1);
+
+        boolean saveNode = false;
 					
-					path.push(node);
-					while(closedNodes.length > 0)
-						path.push(closedNodes.pop());
-					
-					//trace("Target path length: " + path.length);
-					return path;
-				}
-				else
-				{
-					var r1:int = Math.random() > 0.5 ? 1 : -1;
-					var r2:int = r1 == 1 ? -1 : 1;
-					
-					// Alle möglichen Nachbarn von node herausfinden
-					var n1 = Playground.Instance.getElementAt(node[0] + r1, node[1]);
-					var n2 = Playground.Instance.getElementAt(node[0] + r2, node[1]);
-					var n3 = Playground.Instance.getElementAt(node[0], node[1] + r1);
-					var n4 = Playground.Instance.getElementAt(node[0], node[1] + r2);
-					
-					var saveNode:Boolean = false;
-					
-					if(n1 == null && node[2] != node[0] + r1)
-					{
-						openNodes.push(new Array(node[0] + r1, node[1], node[0], node[1]));
-						saveNode = true;
-					}
-					if(n2 == null && node[2] != node[0] + r2)
-					{
-						openNodes.push(new Array(node[0] + r2, node[1], node[0], node[1]));
-						saveNode = true;
-					}
-					if(n3 == null && node[3] != node[1] + r1)
-					{
-						openNodes.push(new Array(node[0], node[1] + r1, node[0], node[1]));
-						saveNode = true;
-					}
-					if(n4 == null && node[3] != node[1] + r2)
-					{
-						openNodes.push(new Array(node[0], node[1] + r2, node[0], node[1]));
-						saveNode = true;
-					}
-					
-					if(saveNode)
-						closedNodes.push(node);
-				}
-			}
-			
-			return null;
-		}
-		
-		// Funktion zum Berechnen eines Fluchtweges
-		private function calculateHidePath(bomb:Sprite):Array
-		{			
-			var x:int = bomb.getMatrixX();
-			var y:int = bomb.getMatrixY();
-			
-			// Der A* Algorithmus			
-			var openNodes:Array = new Array();   // Noch nicht besuchte Nodes
-			var closedNodes:Array = new Array(); // Schon  abgearbeitete Punkte
-			
-			// Mit Startpunkt initialisieren
-			openNodes.push(new Array(x, y, 0, 0)); // Startpunkt (x, y) ist die Bombe
-			while(openNodes.length > 0)
-			{
-				var node:Array = openNodes.pop();
-				if(node[0] != x && node[1] != y) // Ist der Punkt sicher?
-				{
-					// Den Pfad zurückverfolgen
-					var path:Array = new Array();
-					
-					path.push(node);
-					while(closedNodes.length > 0)
-						path.push(closedNodes.pop());
-					
-					//trace("Hide path length: " + path.length);
-					return path;
-				}
-				else
-				{
-					// Alle möglichen Nachbarn von node herausfinden
-					var n1 = Playground.Instance.getElementAt(node[0]+1, node[1]);
-					var n2 = Playground.Instance.getElementAt(node[0]-1, node[1]);
-					var n3 = Playground.Instance.getElementAt(node[0], node[1]+1);
-					var n4 = Playground.Instance.getElementAt(node[0], node[1]-1);
-					
-					var saveNode:Boolean = false;
-					
-					if(n1 == null && node[2] != node[0]+1)
-					{
-						openNodes.push(new Array(node[0]+1, node[1], node[0], node[1]));
-						saveNode = true;
-					}
-					if(n2 == null && node[2] != node[0]-1)
-					{
-						openNodes.push(new Array(node[0]-1, node[1], node[0], node[1]));
+        if(n1 == null && node[2] != node[0]+1)
+        {
+          openNodes.push(new Array(node[0]+1, node[1], node[0], node[1]));
+          saveNode = true;
+        }
+        if(n2 == null && node[2] != node[0]-1)
+        {
+          openNodes.push(new Array(node[0]-1, node[1], node[0], node[1]));
 						saveNode = true;
 					}
 					if(n3 == null && node[3] != node[1]+1)
