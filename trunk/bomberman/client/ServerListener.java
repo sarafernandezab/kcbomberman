@@ -108,7 +108,7 @@ public class ServerListener
   
   public void playgroundUpdate(Playground playground) throws RemoteException
   {
-    
+    ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
   }
   
   public void userListUpdate(ArrayList<String> users) throws RemoteException
