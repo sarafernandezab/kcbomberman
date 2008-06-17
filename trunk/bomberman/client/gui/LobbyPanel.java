@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.server.Session;
 import bomberman.server.Game;
 import bomberman.server.api.InvalidSessionException;
+import bomberman.server.gui.ServerControlPanel;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
