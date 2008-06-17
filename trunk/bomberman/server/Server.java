@@ -110,7 +110,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     for(String str : gameNames)
     {
       Game game = this.games.get(str);
-      gameList.add(new GameInfo(str));
+      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname() ));
     }
     
     Set<Session> sessions = this.clients.keySet();
