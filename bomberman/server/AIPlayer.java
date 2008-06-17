@@ -42,6 +42,9 @@ class AIPlayer extends Player
   {
     super("KI-Knecht");
     
+    if(game == null || playground == null)
+      throw new IllegalArgumentException();
+    
     this.game       = game;
     this.playground = playground;
     
@@ -51,7 +54,14 @@ class AIPlayer extends Player
     {
       public void run()
       {
-        tick();
+        try
+        {
+          tick();
+        }
+        catch(Exception ex)
+        {
+          ex.printStackTrace();
+        }
       }
     }, 0, 500);
   }
@@ -251,15 +261,20 @@ class AIPlayer extends Player
     // Spieler steht in der Naehe der Bombe, i < bombdistance
     for(int i = 0; i < 4; i++)
     {
-      if(this.playground.getElement(matrixX+i, matrixY)[0] instanceof Bomb)
+      if(this.playground.getElement(matrixX+i, matrixY) != null &&
+         this.playground.getElement(matrixX+i, matrixY)[0] instanceof Bomb)
         return this.playground.getElement(matrixX+i, matrixY)[0];
-      else if(this.playground.getElement(matrixX-i, matrixY)[0] instanceof Bomb)		   
+      else if(this.playground.getElement(matrixX-i, matrixY) != null &&
+              this.playground.getElement(matrixX-i, matrixY)[0] instanceof Bomb)		   
         return this.playground.getElement(matrixX-i, matrixY)[0];
-      else if(this.playground.getElement(matrixX, matrixY+i)[0] instanceof Bomb)
+      else if(this.playground.getElement(matrixX, matrixY+i) != null &&
+              this.playground.getElement(matrixX, matrixY+i)[0] instanceof Bomb)
         return this.playground.getElement(matrixX, matrixY+i)[0];
-      else if(this.playground.getElement(matrixX, matrixY-i)[0] instanceof Bomb)
+      else if(this.playground.getElement(matrixX, matrixY-i) != null &&
+              this.playground.getElement(matrixX, matrixY-i)[0] instanceof Bomb)
         return this.playground.getElement(matrixX, matrixY-i)[0];
-      else if(this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
+      else if(this.playground.getElement(matrixX, matrixY) != null &&
+              this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
         return this.playground.getElement(matrixX, matrixY)[0]; 
     }
     return null;
