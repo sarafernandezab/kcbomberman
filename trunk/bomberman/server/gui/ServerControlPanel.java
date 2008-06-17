@@ -280,8 +280,10 @@ public class ServerControlPanel extends javax.swing.JPanel
   private void btnKickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKickActionPerformed
     try
     {
-      serverThread.getServer().logout(liUser.getSelectedValue().toString());    
-      ((DefaultListModel)liUser.getModel()).removeElement(liUser.getSelectedValue());
+      Player pl = (Player)liUser.getSelectedValue();
+      serverThread.getServer().logout(pl.toString());         
+      ((DefaultListModel)liUser.getModel()).removeElement(pl);
+      addLogMessages(pl.getNickname() + "wurde gekickt");
     }
     catch(RemoteException e)
     {

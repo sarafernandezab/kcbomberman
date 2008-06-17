@@ -39,6 +39,9 @@ public interface ServerListenerInterface extends Remote
   public void loggedIn(Session session)
     throws RemoteException;
   
+  public void loggedOut()
+    throws RemoteException;
+  
   /**
    * Transmittes an updated playground to the client.
    * The Playground is complete, so that no inconsistencies can occur.
