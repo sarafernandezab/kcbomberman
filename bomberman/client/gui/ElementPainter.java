@@ -45,8 +45,7 @@ public class ElementPainter extends JComponent
   private Image[] images = new Image[5];
   
   public ElementPainter()
-  {     
-    
+  {
   }
   
   @Override

@@ -51,7 +51,7 @@ public class Game implements Serializable
    */
   public void addAI()
   {
-    while(players.size() < 4)
+    while(players.size() < 2)
       addPlayer(new AIPlayer(this, playground));
   }
   
@@ -129,6 +129,9 @@ public class Game implements Serializable
    */
   public boolean movePlayer(Player player, int dx, int dy)
   {
+    if(dx == 0 && dy == 0)
+      return true;
+    
     // Check if we can move in that direction
     int nx = player.getX() + dx;
     int ny = player.getY() + dy;

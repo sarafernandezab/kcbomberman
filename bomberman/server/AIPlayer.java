@@ -24,8 +24,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
@@ -47,22 +45,30 @@ class AIPlayer extends Player
     this.game       = game;
     this.playground = playground;
     
-    // Set working timer
-    Timer timer = new Timer();
-    timer.schedule(new TimerTask()
-    {
+    // Set working thread
+    Runnable run = new Runnable()
+    {      
+      @Override
       public void run()
-      {
+      {        
         try
         {
-          tick();
+          for(;;)
+          {
+            tick();
+            Thread.sleep(400);
+          }
         }
         catch(Exception ex)
         {
           ex.printStackTrace();
         }
       }
-    }, 0, 500);
+    };
+    
+    Thread thread = new Thread(run, "AIPlayer #" + getID());
+    thread.setPriority(Thread.MIN_PRIORITY);
+    thread.start();
   }
   
   private boolean containsExplodable(Element[] elements)
@@ -85,7 +91,7 @@ class AIPlayer extends Player
   
   private boolean isTargetZone(Point pnt)
   {
-    // Alle möglichen Nachbarn von node herausfinden
+    // Determine all possible neighbours...
     Element[] n1 = this.playground.getElement(pnt.x + 1, pnt.y);
     Element[] n2 = this.playground.getElement(pnt.x - 1, pnt.y);
     Element[] n3 = this.playground.getElement(pnt.x, pnt.y + 1);
@@ -105,18 +111,17 @@ class AIPlayer extends Player
       return false;
   }
   
-  // Funktion zum Berechnen eines Weges zu einem Bombenpunkt
+  /**
+   * Calculates a path to a possible bombing spot
+   */
   private List<int[]> calculateTargetPath()
-  {
-    int x = super.gridX;
-    int y = super.gridY;
-			
+  {			
     // The A* Algorithm			
     List<int[]> openNodes   = new ArrayList<int[]>(); // Noch nicht besuchte Nodes
     List<int[]> closedNodes = new ArrayList<int[]>(); // Schon abgearbeitete Punkte
 			
     // Mit Startpunkt initialisieren (add = push = at end of list)
-    openNodes.add(new int[] {x, y, 0, 0}); // Startpunkt (x, y) ist die Player-Position
+    openNodes.add(new int[] {gridX, gridY, 0, 0}); // Starting point (gridX, gridY) is the current player position
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0); // pop()
@@ -124,9 +129,9 @@ class AIPlayer extends Player
       {
         // Den Pfad zurückverfolgen
         List<int[]> path = new ArrayList<int[]>();
-        path.add(node);
+        path.add(0, node);
         while(closedNodes.size() > 0)
-          path.add(closedNodes.remove(0));
+          path.add(0, closedNodes.remove(0));
 					
         //trace("Target path length: " + path.length);
         return path;
@@ -150,27 +155,27 @@ class AIPlayer extends Player
 					
         if(n1 == null && node[2] != node[0] + r1)
         {
-          openNodes.add(new int[] {node[0] + r1, node[1], node[0], node[1]});
+          openNodes.add(0, new int[] {node[0] + r1, node[1], node[0], node[1]});
           saveNode = true;
         }
         if(n2 == null && node[2] != node[0] + r2)
         {
-          openNodes.add(new int[] {node[0] + r2, node[1], node[0], node[1]});
+          openNodes.add(0, new int[] {node[0] + r2, node[1], node[0], node[1]});
           saveNode = true;
         }
         if(n3 == null && node[3] != node[1] + r1)
         {
-          openNodes.add(new int[] {node[0], node[1] + r1, node[0], node[1]});
+          openNodes.add(0, new int[] {node[0], node[1] + r1, node[0], node[1]});
           saveNode = true;
         }
         if(n4 == null && node[3] != node[1] + r2)
         {
-          openNodes.add(new int[] {node[0], node[1] + r2, node[0], node[1]});
+          openNodes.add(0, new int[] {node[0], node[1] + r2, node[0], node[1]});
           saveNode = true;
         }
 
         if(saveNode)
-          closedNodes.add(node);
+          closedNodes.add(0, node);
       }
     }		
     return null;
@@ -190,17 +195,17 @@ class AIPlayer extends Player
     List<int[]> closedNodes = new ArrayList<int[]>(); // Schon  abgearbeitete Punkte
     
     // Mit Startpunkt initialisieren
-    openNodes.add(new int[] {x, y, 0, 0}); // Startpunkt (x, y) ist die Bombe
+    openNodes.add(0, new int[] {x, y, 0, 0}); // Startpunkt (x, y) ist die Bombe
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0);
-      if(node[0] != x && node[1] != y) // Ist der Punkt sicher?
+      if(node[0] != x && node[1] != y || closedNodes.size() > 15) // Ist der Punkt sicher?
       {
         // Den Pfad zurückverfolgen
         List<int[]> path = new ArrayList<int[]>();
-        path.add(node);
+        path.add(0, node);
         while(closedNodes.size() > 0)
-          path.add(closedNodes.remove(0));
+          path.add(0, closedNodes.remove(0));
 
         //trace("Hide path length: " + path.length);
         return path;
@@ -221,27 +226,27 @@ class AIPlayer extends Player
 					
         if(n1 == null && node[2] != node[0]+1)
         {
-          openNodes.add(new int[] {node[0]+1, node[1], node[0], node[1]});
+          openNodes.add(0, new int[] {node[0]+1, node[1], node[0], node[1]});
           saveNode = true;
         }
         if(n2 == null && node[2] != node[0]-1)
         {
-          openNodes.add(new int[] {node[0]-1, node[1], node[0], node[1]});
+          openNodes.add(0, new int[] {node[0]-1, node[1], node[0], node[1]});
           saveNode = true;
         }
         if(n3 == null && node[3] != node[1]+1)
         {
-          openNodes.add(new int[] {node[0], node[1]+1, node[0], node[1]});
+          openNodes.add(0, new int[] {node[0], node[1]+1, node[0], node[1]});
           saveNode = true;
         }
         if(n4 == null && node[3] != node[1]-1)
         {
-          openNodes.add(new int[]{node[0], node[1]-1, node[0], node[1]});
+          openNodes.add(0, new int[]{node[0], node[1]-1, node[0], node[1]});
           saveNode = true;
         }
 
         if(saveNode)
-          closedNodes.add(node);
+          closedNodes.add(0, node);
       }
     }		
 
@@ -292,7 +297,7 @@ class AIPlayer extends Player
     return Math.round(new Random().nextFloat() * 2) - 1;
   }
   
-  private boolean move(int dx, int dy, boolean weissnich)
+  private boolean move(int dx, int dy)
   {
     System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
     boolean moved = this.game.movePlayer(this, dy, dx);
@@ -305,7 +310,10 @@ class AIPlayer extends Player
     return moved;
   }
   
-  public void tick()
+  /**
+   * A small step for AI...
+   */
+  private void tick()
   {
     if(!this.game.isRunning())
       return;
@@ -319,7 +327,7 @@ class AIPlayer extends Player
     if(currentPath.size() > 0) // Solange noch ein Pfad existiert, laufen wir
     {
       int[] node = currentPath.remove(0);
-      if(!move((node[0] - gridX), (node[1] - gridY), true))
+      if(!move(gridX - node[0], gridY - node[1]))
         currentPath = new ArrayList<int[]>(); // Delete path because it must be invalid
     }
     else if(bombs.size() < 1) // Es kann noch ne Bombe gelegt werden
@@ -327,7 +335,7 @@ class AIPlayer extends Player
       if(isTargetZone(new Point(gridX, gridY)))
       {
         placeBomb();
-        currentPath = calculateHidePath(checkForBomb(null));
+        currentPath = calculateHidePath(checkForBomb(new Point(gridX, gridY)));
         if(currentPath == null)
         {
           currentPath = new ArrayList<int[]>();
