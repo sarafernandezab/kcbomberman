@@ -43,8 +43,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   private HashMap<Session,Player>                   players = new HashMap<Session,Player>(); 
   private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
-  private HashMap<String, Game> games  = new HashMap<String, Game>();
-  private HashMap<Session, Game> playerToGame  = new HashMap<Session, Game>();
+  private HashMap<String, Game>                     games  = new HashMap<String, Game>();
+  private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
   
   public Server() throws RemoteException
   {
@@ -126,6 +126,21 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         System.err.println("Exception while notifying client: " + ex.getLocalizedMessage());
       }
     }
+  }
+  
+  // Logout with username
+  public void logout(String userName) throws RemoteException
+  {
+    for(Entry<Session, Player> ent : players.entrySet() )
+      if(ent.getValue().getNickname().equals(userName))
+      {
+        Game game = playerToGame.get(ent.getKey());
+        // send logoutmessage to other players in the game
+        if(game.getCreator().equals(ent.getKey()))
+          logoutMessage(game);
+        players.remove(ent.getKey());
+        clients.remove(ent.getKey());
+      }      
   }
   
   // Removes the player from game
