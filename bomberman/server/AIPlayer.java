@@ -287,7 +287,7 @@ class AIPlayer extends Player
   
   private boolean move(int dx, int dy, boolean weissnich)
   {
-    //System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
+    System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
     boolean moved = this.game.movePlayer(this, dy, dx);
     
     if(moved)
@@ -296,11 +296,6 @@ class AIPlayer extends Player
     }
     
     return moved;
-  }
-  
-  private void placeBomb()
-  {
-    //System.out.println(this.nickname + " has placed bomb at " + gridX + "/" + gridY);
   }
   
   public void tick()
@@ -318,7 +313,7 @@ class AIPlayer extends Player
     {
       int[] node = currentPath.remove(0);
       if(!move((node[0] - gridX), (node[1] - gridY), true))
-        currentPath = new ArrayList<int[]>(); // Lösche Pfad
+        currentPath = new ArrayList<int[]>(); // Delete path because it must be invalid
     }
     else if(bombs.size() < 1) // Es kann noch ne Bombe gelegt werden
     {

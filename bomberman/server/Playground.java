@@ -36,9 +36,12 @@ public class Playground implements Serializable
    * [][][1-4] is for Players.
    */
   private Element[][][] matrix = null;
-
+  private int cols, rows;
+  
   public Playground(int cols, int rows)
   {
+    this.cols = cols;
+    this.rows = rows;
     this.matrix = new Element[cols][rows][5];
 
     // Initialize the playground
@@ -86,12 +89,12 @@ public class Playground implements Serializable
 
   public int getWidth()
   {
-    return matrix.length;
+    return cols;
   }
   
   public int getHeight()
   {
-    return matrix[0].length;
+    return rows;
   }
   
   public Element[] getElement(int x, int y)

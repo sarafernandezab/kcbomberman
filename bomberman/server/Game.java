@@ -31,6 +31,9 @@ import java.util.List;
  */
 public class Game implements Serializable
 {
+  public static final int DEFAULT_WIDTH  = 16;
+  public static final int DEFAULT_HEIGHT = 14;
+  
   private Session       creator        = null;
   private String        gameName       = null;
   private List<Session> playerSessions = new ArrayList<Session>();
@@ -43,7 +46,7 @@ public class Game implements Serializable
   {
     this.gameName = name;
     this.creator  = creator;
-    this.playground = new Playground(14, 16);
+    this.playground = new Playground(DEFAULT_WIDTH, DEFAULT_HEIGHT);
   }
   
   /**
@@ -121,7 +124,7 @@ public class Game implements Serializable
    * @param dy
    * @return
    */
-  public boolean movePlayer(Player player, int dy, int dx) // TODO: Warum hier x/y vertauschen?
+  public boolean movePlayer(Player player, int dx, int dy)
   {
     // Check if we can move in that direction
     int nx = player.getX() + dx;

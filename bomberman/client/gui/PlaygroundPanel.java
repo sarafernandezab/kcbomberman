@@ -44,7 +44,7 @@ public class PlaygroundPanel
 {
   private ElementPainter[][] elementPainter;
   
-  public PlaygroundPanel(int rows, int cols)
+  public PlaygroundPanel(int cols, int rows)
   {
     setBackground(Color.BLACK);
     
@@ -55,14 +55,11 @@ public class PlaygroundPanel
 
     gbc.gridwidth   = 1;
     gbc.gridheight  = 1;
-    //gbc.anchor = GridBagConstraints.NORTH;
     gbc.gridx = 0;
     gbc.gridy = 0;
-    //gbc.weightx = 1;
-    //gbc.weighty = 1;
-    gbc.insets = new Insets(1,1,1,1);  // Abstaende
+    gbc.insets = new Insets(1, 1, 1, 1);
     
-    this.elementPainter = new ElementPainter[rows][cols]; 
+    this.elementPainter = new ElementPainter[cols][rows]; 
     gbl.setConstraints(this, gbc);
     
     for(int y = 0; y < rows; y++)
@@ -71,8 +68,8 @@ public class PlaygroundPanel
       for(int x = 0; x < cols; x++)
       {
         gbc.gridx = x;
-        this.elementPainter[y][x] = new ElementPainter();
-        add(this.elementPainter[y][x], gbc);        
+        this.elementPainter[x][y] = new ElementPainter();
+        add(this.elementPainter[x][y], gbc);        
       } 
     }    
     

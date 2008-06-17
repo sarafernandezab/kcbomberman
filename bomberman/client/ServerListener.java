@@ -72,7 +72,7 @@ public class ServerListener
   
   public void gameStarted() throws RemoteException // TODO: Repaint geht nicht
   {
-    MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
+    MainFrame.getInstance().setContentPane(new PlaygroundPanel(16, 14));
     MainFrame.getInstance().setVisible(true);
     MainFrame.getInstance().repaint();
     System.out.println("Game start");
@@ -90,7 +90,6 @@ public class ServerListener
     System.out.println("Game joined");
      
     MainFrame.getInstance().setContentPane(new WaitingPanel(gameName));
-    //MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16)); // TODO:
     MainFrame.getInstance().setVisible(true);
   }
   
