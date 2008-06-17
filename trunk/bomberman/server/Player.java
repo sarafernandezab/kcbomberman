@@ -28,6 +28,8 @@ public class Player extends Element
   protected List<Bomb> bombs = new ArrayList<Bomb>();
   protected String nickname;
   protected int    id;
+  private int     x;
+  private int     y;
      
   public Player(String nickname)
   {

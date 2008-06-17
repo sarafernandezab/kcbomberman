@@ -21,6 +21,7 @@ package bomberman;
 
 import bomberman.client.ClientThread;
 import bomberman.server.ServerThread;
+import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.ServerFrame;
 
 /**
@@ -60,6 +61,7 @@ public class Main
       if(!headlessServer)
       {
         new ServerFrame(serverThread).setVisible(true);
+        ServerControlPanel.getInstance().addLogMessages("Bombermanserver bereit ...");
       }
     }
     

@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.gui.ServerControlPanel;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -50,7 +51,7 @@ public class ServerThread extends Thread
         Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
       
       // Binde Server an Namen
-      Registry.rebind("KCBombermanServer", server);
+      Registry.rebind("KCBombermanServer", server);      
       
       System.out.println("Bombermanserver bereit ...");
       

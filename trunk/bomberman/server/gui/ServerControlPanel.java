@@ -20,20 +20,42 @@
 package bomberman.server.gui;
 
 import bomberman.server.ServerThread;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
- *
- * @author  chris
+ * @author  Christian Lins
+ * @author  Kai Ritterbusch
  */
 public class ServerControlPanel extends javax.swing.JPanel 
 {
   private ServerThread serverThread;
+  
+  private static ServerControlPanel instance = null;
+  
+  public static ServerControlPanel getInstance()
+  {
+    return instance;
+  }
+  
+  // New Log-Message
+  public void addLogMessages(String txt)
+  {
+    Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT") );
+    SimpleDateFormat formater = new SimpleDateFormat();
+    String date = formater.format(cal.getTime());
+
+    txtLog.setText("("+ date + "): "+ txt +"\n" + txtLog.getText());
+  }  
   
   /** Creates new form ServerControlPanel */
   public ServerControlPanel(ServerThread thread) 
   {   
     initComponents();
     setThread(thread);
+    instance = this;
   }
   
   private void setThread(ServerThread thread)
@@ -67,7 +89,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabbedPane = new javax.swing.JTabbedPane();
     tabLog = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
-    jTextArea1 = new javax.swing.JTextArea();
+    txtLog = new javax.swing.JTextArea();
     tabGames = new javax.swing.JPanel();
     jScrollPane2 = new javax.swing.JScrollPane();
     jList1 = new javax.swing.JList();
@@ -97,19 +119,19 @@ public class ServerControlPanel extends javax.swing.JPanel
 
     lblStopServer.setText("Den laufenden Server und alle Spiele beenden");
 
-    jTextArea1.setColumns(20);
-    jTextArea1.setRows(5);
-    jScrollPane1.setViewportView(jTextArea1);
+    txtLog.setColumns(20);
+    txtLog.setRows(5);
+    jScrollPane1.setViewportView(txtLog);
 
     javax.swing.GroupLayout tabLogLayout = new javax.swing.GroupLayout(tabLog);
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -129,7 +151,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(jButton3)
         .addContainerGap())
@@ -139,7 +161,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
           .addComponent(jButton3))
         .addContainerGap())
     );
@@ -161,7 +183,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(jButton4)
         .addContainerGap())
@@ -171,7 +193,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+          .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
           .addComponent(jButton4))
         .addContainerGap())
     );
@@ -225,6 +247,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     this.serverThread = new ServerThread(true);
     this.serverThread.start();
     setThread(this.serverThread);
+    ServerControlPanel.getInstance().addLogMessages("Bombermanserver bereit ...");
   }//GEN-LAST:event_btnStartServerActionPerformed
 
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
@@ -232,6 +255,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     {
       this.serverThread.stopThread();
       setThread(null);
+      ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
   
@@ -246,7 +270,6 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
-  private javax.swing.JTextArea jTextArea1;
   private javax.swing.JLabel lblCaption;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
@@ -254,6 +277,7 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JPanel tabLog;
   private javax.swing.JPanel tabUsers;
   private javax.swing.JTabbedPane tabbedPane;
+  private javax.swing.JTextArea txtLog;
   // End of variables declaration//GEN-END:variables
   
 }

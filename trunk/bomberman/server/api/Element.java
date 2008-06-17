@@ -31,6 +31,12 @@ public class Element implements Serializable
       
   }
   
+  public Element(int x, int y)
+  {
+    this.gridX = x;
+    this.gridY = y;  
+  }
+  
   public int getX()
   {
     return this.gridX;
@@ -39,5 +45,11 @@ public class Element implements Serializable
   public int getY()
   {
     return this.gridY;
+  }
+  
+  public void setPosition(int x, int y)
+  {
+    this.gridX = x;
+    this.gridY = y;
   }
 }
