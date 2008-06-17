@@ -23,6 +23,7 @@ import bomberman.client.api.ServerListenerInterface;
 import bomberman.client.gui.LobbyPanel;
 import bomberman.client.gui.MainFrame;
 import bomberman.client.gui.PlaygroundPanel;
+import bomberman.client.gui.StartPanel;
 import bomberman.client.gui.WaitingPanel;
 import bomberman.server.Playground;
 import bomberman.server.Session;
@@ -45,6 +46,7 @@ public class ServerListener
   {
     
   }
+  
   
   public void gameListUpdate(ArrayList<GameInfo> gameInfo)
           throws RemoteException
@@ -112,6 +114,12 @@ public class ServerListener
     bomberman.client.ClientThread.Session = session;
     
     MainFrame.getInstance().setContentPane(new LobbyPanel());
+    MainFrame.getInstance().setVisible(true);
+  }
+  
+  public void loggedOut() throws RemoteException
+  {    
+    MainFrame.getInstance().setContentPane(new StartPanel());
     MainFrame.getInstance().setVisible(true);
   }
   

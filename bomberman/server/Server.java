@@ -135,11 +135,24 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       if(ent.getValue().getNickname().equals(userName))
       {
         Game game = playerToGame.get(ent.getKey());
-        // send logoutmessage to other players in the game
-        if(game.getCreator().equals(ent.getKey()))
-          logoutMessage(game);
-        players.remove(ent.getKey());
+        if(game != null)
+        {
+          // send logoutmessage to other players in the game
+          if(game.getCreator().equals(ent.getKey()))
+            logoutMessage(game);
+        }
+        this.clients.get(ent.getKey()).loggedOut();
+        players.remove(ent.getKey());        
         clients.remove(ent.getKey());
+        
+        // Build list of usernames
+        ArrayList<String> nicknames = new ArrayList<String>();
+        for(Session sess : players.keySet())    
+          nicknames.add(players.get(sess).getNickname());       
+        
+        // Notify all users of the new user 
+        for(Session sess : clients.keySet())    
+          clients.get(sess).userListUpdate(nicknames);
       }      
   }
   

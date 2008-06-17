@@ -21,6 +21,7 @@ package bomberman.client.gui;
 
 import bomberman.server.Session;
 import bomberman.server.Game;
+import bomberman.server.api.InvalidSessionException;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -222,8 +223,14 @@ public class LobbyPanel extends javax.swing.JPanel
       Session session = bomberman.client.ClientThread.Session;
       bomberman.client.ClientThread.Server.createGame(session, gameName);
     }
+    catch(RemoteException e)
+    {
+      //if(e.getCause() instanceof InvalidSessionException)
+        
+    }
     catch(Exception ex)
     {
+      
       ex.printStackTrace();
     }
   }//GEN-LAST:event_btnCreateGameActionPerformed
