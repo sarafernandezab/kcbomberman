@@ -82,6 +82,7 @@ public class ServerListener
   {
     MainFrame.getInstance().setContentPane(new LobbyPanel());
     MainFrame.getInstance().setVisible(true);    
+    MainFrame.getInstance().repaint();
     System.out.println("Game stopped");
   }
   

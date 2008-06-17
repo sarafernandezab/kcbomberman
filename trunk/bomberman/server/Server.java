@@ -287,24 +287,46 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     gameListUpdate();
   }
   
+  
+  public void refresh() throws RemoteException
+  {
+     // Updates GameList
+    gameListUpdate();
+    
+     // Build list of usernames
+    ArrayList<String> nicknames = new ArrayList<String>();
+    for(Session sess : players.keySet())    
+      nicknames.add(players.get(sess).getNickname());
+    
+    // Notify all users of the new user 
+    for(Session sess : clients.keySet())    
+      clients.get(sess).userListUpdate(nicknames);
+    
+    
+  }
   // Close a game
-  public boolean closeGame(String gameName)
+  public boolean closeGame(String gameName) throws RemoteException
   {    
-    // delete player <-> pame connection
+    // delete player <-> game connection
     for(Entry<Session, Game> e : playerToGame.entrySet())
     {
       if(e.getValue().equals(gameName))
         playerToGame.remove(e);
     }
     
+    // All players of this Game will logged out        
+    logoutMessage(games.get(gameName));
+    
     // close the game
-    games.remove(gameName); 
+    //games.remove(gameName);         
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
     {
       ServerControlPanel.getInstance().addLogMessages("Spiel: " + gameName +" wurde durch Server beendet");      
     }
+    
+    refresh();
     
     return true;
   }
