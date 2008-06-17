@@ -311,9 +311,18 @@ public class ServerControlPanel extends javax.swing.JPanel
       e.printStackTrace();
     }
   }//GEN-LAST:event_btnKickActionPerformed
-//TODO:
+
   private void btnCloseGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseGameActionPerformed
-   serverThread.getServer().closeGame(liGames.getSelectedValue().toString());
+   try
+   {
+    serverThread.getServer().closeGame(liGames.getSelectedValue().toString());
+    ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());
+   }
+   catch(RemoteException e)
+   {
+    e.printStackTrace(); 
+   }
+    
   }//GEN-LAST:event_btnCloseGameActionPerformed
   
   
