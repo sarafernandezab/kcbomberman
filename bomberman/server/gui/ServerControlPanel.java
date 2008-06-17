@@ -21,6 +21,7 @@ package bomberman.server.gui;
 
 import bomberman.server.Player;
 import bomberman.server.ServerThread;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -113,7 +114,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabUsers = new javax.swing.JPanel();
     jScrollPane3 = new javax.swing.JScrollPane();
     liUser = new javax.swing.JList();
-    jButton4 = new javax.swing.JButton();
+    btnKick = new javax.swing.JButton();
 
     lblCaption.setText("Hier können Sie den KC Bomberman Server verwalten:");
 
@@ -187,7 +188,12 @@ public class ServerControlPanel extends javax.swing.JPanel
     liUser.setModel(new DefaultListModel());
     jScrollPane3.setViewportView(liUser);
 
-    jButton4.setText("Kicken");
+    btnKick.setText("Kicken");
+    btnKick.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnKickActionPerformed(evt);
+      }
+    });
 
     javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
     tabUsers.setLayout(tabUsersLayout);
@@ -197,7 +203,7 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addContainerGap()
         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
         .addGap(18, 18, 18)
-        .addComponent(jButton4)
+        .addComponent(btnKick)
         .addContainerGap())
     );
     tabUsersLayout.setVerticalGroup(
@@ -206,7 +212,7 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addContainerGap()
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-          .addComponent(jButton4))
+          .addComponent(btnKick))
         .addContainerGap())
     );
 
@@ -270,13 +276,25 @@ public class ServerControlPanel extends javax.swing.JPanel
       ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
+
+  private void btnKickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKickActionPerformed
+    try
+    {
+      serverThread.getServer().logout(liUser.getSelectedValue().toString());    
+      ((DefaultListModel)liUser.getModel()).removeElement(liUser.getSelectedValue());
+    }
+    catch(RemoteException e)
+    {
+      e.printStackTrace();
+    }
+  }//GEN-LAST:event_btnKickActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton btnKick;
   private javax.swing.JButton btnStartServer;
   private javax.swing.JButton btnStopServer;
   private javax.swing.JButton jButton3;
-  private javax.swing.JButton jButton4;
   private javax.swing.JList jList1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
