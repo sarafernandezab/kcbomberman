@@ -274,6 +274,19 @@ public class ServerControlPanel extends javax.swing.JPanel
       this.serverThread.stopThread();
       setThread(null);
       ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
+     
+      for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
+      {
+        try
+        {
+          serverThread.getServer().logout( ((DefaultListModel)liUser.getModel()).getElementAt(i).toString() );
+          ((DefaultListModel)liUser.getModel()).removeElement(((DefaultListModel)liUser.getModel()).getElementAt(i));
+        }
+        catch(RemoteException e)
+        {
+          e.printStackTrace();
+        }
+      }
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
 
