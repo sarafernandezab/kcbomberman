@@ -283,7 +283,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       Player pl = (Player)liUser.getSelectedValue();
       serverThread.getServer().logout(pl.toString());         
       ((DefaultListModel)liUser.getModel()).removeElement(pl);
-      addLogMessages(pl.getNickname() + "wurde gekickt");
+      addLogMessages(pl.getNickname() + " wurde gekickt");
     }
     catch(RemoteException e)
     {
