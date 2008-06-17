@@ -30,11 +30,16 @@ public class GameInfo implements Serializable
 {
   private String gameName = null;
   private String creator  = null;
+  private String status   = "waiting...";
   
-  public GameInfo(String gameName, String creator)
+  public GameInfo(String gameName, String creator, boolean isRunning)
   {
     this.gameName = gameName;
     this.creator  = creator;
+    if(isRunning)
+      this.status = "started...";
+    else
+      this.status = "waiting...";
   }
   
   public String getName()
@@ -45,5 +50,15 @@ public class GameInfo implements Serializable
   public String getCreator()
   {
     return this.creator;
+  }
+  
+  public String getStatus()
+  {
+    return this.status;
+  }
+  
+  public void setStatus(String status)
+  {
+    this.status = status;
   }
 }

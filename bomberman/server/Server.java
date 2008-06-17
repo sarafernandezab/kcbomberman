@@ -110,7 +110,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     for(String str : gameNames)
     {
       Game game = this.games.get(str);
-      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname() ));
+      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname(), game.isRunning() ));
     }
     
     Set<Session> sessions = this.clients.keySet();
@@ -441,10 +441,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           client.gameStarted();
         }
         
-        // Notify all other clients that this game has startet,
-        // but do not send notifies to clients that are currently
-        // playing
-        gameListUpdate();
+        
         
         // Updates Playground when moved
         for(Session sess : game.getPlayerSessions())
@@ -453,6 +450,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         // Add AI-controlled players if there are not enough human players
         game.addAI();
         game.setRunning(true);
+        
+        // Notify all other clients that this game has startet,
+        // but do not send notifies to clients that are currently
+        // playing
+        gameListUpdate();
         
         return true;
       }

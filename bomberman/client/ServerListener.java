@@ -62,7 +62,7 @@ public class ServerListener
         row.add(ginfo.getName());
         row.add(ginfo.getCreator());
         row.add("");
-        row.add("");
+        row.add(ginfo.getStatus());
         
         data.add(row);
       }
