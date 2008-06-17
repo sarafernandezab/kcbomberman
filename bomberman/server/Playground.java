@@ -30,6 +30,9 @@ import java.io.Serializable;
  */
 public class Playground implements Serializable
 {
+  public static final int DEFAULT_WIDTH  = 17;
+  public static final int DEFAULT_HEIGHT = 15;
+  
   /**
    * 3D-matrix. The third level has size 5. 
    * [][][0] is for Bombs and Extras
