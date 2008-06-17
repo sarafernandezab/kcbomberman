@@ -58,6 +58,7 @@ public class Game implements Serializable
   // Adds a player to the playground
   public void addPlayer(Player player)
   {
+    player.setGame(this);
     player.setID(players.size() + 1);
     
     // Adds player to playground view, set starting position
@@ -83,7 +84,7 @@ public class Game implements Serializable
       x = playground.getWidth() - 2;
       y = 1;
     }    
-    this.playground.setElement(x, y, player);
+    this.playground.setElement(x, y, player.getID(), player);
     player.setPosition(x, y);
     
     players.add(player);
@@ -99,6 +100,11 @@ public class Game implements Serializable
     this.playgroundUpdateRequired = true;
   }
   
+  public Playground getPlayground()
+  {
+    return this.playground;
+  }
+  
   public boolean isPlaygroundUpdateRequired()
   {
     boolean update = this.playgroundUpdateRequired;
@@ -111,7 +117,7 @@ public class Game implements Serializable
   public void removePlayer(int x, int y, Player player)
   {  
     if(this.playground.getElement(x, y).equals(player))   // Removes only the selected player 
-      this.playground.setElement(x, y, null);    
+      this.playground.setElement(x, y, player.getID(), null);    
   }
   
   /**
@@ -136,10 +142,10 @@ public class Game implements Serializable
     if(el == null) // oder Extra
     {
       // Set old position in Playground to null...
-      this.playground.setElement(player.getX(), player.getY(), null);
+      this.playground.setElement(player.getX(), player.getY(), player.getID(), null);
       // ...and set new position
       player.setPosition(nx, ny);
-      this.playground.setElement(player.getX(), player.getY(), player);
+      this.playground.setElement(player.getX(), player.getY(), player.getID(), player);
       
       return true;
     }
@@ -161,11 +167,6 @@ public class Game implements Serializable
   public String toString()
   {
     return this.gameName;
-  }
-
-  public Playground getPlayground() 
-  {
-    return playground;
   }
 
   public void setPlayground(Playground playground) 

@@ -26,11 +26,13 @@ import java.util.List;
 public class Player extends Element implements Explodable
 {
   protected List<Bomb> bombs = new ArrayList<Bomb>();
+  protected Game   game;
   protected String nickname;
   protected int    id;
      
-  public Player(String nickname)
+  public Player(Game game, String nickname)
   {
+    this.game     = game;
     this.nickname = nickname;
   }
 
@@ -64,13 +66,19 @@ public class Player extends Element implements Explodable
     return id;
   }
 
-  Bomb placeBomb()
+  void placeBomb()
   {
     System.out.println("Spieler " + nickname + " legt Bombe bei " + gridX + "/" + gridY);
     
     Bomb bomb = new Bomb();
     this.bombs.add(bomb);
-    return bomb;
+    
+    this.game.getPlayground().setElement(gridX, gridY, 0, bomb);
+  }
+  
+  public void setGame(Game game)
+  {
+    this.game = game;
   }
   
   public void setID(int id) 

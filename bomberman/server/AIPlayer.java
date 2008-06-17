@@ -35,12 +35,11 @@ import java.util.TimerTask;
 class AIPlayer extends Player
 {
   private List<int[]> currentPath = new ArrayList<int[]>();
-  private Game        game;
   private Playground  playground;
   
   public AIPlayer(Game game, Playground playground)
   {
-    super("KI-Knecht");
+    super(game, "KI-Knecht");
     
     if(game == null || playground == null)
       throw new IllegalArgumentException();
@@ -138,10 +137,14 @@ class AIPlayer extends Player
         int r2 = r1 == 1 ? -1 : 1;
 					
         // Alle möglichen Nachbarn von node herausfinden
-        Element n1 = this.playground.getElement(node[0] + r1, node[1])[0];
-        Element n2 = this.playground.getElement(node[0] + r2, node[1])[0];
-        Element n3 = this.playground.getElement(node[0], node[1] + r1)[0];
-        Element n4 = this.playground.getElement(node[0], node[1] + r2)[0];
+        Element[] n1a = this.playground.getElement(node[0] + r1, node[1]);
+        Element n1 = n1a == null ? null : n1a[0];
+        Element[] n2a = this.playground.getElement(node[0] + r2, node[1]);
+        Element n2 = n2a == null ? null : n2a[0];
+        Element[] n3a = this.playground.getElement(node[0], node[1] + r1);
+        Element n3 = n3a == null ? null : n3a[0];
+        Element[] n4a = this.playground.getElement(node[0], node[1] + r2);
+        Element n4 = n4a == null ? null : n4a[0];
 					
         boolean saveNode = false;
 					
@@ -205,10 +208,14 @@ class AIPlayer extends Player
       else
       {
         // Alle möglichen Nachbarn von node herausfinden
-        Element n1 = this.playground.getElement(node[0]+1, node[1])[0];
-        Element n2 = this.playground.getElement(node[0]-1, node[1])[0];
-        Element n3 = this.playground.getElement(node[0], node[1]+1)[0];
-        Element n4 = this.playground.getElement(node[0], node[1]-1)[0];
+        Element[] n1a = this.playground.getElement(node[0]+1, node[1]);
+        Element n1 = n1a == null ? null : n1a[0];
+        Element[] n2a = this.playground.getElement(node[0]-1, node[1]);
+        Element n2 = n2a == null ? null : n2a[0];
+        Element[] n3a = this.playground.getElement(node[0], node[1]+1);
+        Element n3 = n3a == null ? null : n3a[0];
+        Element[] n4a = this.playground.getElement(node[0], node[1]-1);
+        Element n4 = n4a == null ? null : n4a[0];
 
         boolean saveNode = false;
 					

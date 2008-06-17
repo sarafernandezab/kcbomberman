@@ -66,12 +66,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 for(Session sess : game.getPlayerSessions())
                   clients.get(sess).playgroundUpdate(game.getPlayground());
               }
+              sleep(100);
             }
-            catch(RemoteException ex)
+            catch(Exception ex)
             {
               ex.printStackTrace();
             }
-            yield();
           }
         }
       }
@@ -229,7 +229,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     checkSession(session);
     
-    return false;
+    Player player = this.players.get(session);
+    if(player != null)
+    {
+      player.placeBomb();
+      return true;
+    }
+    else
+      return false;
   }
   
   public void sendChatMessage(Session session, String message) 
@@ -251,7 +258,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     System.out.println(nickname + " hat sich eingeloggt");
     
     // register in Playerlist
-    Player player = new Player(nickname);
+    Player player = new Player(null, nickname);
     players.put(session, player);
     
     // Log-Message
