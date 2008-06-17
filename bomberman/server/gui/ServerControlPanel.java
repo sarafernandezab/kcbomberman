@@ -270,11 +270,7 @@ public class ServerControlPanel extends javax.swing.JPanel
 
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
     if(this.serverThread != null)
-    {
-      this.serverThread.stopThread();
-      setThread(null);
-      ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
-     
+    {     
       for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
       {
         try
@@ -287,6 +283,10 @@ public class ServerControlPanel extends javax.swing.JPanel
           e.printStackTrace();
         }
       }
+      this.serverThread.stopThread();
+      setThread(null);
+      ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
+
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
 
