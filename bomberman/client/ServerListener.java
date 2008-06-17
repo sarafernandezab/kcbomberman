@@ -61,7 +61,7 @@ public class ServerListener
         ArrayList<Object> row = new ArrayList<Object>();
         row.add(ginfo.getName());
         row.add(ginfo.getCreator());
-        row.add("");
+        row.add(ginfo.getPlayerCount());
         row.add(ginfo.getStatus());
         
         data.add(row);

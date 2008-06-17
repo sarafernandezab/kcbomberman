@@ -110,7 +110,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     for(String str : gameNames)
     {
       Game game = this.games.get(str);
-      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname(), game.isRunning() ));
+      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname(), game.isRunning(), game.getPlayerCount() ));
     }
     
     Set<Session> sessions = this.clients.keySet();
@@ -372,6 +372,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       }
     }
     
+    gameListUpdate();
+    
     return false;
   }
   
@@ -440,8 +442,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           ServerListenerInterface client = this.clients.get(sess);
           client.gameStarted();
         }
-        
-        
         
         // Updates Playground when moved
         for(Session sess : game.getPlayerSessions())

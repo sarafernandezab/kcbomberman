@@ -28,18 +28,23 @@ import java.io.Serializable;
  */
 public class GameInfo implements Serializable
 {
-  private String gameName = null;
-  private String creator  = null;
-  private String status   = "waiting...";
+  private String gameName     = null;
+  private String creator      = null;
+  private String status       = null;
+  private String playerCount  = null;
   
-  public GameInfo(String gameName, String creator, boolean isRunning)
+  
+  public GameInfo(String gameName, String creator, boolean isRunning, int playerCount)
   {
     this.gameName = gameName;
     this.creator  = creator;
+    
     if(isRunning)
       this.status = "started...";
     else
       this.status = "waiting...";
+    
+    this.playerCount = playerCount + "/4";
   }
   
   public String getName()
@@ -60,5 +65,10 @@ public class GameInfo implements Serializable
   public void setStatus(String status)
   {
     this.status = status;
+  }
+    
+  public String getPlayerCount()
+  {
+    return this.playerCount;
   }
 }

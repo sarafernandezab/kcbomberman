@@ -186,4 +186,9 @@ public class Game implements Serializable
   {
     this.running = running;
   }
+  
+  public int getPlayerCount()
+  {
+    return this.players.size();
+  }
 }
