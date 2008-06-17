@@ -23,9 +23,9 @@ import bomberman.server.api.Element;
 
 /**
  * Represents a wall on the playground.
- * @author chris
+ * @author Christian Lins (christian.lins@web.de)
  */
-public class Wall extends Element
+abstract class Wall extends Element
 {
   public Wall()
   {

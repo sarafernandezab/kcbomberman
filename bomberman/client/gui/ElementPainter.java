@@ -20,18 +20,12 @@
 package bomberman.client.gui;
 
 import bomberman.client.io.Resource;
-import bomberman.server.ExplodableWall;
-import bomberman.server.Player;
-import bomberman.server.SolidWall;
-import bomberman.server.Wall;
 import bomberman.server.api.Element;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -75,26 +69,12 @@ public class ElementPainter extends JComponent
   
   public void setElement(Element element)
   {
-    if(element instanceof SolidWall)
-    {
-      image = Resource.getImage("resource/gfx/solid_wall.png");
-    }
-    else if(element instanceof ExplodableWall)
-    {
-      image = Resource.getImage("resource/gfx/explodable_wall.png");
-    } 
-    else if(element instanceof Player)
-    {
-      if( ((Player)element).getID() == 1)                         
-        image = Resource.getImage("resource/gfx/player1/6.png");
-      else if( ((Player)element).getID() == 2)
-        image = Resource.getImage("resource/gfx/player2/6.png");
-      else if( ((Player)element).getID() == 3)
-        image = Resource.getImage("resource/gfx/player3/6.png");
-      else if( ((Player)element).getID() == 4)
-        image = Resource.getImage("resource/gfx/player4/6.png");
-    }
-    else
+    if(element == null)
       image = null;
+    else
+    {
+      String imageFilename = element.getImageFilename();
+      image = Resource.getImage(imageFilename);
+    }
   }
 }

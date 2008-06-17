@@ -32,7 +32,7 @@ import java.util.TimerTask;
  * path finding.
  * @author Christian Lins (christian.lins@web.de)
  */
-public class AIPlayer extends Player
+class AIPlayer extends Player
 {
   private List<int[]> currentPath = new ArrayList<int[]>();
   private Game        game;
