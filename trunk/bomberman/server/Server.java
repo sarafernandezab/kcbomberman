@@ -219,13 +219,19 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           throws RemoteException
   {
     Session session = new Session();
-    // Log-Message
-    if(ServerControlPanel.getInstance() != null)
-      ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
+    
     System.out.println(nickname + " hat sich eingeloggt");
     
     // register in Playerlist
-    players.put(session, new Player(nickname));
+    Player player = new Player(nickname);
+    players.put(session, player);
+    
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+    {
+      ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
+      ServerControlPanel.getInstance().addPlayer(player);
+    }
     
     // register in Clientlist
     clients.put(session, sli);

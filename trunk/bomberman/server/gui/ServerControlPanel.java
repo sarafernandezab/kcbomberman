@@ -19,11 +19,13 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.Player;
 import bomberman.server.ServerThread;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
 
 /**
@@ -56,7 +58,13 @@ public class ServerControlPanel extends javax.swing.JPanel
     JScrollBar vbar = scrPane.getVerticalScrollBar();
     vbar.setValue(vbar.getMinimum()); 
     txtLog.updateUI();
-  }  
+  } 
+  
+  // Adds player to List
+  public void addPlayer(Player pl)
+  {
+    ((DefaultListModel)liUser.getModel()).addElement(pl);    
+  }
   
   /** Creates new form ServerControlPanel */
   public ServerControlPanel(ServerThread thread) 
@@ -104,7 +112,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     jButton3 = new javax.swing.JButton();
     tabUsers = new javax.swing.JPanel();
     jScrollPane3 = new javax.swing.JScrollPane();
-    jList2 = new javax.swing.JList();
+    liUser = new javax.swing.JList();
     jButton4 = new javax.swing.JButton();
 
     lblCaption.setText("Hier können Sie den KC Bomberman Server verwalten:");
@@ -176,12 +184,8 @@ public class ServerControlPanel extends javax.swing.JPanel
 
     tabbedPane.addTab("Spiele", tabGames);
 
-    jList2.setModel(new javax.swing.AbstractListModel() {
-      String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-      public int getSize() { return strings.length; }
-      public Object getElementAt(int i) { return strings[i]; }
-    });
-    jScrollPane3.setViewportView(jList2);
+    liUser.setModel(new DefaultListModel());
+    jScrollPane3.setViewportView(liUser);
 
     jButton4.setText("Kicken");
 
@@ -274,12 +278,12 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JButton jButton3;
   private javax.swing.JButton jButton4;
   private javax.swing.JList jList1;
-  private javax.swing.JList jList2;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JLabel lblCaption;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
+  private javax.swing.JList liUser;
   private javax.swing.JScrollPane scrPane;
   private javax.swing.JPanel tabGames;
   private javax.swing.JPanel tabLog;
