@@ -56,20 +56,38 @@ class AIPlayer extends Player
     }, 0, 500);
   }
   
+  private boolean containsExplodable(Element[] elements)
+  {
+    for(Element e : elements)
+      if(e instanceof Explodable)
+        return true;
+    
+    return false;
+  }
+  
+  private boolean contains(Element[] elements, Element c)
+  {
+    for(Element e : elements)
+      if(c.equals(e))
+        return true;
+    
+    return false;
+  }
+  
   private boolean isTargetZone(Point pnt)
   {
     // Alle möglichen Nachbarn von node herausfinden
-    Element n1 = this.playground.getElement(pnt.x + 1, pnt.y);
-    Element n2 = this.playground.getElement(pnt.x - 1, pnt.y);
-    Element n3 = this.playground.getElement(pnt.x, pnt.y + 1);
-    Element n4 = this.playground.getElement(pnt.x, pnt.y - 1);
+    Element[] n1 = this.playground.getElement(pnt.x + 1, pnt.y);
+    Element[] n2 = this.playground.getElement(pnt.x - 1, pnt.y);
+    Element[] n3 = this.playground.getElement(pnt.x, pnt.y + 1);
+    Element[] n4 = this.playground.getElement(pnt.x, pnt.y - 1);
 			
-    if(n1 instanceof Explodable || 
-       n2 instanceof Explodable || 
-       n3 instanceof Explodable || 
-       n4 instanceof Explodable)
+    if(containsExplodable(n1) || 
+       containsExplodable(n2) || 
+       containsExplodable(n3) || 
+       containsExplodable(n4))
     {
-      if(n1 == this || n2 == this || n3 == this || n4 == this)
+      if(contains(n1, this) || contains(n2, this) || contains(n3, this) || contains(n4, this))
         return false;
       else
         return true;
@@ -110,10 +128,10 @@ class AIPlayer extends Player
         int r2 = r1 == 1 ? -1 : 1;
 					
         // Alle möglichen Nachbarn von node herausfinden
-        Element n1 = this.playground.getElement(node[0] + r1, node[1]);
-        Element n2 = this.playground.getElement(node[0] + r2, node[1]);
-        Element n3 = this.playground.getElement(node[0], node[1] + r1);
-        Element n4 = this.playground.getElement(node[0], node[1] + r2);
+        Element n1 = this.playground.getElement(node[0] + r1, node[1])[0];
+        Element n2 = this.playground.getElement(node[0] + r2, node[1])[0];
+        Element n3 = this.playground.getElement(node[0], node[1] + r1)[0];
+        Element n4 = this.playground.getElement(node[0], node[1] + r2)[0];
 					
         boolean saveNode = false;
 					
@@ -177,10 +195,10 @@ class AIPlayer extends Player
       else
       {
         // Alle möglichen Nachbarn von node herausfinden
-        Element n1 = this.playground.getElement(node[0]+1, node[1]);
-        Element n2 = this.playground.getElement(node[0]-1, node[1]);
-        Element n3 = this.playground.getElement(node[0], node[1]+1);
-        Element n4 = this.playground.getElement(node[0], node[1]-1);
+        Element n1 = this.playground.getElement(node[0]+1, node[1])[0];
+        Element n2 = this.playground.getElement(node[0]-1, node[1])[0];
+        Element n3 = this.playground.getElement(node[0], node[1]+1)[0];
+        Element n4 = this.playground.getElement(node[0], node[1]-1)[0];
 
         boolean saveNode = false;
 					
@@ -227,22 +245,22 @@ class AIPlayer extends Player
     }
 
     // Spieler steht auf der Bombe
-    if(this.playground.getElement(matrixX, matrixY) instanceof Bomb)
-      return this.playground.getElement(matrixX, matrixY);
+    if(this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
+      return this.playground.getElement(matrixX, matrixY)[0];
  
     // Spieler steht in der Naehe der Bombe, i < bombdistance
     for(int i = 0; i < 4; i++)
     {
-      if(this.playground.getElement(matrixX+i, matrixY) instanceof Bomb)
-        return this.playground.getElement(matrixX+i, matrixY);
-      else if(this.playground.getElement(matrixX-i, matrixY) instanceof Bomb)		   
-        return this.playground.getElement(matrixX-i, matrixY);
-      else if(this.playground.getElement(matrixX, matrixY+i) instanceof Bomb)
-        return this.playground.getElement(matrixX, matrixY+i);
-      else if(this.playground.getElement(matrixX, matrixY-i) instanceof Bomb)
-        return this.playground.getElement(matrixX, matrixY-i);
-      else if(this.playground.getElement(matrixX, matrixY) instanceof Bomb)
-        return this.playground.getElement(matrixX, matrixY); 
+      if(this.playground.getElement(matrixX+i, matrixY)[0] instanceof Bomb)
+        return this.playground.getElement(matrixX+i, matrixY)[0];
+      else if(this.playground.getElement(matrixX-i, matrixY)[0] instanceof Bomb)		   
+        return this.playground.getElement(matrixX-i, matrixY)[0];
+      else if(this.playground.getElement(matrixX, matrixY+i)[0] instanceof Bomb)
+        return this.playground.getElement(matrixX, matrixY+i)[0];
+      else if(this.playground.getElement(matrixX, matrixY-i)[0] instanceof Bomb)
+        return this.playground.getElement(matrixX, matrixY-i)[0];
+      else if(this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
+        return this.playground.getElement(matrixX, matrixY)[0]; 
     }
     return null;
   }

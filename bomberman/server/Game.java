@@ -132,7 +132,7 @@ public class Game implements Serializable
             || this.playground.getHeight() <= ny)
       return false;
     
-    Element el = this.playground.getElement(nx, ny);
+    Element el = this.playground.getElement(nx, ny)[0];
     if(el == null) // oder Extra
     {
       // Set old position in Playground to null...

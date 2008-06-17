@@ -42,7 +42,7 @@ public class ElementPainter extends JComponent
   
   private static HashMap<String, Image> ImageCache = new HashMap<String, Image>();
   
-  private Image image = null;
+  private Image[] images = new Image[5];
   
   public ElementPainter()
   {     
@@ -52,13 +52,14 @@ public class ElementPainter extends JComponent
   @Override
   public void paintComponent(Graphics g)
   {    
-    if(image == null) // No Image, background
+    g.setColor(Color.GREEN.darker().darker());
+    g.fillRect(0, 0, getWidth(), getHeight());
+
+    for(Image img : images)
     {
-      g.setColor(Color.GREEN.darker().darker());
-      g.fillRect(0, 0, getWidth(), getHeight());
+      if(img != null)
+        g.drawImage(img, 0, 0,null);  
     }
-    else // Image loaded
-      g.drawImage(this.image,0,0,null);    
   }
   
   @Override
@@ -73,18 +74,23 @@ public class ElementPainter extends JComponent
     return getPreferredSize();
   }
   
-  public void setElement(Element element)
+  public void setElement(Element[] elements)
   {
-    if(element == null)
-      image = null;
-    else
+    for(int n = 0; n < elements.length; n++)
     {
-      String imageFilename = element.getImageFilename();
-      image = ImageCache.get(imageFilename);
-      if(image == null)
+      if(elements[n] == null)
       {
-        image = Resource.getImage(imageFilename).getImage();
-        ImageCache.put(imageFilename, image);
+        this.images[n] = null;
+      }
+      else
+      {
+        String imageFilename = elements[n].getImageFilename();
+        images[n] = ImageCache.get(imageFilename);
+        if(images[n] == null)
+        {
+          images[n] = Resource.getImage(imageFilename).getImage();
+          ImageCache.put(imageFilename, images[n]);
+        }
       }
     }
   }

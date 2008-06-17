@@ -30,23 +30,28 @@ import java.io.Serializable;
  */
 public class Playground implements Serializable
 {
-  private Element[][] matrix = null;
+  /**
+   * 3D-matrix. The third level has size 5. 
+   * [][][0] is for Bombs and Extras
+   * [][][1-4] is for Players.
+   */
+  private Element[][][] matrix = null;
 
   public Playground(int cols, int rows)
   {
-    this.matrix = new Element[cols][rows];
+    this.matrix = new Element[cols][rows][5];
 
     // Initialize the playground
     for (int x = 0; x < cols; x++)
     {
       for (int y = 0; y < rows; y++)
       {
-        matrix[x][y] = null;
+        //matrix[x][y] = null;
 
         // Solid borders
         if ((x == 0) || (x == cols - 1) || (y == 0) || (y == rows - 1))
         {
-          this.matrix[x][y] = new SolidWall(); // A solid wall
+          this.matrix[x][y][0] = new SolidWall(); // A solid wall
         }
         // Player starting points
         else if ((x == 1 && (y == 1 || y == 2)) || (x == 2 && y == 1) || // Links oben
@@ -60,7 +65,7 @@ public class Playground implements Serializable
         // Solid walls within
         else if ((y % 2 == 0) && (x % 2 == 0))
         {
-          this.matrix[x][y] = new SolidWall(); // Solid wall
+          this.matrix[x][y][0] = new SolidWall(); // Solid wall
         }
         else
         {
@@ -70,7 +75,7 @@ public class Playground implements Serializable
           }
           else
           {
-            matrix[x][y] = new ExplodableWall(); // Exploadable wall
+            matrix[x][y][0] = new ExplodableWall(); // Exploadable wall
  
             // Extras are placed later when a Wall explodes.
           }
@@ -89,7 +94,7 @@ public class Playground implements Serializable
     return matrix[0].length;
   }
   
-  public Element getElement(int x, int y)
+  public Element[] getElement(int x, int y)
   {
     try
     {
@@ -103,6 +108,11 @@ public class Playground implements Serializable
 
   public void setElement(int x, int y, Element e)
   {
-    this.matrix[x][y] = e;
+    this.matrix[x][y][0] = e;
+  }
+  
+  public void setElement(int x, int y, int layer, Element e)
+  {
+    this.matrix[x][y][layer] = e;
   }
 }
