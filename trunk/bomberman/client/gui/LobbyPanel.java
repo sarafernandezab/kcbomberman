@@ -222,15 +222,9 @@ public class LobbyPanel extends javax.swing.JPanel
       String gameName = JOptionPane.showInputDialog(msg);
       Session session = bomberman.client.ClientThread.Session;
       bomberman.client.ClientThread.Server.createGame(session, gameName);
-    }
-    catch(RemoteException e)
-    {
-      //if(e.getCause() instanceof InvalidSessionException)
-        
-    }
+    }   
     catch(Exception ex)
-    {
-      
+    {      
       ex.printStackTrace();
     }
   }//GEN-LAST:event_btnCreateGameActionPerformed
