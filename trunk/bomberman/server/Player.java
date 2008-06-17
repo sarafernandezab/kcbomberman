@@ -23,13 +23,11 @@ import bomberman.server.api.Element;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Element
+public class Player extends Element implements Explodable
 {
   protected List<Bomb> bombs = new ArrayList<Bomb>();
   protected String nickname;
   protected int    id;
-  private int     x;
-  private int     y;
      
   public Player(String nickname)
   {
@@ -66,14 +64,17 @@ public class Player extends Element
     return id;
   }
 
+  Bomb placeBomb()
+  {
+    System.out.println("Spieler " + nickname + " legt Bombe bei " + gridX + "/" + gridY);
+    
+    Bomb bomb = new Bomb();
+    this.bombs.add(bomb);
+    return bomb;
+  }
+  
   public void setID(int id) 
   {
     this.id = id;
-  }
-  
-  public void setPosition(int x, int y)
-  {
-    this.gridX = x;
-    this.gridY = y;
   }
 }
