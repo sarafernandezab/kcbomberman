@@ -315,6 +315,8 @@ public class ServerControlPanel extends javax.swing.JPanel
   private void btnCloseGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseGameActionPerformed
    try
    {
+    if(liGames.getSelectedValue() == null)
+      return;
     serverThread.getServer().closeGame(liGames.getSelectedValue().toString());
     ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());
    }
