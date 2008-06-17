@@ -19,6 +19,7 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.Game;
 import bomberman.server.Player;
 import bomberman.server.ServerThread;
 import java.rmi.RemoteException;
@@ -67,6 +68,12 @@ public class ServerControlPanel extends javax.swing.JPanel
     ((DefaultListModel)liUser.getModel()).addElement(pl);    
   }
   
+  // Adds game to List
+  public void addGame(Game game)
+  {
+    ((DefaultListModel)liGames.getModel()).addElement(game);    
+  }
+  
   /** Creates new form ServerControlPanel */
   public ServerControlPanel(ServerThread thread) 
   {   
@@ -109,8 +116,8 @@ public class ServerControlPanel extends javax.swing.JPanel
     txtLog = new javax.swing.JTextArea();
     tabGames = new javax.swing.JPanel();
     jScrollPane2 = new javax.swing.JScrollPane();
-    jList1 = new javax.swing.JList();
-    jButton3 = new javax.swing.JButton();
+    liGames = new javax.swing.JList();
+    btnCloseGame = new javax.swing.JButton();
     tabUsers = new javax.swing.JPanel();
     jScrollPane3 = new javax.swing.JScrollPane();
     liUser = new javax.swing.JList();
@@ -153,14 +160,15 @@ public class ServerControlPanel extends javax.swing.JPanel
 
     tabbedPane.addTab("Log", tabLog);
 
-    jList1.setModel(new javax.swing.AbstractListModel() {
-      String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-      public int getSize() { return strings.length; }
-      public Object getElementAt(int i) { return strings[i]; }
-    });
-    jScrollPane2.setViewportView(jList1);
+    liGames.setModel(new DefaultListModel());
+    jScrollPane2.setViewportView(liGames);
 
-    jButton3.setText("Beenden");
+    btnCloseGame.setText("Beenden");
+    btnCloseGame.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCloseGameActionPerformed(evt);
+      }
+    });
 
     javax.swing.GroupLayout tabGamesLayout = new javax.swing.GroupLayout(tabGames);
     tabGames.setLayout(tabGamesLayout);
@@ -170,7 +178,7 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addContainerGap()
         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
         .addGap(18, 18, 18)
-        .addComponent(jButton3)
+        .addComponent(btnCloseGame)
         .addContainerGap())
     );
     tabGamesLayout.setVerticalGroup(
@@ -179,7 +187,7 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addContainerGap()
         .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-          .addComponent(jButton3))
+          .addComponent(btnCloseGame))
         .addContainerGap())
     );
 
@@ -303,19 +311,23 @@ public class ServerControlPanel extends javax.swing.JPanel
       e.printStackTrace();
     }
   }//GEN-LAST:event_btnKickActionPerformed
+//TODO:
+  private void btnCloseGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseGameActionPerformed
+   serverThread.getServer().closeGame(liGames.getSelectedValue().toString());
+  }//GEN-LAST:event_btnCloseGameActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton btnCloseGame;
   private javax.swing.JButton btnKick;
   private javax.swing.JButton btnStartServer;
   private javax.swing.JButton btnStopServer;
-  private javax.swing.JButton jButton3;
-  private javax.swing.JList jList1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JLabel lblCaption;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
+  private javax.swing.JList liGames;
   private javax.swing.JList liUser;
   private javax.swing.JScrollPane scrPane;
   private javax.swing.JPanel tabGames;

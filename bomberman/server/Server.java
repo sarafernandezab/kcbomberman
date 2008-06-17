@@ -280,6 +280,28 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     gameListUpdate();
   }
   
+  // Close a game
+  public boolean closeGame(String gameName)
+  {    
+    // delete player <-> pame connection
+    for(Entry<Session, Game> e : playerToGame.entrySet())
+    {
+      if(e.getValue().equals(gameName))
+        playerToGame.remove(e);
+    }
+    
+    // close the game
+    games.remove(gameName); 
+    
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+    {
+      ServerControlPanel.getInstance().addLogMessages("Spiel: " + gameName +" wurde durch Server beendet");      
+    }
+    
+    return true;
+  }
+  
   /**
    * 
    * @param session
@@ -344,6 +366,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       Game game = new Game(gameName, session);
       games.put(gameName, game);
 
+      // Log-Message
+      if(ServerControlPanel.getInstance() != null)
+      {
+        ServerControlPanel.getInstance().addLogMessages("Spiel: " + gameName +" wurde erstellt");
+        ServerControlPanel.getInstance().addGame(game);
+      }
+      
       // Send a game list update
       gameListUpdate();
       
