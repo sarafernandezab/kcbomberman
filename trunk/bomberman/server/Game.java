@@ -30,10 +30,7 @@ import java.util.List;
  * @author Christian Lins
  */
 public class Game implements Serializable
-{
-  public static final int DEFAULT_WIDTH  = 16;
-  public static final int DEFAULT_HEIGHT = 14;
-  
+{ 
   private Session       creator        = null;
   private String        gameName       = null;
   private List<Session> playerSessions = new ArrayList<Session>();
@@ -46,7 +43,7 @@ public class Game implements Serializable
   {
     this.gameName = name;
     this.creator  = creator;
-    this.playground = new Playground(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    this.playground = new Playground(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT);
   }
   
   /**
