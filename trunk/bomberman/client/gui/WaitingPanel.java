@@ -78,11 +78,12 @@ public class WaitingPanel extends javax.swing.JPanel
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-    txtInfo.setBackground(new java.awt.Color(1, 1, 1));
     txtInfo.setColumns(20);
     txtInfo.setForeground(new java.awt.Color(254, 254, 254));
     txtInfo.setRows(5);
     txtInfo.setBorder(null);
+    txtInfo.setDoubleBuffered(true);
+    txtInfo.setOpaque(false);
     jScrollPane1.setViewportView(txtInfo);
 
     btnStartGame.setText("Spiel starten");
@@ -92,21 +93,22 @@ public class WaitingPanel extends javax.swing.JPanel
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
-        .addGap(163, 163, 163)
-        .addComponent(btnStartGame)
-        .addGap(141, 141, Short.MAX_VALUE))
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addContainerGap(262, Short.MAX_VALUE)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(btnStartGame)
+            .addGap(132, 132, 132))
+          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+            .addContainerGap())))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addGap(30, 30, 30)
+        .addContainerGap(180, Short.MAX_VALUE)
         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
-        .addComponent(btnStartGame)
-        .addContainerGap())
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(btnStartGame))
     );
   }// </editor-fold>//GEN-END:initComponents
   
@@ -129,6 +131,7 @@ public class WaitingPanel extends javax.swing.JPanel
       rexc.printStackTrace();
     }    
   }    
+  
   
   @Override
   public void paintComponent(Graphics g)

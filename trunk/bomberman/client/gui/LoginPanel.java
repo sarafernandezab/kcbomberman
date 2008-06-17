@@ -59,6 +59,8 @@ public class LoginPanel extends javax.swing.JPanel {
     btnLogin = new javax.swing.JButton();
     btnClear = new javax.swing.JButton();
 
+    setNextFocusableComponent(txtNickname);
+
     lblNickname.setForeground(java.awt.Color.white);
     lblNickname.setText("Spielername:");
 
