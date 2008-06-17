@@ -29,6 +29,7 @@ import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
+import bomberman.server.gui.ServerControlPanel;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -79,6 +80,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     updater.setDaemon(true);
     updater.start();
     
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+      ServerControlPanel.getInstance().addLogMessages("ServerInstanz erstellt");
     System.out.println("ServerInstanz erstellt");
   }
   
@@ -127,6 +131,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   // Removes the player from game
   public void logout(Session session)  throws RemoteException          
   {
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+      ServerControlPanel.getInstance().addLogMessages(players.get(session).getNickname() + " logout");
     System.out.println(players.get(session).getNickname() + " logout");    
        
     Game game = playerToGame.get(session);     
@@ -151,8 +158,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   // Sends logout-Message if Creator stopped Game
   public void logoutMessage(Game game) throws RemoteException
-  {
-    System.out.println("LogoutMessage");
+  {   
     for(Session sess : game.getPlayerSessions())
       clients.get(sess).gameStopped();
     games.remove(game.toString()); 
@@ -213,6 +219,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           throws RemoteException
   {
     Session session = new Session();
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+      ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
     System.out.println(nickname + " hat sich eingeloggt");
     
     // register in Playerlist

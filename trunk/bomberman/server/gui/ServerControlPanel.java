@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import javax.swing.JScrollBar;
 
 /**
  * @author  Christian Lins
@@ -43,11 +44,18 @@ public class ServerControlPanel extends javax.swing.JPanel
   // New Log-Message
   public void addLogMessages(String txt)
   {
+    // Creates actual Date
     Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT") );
     SimpleDateFormat formater = new SimpleDateFormat();
     String date = formater.format(cal.getTime());
 
-    txtLog.setText("("+ date + "): "+ txt +"\n" + txtLog.getText());
+    // Adds logsmessage to textarea
+    txtLog.setText("("+ date + "): "+ txt +"\n" + txtLog.getText());    
+    
+    // Sets Scrollposition to 0
+    JScrollBar vbar = scrPane.getVerticalScrollBar();
+    vbar.setValue(vbar.getMinimum()); 
+    txtLog.updateUI();
   }  
   
   /** Creates new form ServerControlPanel */
@@ -88,7 +96,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     lblStopServer = new javax.swing.JLabel();
     tabbedPane = new javax.swing.JTabbedPane();
     tabLog = new javax.swing.JPanel();
-    jScrollPane1 = new javax.swing.JScrollPane();
+    scrPane = new javax.swing.JScrollPane();
     txtLog = new javax.swing.JTextArea();
     tabGames = new javax.swing.JPanel();
     jScrollPane2 = new javax.swing.JScrollPane();
@@ -121,17 +129,17 @@ public class ServerControlPanel extends javax.swing.JPanel
 
     txtLog.setColumns(20);
     txtLog.setRows(5);
-    jScrollPane1.setViewportView(txtLog);
+    scrPane.setViewportView(txtLog);
 
     javax.swing.GroupLayout tabLogLayout = new javax.swing.GroupLayout(tabLog);
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -267,12 +275,12 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JButton jButton4;
   private javax.swing.JList jList1;
   private javax.swing.JList jList2;
-  private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JLabel lblCaption;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
+  private javax.swing.JScrollPane scrPane;
   private javax.swing.JPanel tabGames;
   private javax.swing.JPanel tabLog;
   private javax.swing.JPanel tabUsers;
