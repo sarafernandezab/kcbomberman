@@ -111,11 +111,6 @@ public class Playground implements Serializable
       return null;
     }
   }
-
-  public void setElement(int x, int y, Element e)
-  {
-    this.matrix[x][y][0] = e;
-  }
   
   public void setElement(int x, int y, int layer, Element e)
   {

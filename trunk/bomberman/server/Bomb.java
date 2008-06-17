@@ -29,6 +29,6 @@ class Bomb extends Element implements Explodable
 {
   public String getImageFilename()
   {
-    return null;
+    return "resource/gfx/bomb/bomb1.png";
   }
 }
