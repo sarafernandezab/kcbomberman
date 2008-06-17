@@ -20,10 +20,10 @@
 package bomberman.server;
 
 /**
- * 
+ * All explodable game components must implement this interface.
  * @author Christian Lins (christian.lins@web.de)
  */
-public interface Explodable 
+interface Explodable 
 {
 
 }

@@ -35,7 +35,21 @@ public class Player extends Element
   {
     this.nickname = nickname;
   }
-     
+
+  public String getImageFilename()
+  {
+    if(getID() == 1)                         
+      return "resource/gfx/player1/6.png";
+    else if(getID() == 2)
+      return "resource/gfx/player2/6.png";
+    else if(getID() == 3)
+      return "resource/gfx/player3/6.png";
+    else if(getID() == 4)
+      return "resource/gfx/player4/6.png";
+    else
+      return null;
+  }
+  
   public String getNickname()
   {
     return this.nickname;

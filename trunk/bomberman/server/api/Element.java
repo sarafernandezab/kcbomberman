@@ -19,9 +19,10 @@
 
 package bomberman.server.api;
 
+import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Element implements Serializable
+public abstract class Element implements Serializable
 {
   protected int gridX;
   protected int gridY;
@@ -36,6 +37,8 @@ public class Element implements Serializable
     this.gridX = x;
     this.gridY = y;  
   }
+  
+  public abstract String getImageFilename();
   
   public int getX()
   {

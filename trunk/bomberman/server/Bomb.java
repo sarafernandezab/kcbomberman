@@ -21,7 +21,14 @@ package bomberman.server;
 
 import bomberman.server.api.Element;
 
-public class Bomb extends Element implements Explodable
+/**
+ * The BOMB!
+ * @author Christian Lins (christian.lins@web.de)
+ */
+class Bomb extends Element implements Explodable
 {
-
+  public String getImageFilename()
+  {
+    return null;
+  }
 }
