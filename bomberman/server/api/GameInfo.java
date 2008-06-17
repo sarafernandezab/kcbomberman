@@ -29,14 +29,21 @@ import java.io.Serializable;
 public class GameInfo implements Serializable
 {
   private String gameName = null;
+  private String creator  = null;
   
-  public GameInfo(String gameName)
+  public GameInfo(String gameName, String creator)
   {
     this.gameName = gameName;
+    this.creator  = creator;
   }
   
   public String getName()
   {
     return this.gameName;
+  }
+  
+  public String getCreator()
+  {
+    return this.creator;
   }
 }

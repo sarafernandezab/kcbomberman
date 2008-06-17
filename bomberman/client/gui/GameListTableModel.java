@@ -34,7 +34,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class GameListTableModel extends AbstractTableModel
 {
-  private String[]		columnNames = {"Spielname","x","y","Status"};      // Spaltennamen 
+  private String[]		columnNames = {"Spielname","Ersteller","Spielerzahl","Status"};      // Spaltennamen 
   private ArrayList< ArrayList<Object> > data = new ArrayList< ArrayList<Object> >(); // Daten
   private boolean[]		sortColumnDesc;   // Sortierungsstatus
   

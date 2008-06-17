@@ -60,7 +60,7 @@ public class ServerListener
       {
         ArrayList<Object> row = new ArrayList<Object>();
         row.add(ginfo.getName());
-        row.add("");
+        row.add(ginfo.getCreator());
         row.add("");
         row.add("");
         
