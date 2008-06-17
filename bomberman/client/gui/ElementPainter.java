@@ -26,17 +26,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.util.HashMap;
+
 import javax.swing.JComponent;
 
 /**
  * Paints an Element on a PlaygroundPanel.
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@googlemail.com)
  */
 public class ElementPainter extends JComponent
 {
   public static final int DEFAULT_SIZE = 40;
-  private ImageIcon image = null;
+  
+  private static HashMap<String, Image> ImageCache = new HashMap<String, Image>();
+  
+  private Image image = null;
   
   public ElementPainter()
   {     
@@ -52,7 +58,7 @@ public class ElementPainter extends JComponent
       g.fillRect(0, 0, getWidth(), getHeight());
     }
     else // Image loaded
-      g.drawImage(this.image.getImage(),0,0,null);    
+      g.drawImage(this.image,0,0,null);    
   }
   
   @Override
@@ -74,7 +80,12 @@ public class ElementPainter extends JComponent
     else
     {
       String imageFilename = element.getImageFilename();
-      image = Resource.getImage(imageFilename);
+      image = ImageCache.get(imageFilename);
+      if(image == null)
+      {
+        image = Resource.getImage(imageFilename).getImage();
+        ImageCache.put(imageFilename, image);
+      }
     }
   }
 }
