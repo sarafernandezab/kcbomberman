@@ -78,12 +78,14 @@ public class GameListTableModel extends AbstractTableModel
   }
   
   /** Name einer Spalte zurueckgeben */
+  @Override
   public String getColumnName(int col) 
   {  
     return columnNames[col];
   }
   
   /** Datentyp einer Spalte zurueckgeben */
+  @Override
   public Class<?> getColumnClass(int c) 
   {
     return getValueAt(0, c).getClass();

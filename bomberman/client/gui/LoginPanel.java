@@ -19,7 +19,6 @@
 
 package bomberman.client.gui;
 
-import bomberman.server.Session;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -29,21 +28,25 @@ import java.awt.event.KeyEvent;
  *
  * @author  chris
  */
-public class LoginPanel extends javax.swing.JPanel {
+public class LoginPanel extends javax.swing.JPanel
+{
   
   /** Creates new form LoginPanel */
   public LoginPanel() 
   {
     initComponents();
     
-    txtNickname.addKeyListener(new KeyAdapter()     {
-			public void keyPressed(KeyEvent ke)
-               {
-                 if(ke.getKeyCode() == KeyEvent.VK_ENTER)
-				btnLoginActionPerformed(null);
-			}
-		});
-
+    txtNickname.selectAll();
+    
+    txtNickname.addKeyListener(new KeyAdapter()     
+    {
+      @Override
+      public void keyPressed(KeyEvent ke)
+      {
+        if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+          btnLoginActionPerformed(null);
+      }
+    });
   }
   
   /** This method is called from within the constructor to

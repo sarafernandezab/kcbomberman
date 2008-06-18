@@ -25,6 +25,8 @@ import java.awt.Image;
 import java.rmi.RemoteException;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import javax.swing.plaf.basic.BasicTextAreaUI;
+import javax.swing.plaf.basic.BasicTextUI;
 
 /**
  * When a user has joined a game this panel is shown.
@@ -44,6 +46,16 @@ public class WaitingPanel extends javax.swing.JPanel
     this.gameName = gameName;
     this.background = Resource.getImage("resource/gfx/waitscreen.jpg").getImage();
     initComponents();
+    
+    this.txtInfo.setUI(new BasicTextAreaUI()
+    {
+      @Override
+      public void paintBackground(Graphics g)
+      {
+        g.setColor(Color.BLUE);
+        g.drawRect(0, 0, 100, 100);
+      }
+    });
     
     btnStartGame.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +98,6 @@ public class WaitingPanel extends javax.swing.JPanel
     txtInfo.setRows(5);
     txtInfo.setBorder(null);
     txtInfo.setDoubleBuffered(true);
-    txtInfo.setOpaque(false);
     jScrollPane1.setViewportView(txtInfo);
 
     btnStartGame.setText("Spiel starten");
@@ -98,12 +109,12 @@ public class WaitingPanel extends javax.swing.JPanel
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+            .addContainerGap())
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addComponent(btnStartGame)
-            .addGap(132, 132, 132))
-          .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-            .addContainerGap())))
+            .addGap(132, 132, 132))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
