@@ -26,7 +26,7 @@ import java.awt.event.KeyEvent;
 
 /**
  *
- * @author  chris
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class LoginPanel extends javax.swing.JPanel
 {
