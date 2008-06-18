@@ -24,6 +24,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.rmi.RemoteException;
 import javax.swing.JTextArea;
+import java.awt.Color;
 
 /**
  * When a user has joined a game this panel is shown.
@@ -78,7 +79,9 @@ public class WaitingPanel extends javax.swing.JPanel
     jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
+    txtInfo.setBackground(new Color(255, 255, 255, 75));
     txtInfo.setColumns(20);
+    txtInfo.setEditable(false);
     txtInfo.setForeground(new java.awt.Color(254, 254, 254));
     txtInfo.setRows(5);
     txtInfo.setBorder(null);
