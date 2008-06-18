@@ -35,25 +35,30 @@ class AIPlayer extends Player
   private List<int[]> currentPath = new ArrayList<int[]>();
   private Playground  playground;
   
-  public AIPlayer(Game game, Playground playground)
+  public AIPlayer(Game g, Playground playground)
   {
-    super(game, "KI-Knecht");
+    super(g, "KI-Knecht");
     
-    if(game == null || playground == null)
+    if(g == null || playground == null)
       throw new IllegalArgumentException();
     
-    this.game       = game;
+    this.game       = g;
     this.playground = playground;
     
     // Set working thread
     Runnable run = new Runnable()
-    {      
+    {
       @Override
       public void run()
       {        
         try
         {
-          for(;;)
+          // Wait for the game to start
+          while(!game.isRunning())
+            Thread.sleep(1000);
+          
+          // Run until game stopps
+          while(game.isRunning())
           {
             tick();
             Thread.sleep(400);
@@ -66,7 +71,7 @@ class AIPlayer extends Player
       }
     };
     
-    Thread thread = new Thread(run, "AIPlayer #" + getID());
+    Thread thread = new Thread(run, "AIPlayer #" + hashCode());
     thread.setPriority(Thread.MIN_PRIORITY);
     thread.start();
   }
@@ -300,7 +305,7 @@ class AIPlayer extends Player
   private boolean move(int dx, int dy)
   {
     System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
-    boolean moved = this.game.movePlayer(this, dy, dx);
+    boolean moved = this.game.movePlayer(this, dx, dy);
     
     if(moved)
     {
@@ -327,8 +332,8 @@ class AIPlayer extends Player
     if(currentPath.size() > 0) // Solange noch ein Pfad existiert, laufen wir
     {
       int[] node = currentPath.remove(0);
-      if(!move(gridX - node[0], gridY - node[1]))
-        currentPath = new ArrayList<int[]>(); // Delete path because it must be invalid
+      if(!move(node[0] - gridX, node[1] - gridY)) // Move expects relative direction
+        currentPath = new ArrayList<int[]>();     // Delete path because it must be invalid
     }
     else if(bombs.size() < 1) // Es kann noch ne Bombe gelegt werden
     {

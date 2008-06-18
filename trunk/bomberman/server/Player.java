@@ -29,9 +29,11 @@ public class Player extends Element implements Explodable
   protected Game   game;
   protected String nickname;
   protected int    id;
-     
+
   public Player(Game game, String nickname)
   {
+    super(0, 0);
+    
     this.game     = game;
     this.nickname = nickname;
   }
@@ -70,7 +72,7 @@ public class Player extends Element implements Explodable
   {
     System.out.println("Spieler " + nickname + " legt Bombe bei " + gridX + "/" + gridY);
     
-    Bomb bomb = new Bomb();
+    Bomb bomb = new Bomb(gridX, gridY);
     this.bombs.add(bomb);
     
     this.game.getPlayground().setElement(gridX, gridY, 0, bomb);

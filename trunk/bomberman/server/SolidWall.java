@@ -27,6 +27,11 @@ class SolidWall extends Wall
 {
   public static final String IMAGE_FILENAME = "resource/gfx/solid_wall.png";
   
+  public SolidWall(int x, int y)
+  {
+    super(x, y);
+  }
+  
   public String getImageFilename()
   {
     return IMAGE_FILENAME;

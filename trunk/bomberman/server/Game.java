@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Represents a game that can be created and started by the users.
  * @author Kai Ritterbusch
  * @author Christian Lins
  */
@@ -51,7 +51,7 @@ public class Game implements Serializable
    */
   public void addAI()
   {
-    while(players.size() < 2)
+    while(players.size() < 4)
       addPlayer(new AIPlayer(this, playground));
   }
   
