@@ -20,13 +20,13 @@
 package bomberman.client.gui;
 
 import bomberman.client.io.Resource;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.rmi.RemoteException;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.plaf.basic.BasicTextAreaUI;
-import javax.swing.plaf.basic.BasicTextUI;
 
 /**
  * When a user has joined a game this panel is shown.
@@ -52,8 +52,15 @@ public class WaitingPanel extends javax.swing.JPanel
       @Override
       public void paintBackground(Graphics g)
       {
-        g.setColor(Color.BLUE);
-        g.drawRect(0, 0, 100, 100);
+        g.setColor(new Color(0, 0, 0, 150));
+        g.fillRect(0, 0, txtInfo.getWidth(), txtInfo.getHeight());
+      }
+      
+      @Override
+      public void paintSafely(Graphics g)
+      {
+        paintBackground(g);
+        super.paintSafely(g);
       }
     });
     
@@ -63,7 +70,6 @@ public class WaitingPanel extends javax.swing.JPanel
       }
     });
   }
-  
   
   public JTextArea gettxtInfo()
   {
@@ -83,24 +89,19 @@ public class WaitingPanel extends javax.swing.JPanel
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    jScrollPane1 = new javax.swing.JScrollPane();
-    txtInfo = new javax.swing.JTextArea();
     btnStartGame = new javax.swing.JButton();
+    txtInfo = new javax.swing.JTextArea();
 
-    jScrollPane1.setBackground(new java.awt.Color(1, 1, 1));
-    jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+    btnStartGame.setText("Spiel starten");
 
-    txtInfo.setBackground(new Color(255, 255, 255, 75));
     txtInfo.setColumns(20);
     txtInfo.setEditable(false);
     txtInfo.setForeground(new java.awt.Color(254, 254, 254));
     txtInfo.setRows(5);
+    txtInfo.setAutoscrolls(false);
     txtInfo.setBorder(null);
     txtInfo.setDoubleBuffered(true);
-    jScrollPane1.setViewportView(txtInfo);
-
-    btnStartGame.setText("Spiel starten");
+    txtInfo.setOpaque(false);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -110,17 +111,18 @@ public class WaitingPanel extends javax.swing.JPanel
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(layout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+            .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
             .addContainerGap())
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addComponent(btnStartGame)
+            .addGap(121, 121, 121)
+            .addComponent(btnStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGap(132, 132, 132))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addContainerGap(180, Short.MAX_VALUE)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(182, Short.MAX_VALUE)
+        .addComponent(txtInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(btnStartGame))
     );
@@ -129,7 +131,6 @@ public class WaitingPanel extends javax.swing.JPanel
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnStartGame;
-  private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JTextArea txtInfo;
   // End of variables declaration//GEN-END:variables
   
