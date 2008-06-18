@@ -19,7 +19,6 @@
 
 package bomberman.server;
 
-import bomberman.server.gui.ServerControlPanel;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -31,6 +30,7 @@ public class ServerThread extends Thread
   
   public ServerThread(boolean daemon)
   {
+    super("ServerThread");
     setDaemon(daemon);
   }
   
@@ -69,15 +69,12 @@ public class ServerThread extends Thread
     }
   }
   
-  public void stopThread()
+  public synchronized void stopThread()
   {
     try
     {
       Registry.unbind("KCBombermanServer");
-      synchronized(this)
-      {
-        notify();
-      }
+      notify();
     }
     catch(Exception ex)
     {

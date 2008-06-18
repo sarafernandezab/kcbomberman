@@ -27,6 +27,11 @@ class ExplodableWall extends Wall implements Explodable
 {
   public static final String IMAGE_FILENAME = "resource/gfx/explodable_wall.png";
   
+  public ExplodableWall(int x, int y)
+  {
+    super(x, y);
+  }
+  
   public String getImageFilename()
   {
     return IMAGE_FILENAME;

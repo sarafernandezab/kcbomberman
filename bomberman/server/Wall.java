@@ -27,7 +27,8 @@ import bomberman.server.api.Element;
  */
 abstract class Wall extends Element
 {
-  public Wall()
+  public Wall(int x, int y)
   {
+    super(x, y);
   }
 }

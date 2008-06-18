@@ -48,7 +48,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   public Server() throws RemoteException
   {
-    Thread updater = new Thread()
+    Runnable run = new Runnable()
     {
       @Override
       public void run()
@@ -66,7 +66,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 for(Session sess : game.getPlayerSessions())
                   clients.get(sess).playgroundUpdate(game.getPlayground());
               }
-              sleep(100);
+              Thread.sleep(100);
             }
             catch(Exception ex)
             {
@@ -76,6 +76,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         }
       }
     };
+    Thread updater = new Thread(run, "Playground updater");
     updater.setPriority(Thread.MIN_PRIORITY);
     updater.setDaemon(true);
     updater.start();
@@ -304,7 +305,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     
   }
-  // Close a game
+  
+  /**
+   * Stopps and deletes a game.
+   * @param gameName
+   * @return
+   * @throws java.rmi.RemoteException
+   */
   public boolean closeGame(String gameName) throws RemoteException
   {    
     // delete player <-> game connection
@@ -318,7 +325,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     logoutMessage(games.get(gameName));
     
     // close the game
-    //games.remove(gameName);         
+    games.remove(gameName).setRunning(false);         
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)

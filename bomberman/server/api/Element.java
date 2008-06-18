@@ -26,11 +26,6 @@ public abstract class Element implements Serializable
 {
   protected int gridX;
   protected int gridY;
-	
-  public Element()
-  {
-      
-  }
   
   public Element(int x, int y)
   {

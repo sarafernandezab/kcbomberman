@@ -27,6 +27,11 @@ import bomberman.server.api.Element;
  */
 class Bomb extends Element implements Explodable
 {
+  public Bomb(int x, int y)
+  {
+    super(x, y);
+  }
+  
   public String getImageFilename()
   {
     return "resource/gfx/bomb/bomb1.png";

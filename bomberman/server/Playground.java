@@ -57,7 +57,7 @@ public class Playground implements Serializable
         // Solid borders
         if ((x == 0) || (x == cols - 1) || (y == 0) || (y == rows - 1))
         {
-          this.matrix[x][y][0] = new SolidWall(); // A solid wall
+          this.matrix[x][y][0] = new SolidWall(x, y); // A solid wall
         }
         // Player starting points
         else if ((x == 1 && (y == 1 || y == 2)) || (x == 2 && y == 1) || // Links oben
@@ -71,7 +71,7 @@ public class Playground implements Serializable
         // Solid walls within
         else if ((y % 2 == 0) && (x % 2 == 0))
         {
-          this.matrix[x][y][0] = new SolidWall(); // Solid wall
+          this.matrix[x][y][0] = new SolidWall(x, y); // Solid wall
         }
         else
         {
@@ -81,7 +81,7 @@ public class Playground implements Serializable
           }
           else
           {
-            matrix[x][y][0] = new ExplodableWall(); // Exploadable wall
+            matrix[x][y][0] = new ExplodableWall(x, y); // Exploadable wall
  
             // Extras are placed later when a Wall explodes.
           }
