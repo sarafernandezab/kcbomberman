@@ -45,34 +45,7 @@ class AIPlayer extends Player
     this.game       = g;
     this.playground = playground;
     
-    // Set working thread
-    Runnable run = new Runnable()
-    {
-      @Override
-      public void run()
-      {        
-        try
-        {
-          // Wait for the game to start
-          while(!game.isRunning())
-            Thread.sleep(1000);
-          
-          // Run until game stopps
-          while(game.isRunning())
-          {
-            tick();
-            Thread.sleep(400);
-          }
-        }
-        catch(Exception ex)
-        {
-          ex.printStackTrace();
-        }
-      }
-    };
-    
-    Thread thread = new Thread(run, "AIPlayer #" + hashCode());
-    thread.setPriority(Thread.MIN_PRIORITY);
+    Thread thread = new AIPlayerThread(this, g);
     thread.start();
   }
   
@@ -318,7 +291,7 @@ class AIPlayer extends Player
   /**
    * A small step for AI...
    */
-  private void tick()
+  public void tick()
   {
     if(!this.game.isRunning())
       return;
