@@ -33,6 +33,18 @@ import java.util.ArrayList;
  */
 public interface ServerListenerInterface extends Remote 
 {
+  /**
+   * On the playground the Client is currently playing,
+   * an explosion has occurred.
+   * This methods requests the Client gui to display this explosion.
+   * @param x
+   * @param y
+   * @param distance
+   * @throws java.rmi.RemoteException
+   */
+  public void explosion(int x, int y, int distance)
+    throws RemoteException;
+  
   public void receiveChatMessage(String message)
     throws RemoteException;
   

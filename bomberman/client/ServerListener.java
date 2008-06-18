@@ -44,9 +44,13 @@ public class ServerListener
 {
   public ServerListener() throws RemoteException
   {
-    
   }
   
+  public void explosion(int x, int y, int distance)
+          throws RemoteException
+  {
+    
+  }
   
   public void gameListUpdate(ArrayList<GameInfo> gameInfo)
           throws RemoteException
