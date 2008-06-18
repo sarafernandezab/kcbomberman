@@ -20,9 +20,7 @@
 package bomberman.client.gui;
 
 import bomberman.server.Session;
-import bomberman.server.Game;
-import bomberman.server.api.InvalidSessionException;
-import bomberman.server.gui.ServerControlPanel;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -32,7 +30,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableColumn;
 import javax.swing.text.Document;
 
 /**
@@ -48,16 +45,19 @@ public class LobbyPanel extends javax.swing.JPanel
   {
     initComponents();
     
-    txtChatInput.addKeyListener(new KeyAdapter()     {
-           public void keyPressed(KeyEvent ke)
-           {
-             if(ke.getKeyCode() == KeyEvent.VK_ENTER)
-                btnChatActionPerformed(null);
-           }
-      });
+    txtChatInput.addKeyListener(new KeyAdapter()     
+    {
+      @Override
+      public void keyPressed(KeyEvent ke)
+      {
+        if(ke.getKeyCode() == KeyEvent.VK_ENTER)
+          btnChatActionPerformed(null);
+      }
+    });
     
     tblGamelist.getTableHeader().addMouseListener(new MouseAdapter() 
     {
+      @Override
       public void mousePressed(MouseEvent evt) 
       {
          activeCol =  tblGamelist.columnAtPoint(evt.getPoint());
@@ -220,9 +220,12 @@ public class LobbyPanel extends javax.swing.JPanel
     try
     {
       String[] msg = {"Bitte geben Sie einen Namen f\u00FCr das Spiel an!"};
-      String gameName = JOptionPane.showInputDialog(msg);
-      Session session = bomberman.client.ClientThread.Session;
-      bomberman.client.ClientThread.Server.createGame(session, gameName);
+      String gameName = JOptionPane.showInputDialog(msg, "Neues Spiel");
+      if(gameName != null)
+      {
+        Session session = bomberman.client.ClientThread.Session;
+        bomberman.client.ClientThread.Server.createGame(session, gameName);
+      }
     }   
     catch(Exception ex)
     {      
