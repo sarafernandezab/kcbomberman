@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import bomberman.client.api.ServerListenerInterface;
+import bomberman.server.api.Explodable;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
@@ -103,6 +104,22 @@ public class Server extends UnicastRemoteObject implements ServerInterface
               for(Session sess : game.getSpectatorSessions())
               {
                 clients.get(sess).explosion(x, y, dist);
+              }
+              
+              // Delete exploded elements
+              for(int i = 1; i <= dist; i++)
+              {
+                for(int k = 0; k < 5; k++)
+                {
+                  if(game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
+                    game.getPlayground().setElement(x+i, y, k, null);                  
+                  if(game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
+                    game.getPlayground().setElement(x-i, y, k, null);
+                  if(game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
+                    game.getPlayground().setElement(x, y+i, k, null);                  
+                  if(game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
+                    game.getPlayground().setElement(x, y-i, k, null);               
+                }
               }
             }
             
