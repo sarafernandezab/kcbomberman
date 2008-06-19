@@ -72,6 +72,7 @@ public class ElementPainter extends JComponent
     if(explStage > 5)
     {
       this.explTimer.cancel();
+      explStage = 0;
     }
   }
   

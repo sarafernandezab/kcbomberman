@@ -43,6 +43,8 @@ class Bomb extends Element implements Explodable
     System.out.println(this + " explodiert!");
     player.bombs.remove(this);
     player.game.getPlayground().setElement(gridX, gridY, 0, null);
+    
+    Server.getInstance().notifyExplosion(player.game, gridX, gridY, player.bombDistance);
   }
   
   @Override

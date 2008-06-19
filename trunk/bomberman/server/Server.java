@@ -32,6 +32,8 @@ import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * TODO: Shared resources of this class have to be synchronized
@@ -41,46 +43,80 @@ public class Server extends UnicastRemoteObject implements ServerInterface
 {
   public static final long serialVersionUID = 23482528;
   
+  private static Server instance;
+  
+  static Server getInstance()
+  {
+    return instance;
+  }
+  
   private HashMap<Session,Player>                   players = new HashMap<Session,Player>(); 
   private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
   private HashMap<String, Game>                     games  = new HashMap<String, Game>();
   private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
+  private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
   
   public Server() throws RemoteException
   {
+    instance = this;
+    
     Runnable run = new Runnable()
     {
+
       @Override
       public void run()
       {
-        for(;;)
+        for (;;)
         {
-          for(Entry<String, Game> e : games.entrySet())
+          try
           {
-            try
+            for (Entry<String, Game> e : games.entrySet())
             {
-              if(e.getValue().isPlaygroundUpdateRequired())
+              if (e.getValue().isPlaygroundUpdateRequired())
               {
                 Game game = e.getValue();
                 // Updates Playground when moved
-                for(Session sess : game.getPlayerSessions())
+                for (Session sess : game.getPlayerSessions())
+                {
                   clients.get(sess).playgroundUpdate(game.getPlayground());
+                }
                 // Updates Playground for Spectator when moved
-                for(Session sess : game.getSpectatorSessions())
+                for (Session sess : game.getSpectatorSessions())
+                {
                   clients.get(sess).playgroundUpdate(game.getPlayground());
+                }
               }
-              Thread.sleep(100);
             }
-            catch(Exception ex)
+            
+            // Process all explosions
+            while(!explosions.isEmpty())
             {
-              ex.printStackTrace();
+              List<Object> explData = explosions.remove();
+              Game game = (Game)explData.get(0);
+              int x = (Integer)explData.get(1);
+              int y = (Integer)explData.get(2);
+              int dist = (Integer)explData.get(3);
+              for(Session sess : game.getPlayerSessions())
+              {
+                clients.get(sess).explosion(x, y, dist);
+              }
+              for(Session sess : game.getSpectatorSessions())
+              {
+                clients.get(sess).explosion(x, y, dist);
+              }
             }
+            
+            Thread.yield();
+          }
+          catch (Exception ex)
+          {
+            ex.printStackTrace();
           }
         }
       }
     };
     Thread updater = new Thread(run, "Playground updater");
-    updater.setPriority(Thread.MIN_PRIORITY);
+    //updater.setPriority(Thread.MIN_PRIORITY);
     updater.setDaemon(true);
     updater.start();
     
@@ -102,6 +138,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     if(!clients.containsKey(session))
       throw new InvalidSessionException();
+  }
+  
+  void notifyExplosion(Game game, int x, int y, int distance)
+  {
+    List<Object> data = new ArrayList<Object>();
+    data.add(game);
+    data.add(x);
+    data.add(y);
+    data.add(distance);
+    this.explosions.add(data);
   }
   
   /**

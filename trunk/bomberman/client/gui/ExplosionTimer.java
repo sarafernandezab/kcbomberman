@@ -37,10 +37,18 @@ class ExplosionTimer extends TimerTask
     
     this.timer.schedule(this, delay, period);
   }
+  
+  @Override
+  public boolean cancel()
+  {
+    this.timer.cancel();
+    return super.cancel();
+  }
 
   @Override
   public void run()
   {
     painter.nextExplosionImage();
+    painter.repaint();
   }
 }

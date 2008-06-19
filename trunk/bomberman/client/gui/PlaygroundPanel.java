@@ -83,18 +83,19 @@ public class PlaygroundPanel
   
   public void drawExplosion(int x, int y, int distance)
   {
-    this.elementPainter[x][y].newExplosion(0, 100);
+    int explPeriod = 150;
+    this.elementPainter[x][y].newExplosion(0, explPeriod);
     
     for(int i = 1; i <= distance; i++)
     {
       if(x + i < this.elementPainter.length)
-        this.elementPainter[x + i][y].newExplosion(i * 100, 100);
+        this.elementPainter[x + i][y].newExplosion(i * explPeriod, explPeriod);
       if(x - i >= 0)
-        this.elementPainter[x - i][y].newExplosion(i * 100, 100);
+        this.elementPainter[x - i][y].newExplosion(i * explPeriod, explPeriod);
       if(y + i < this.elementPainter[0].length)
-        this.elementPainter[x][y + i].newExplosion(i * 100, 100);
+        this.elementPainter[x][y + i].newExplosion(i * explPeriod, explPeriod);
       if(y - i >= 0)
-        this.elementPainter[x][y - i].newExplosion(i * 100, 100);
+        this.elementPainter[x][y - i].newExplosion(i * explPeriod, explPeriod);
     }
   }
   
