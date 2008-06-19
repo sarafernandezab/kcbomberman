@@ -91,7 +91,7 @@ public class ElementPainter extends JComponent
     }
     
     // Draw explosion if one has occurred
-    if(explStage > 0 && (element == null || (element instanceof Explodable)))
+    if(explStage > 0 && (getElement() == null || (getElement() instanceof Explodable)))
     {
       Image img = ImageCache.get(EXPLOSION_IMAGE + (explStage + 1) + ".png");
       g.drawImage(img, 0, 0, null);
@@ -131,5 +131,11 @@ public class ElementPainter extends JComponent
         }
       }
     }
+  }
+
+  public
+  Element getElement()
+  {
+    return element;
   }
 }
