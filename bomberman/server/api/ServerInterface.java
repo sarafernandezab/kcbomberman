@@ -51,6 +51,9 @@ public interface ServerInterface extends Remote
   boolean joinGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
   
+  boolean joinViewGame(Session session, String gameName)
+    throws RemoteException, InvalidSessionException;
+  
   boolean startGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
   
