@@ -18,12 +18,16 @@
  */
 package bomberman.server;
 
+import java.util.Random;
+
 /**
  *
  * @author chris
  */
 class AIPlayerThread extends Thread
 {
+  public static final int TICK_TIME = 300 + new Random().nextInt(100);
+  
   private Game     game;
   private AIPlayer player;
   
@@ -34,7 +38,7 @@ class AIPlayerThread extends Thread
     this.game   = game;
     this.player = player;
     
-    setPriority(Thread.MIN_PRIORITY);
+    //setPriority(Thread.MIN_PRIORITY);
   }
   
   @Override
@@ -45,14 +49,14 @@ class AIPlayerThread extends Thread
       // Wait for the game to start
       while (!game.isRunning())
       {
-        Thread.sleep(1000);
+        Thread.sleep(100);
       }
 
       // Run until game stopps
       while (game.isRunning())
       {
         player.tick();
-        Thread.sleep(400);
+        Thread.sleep(TICK_TIME);
       }
     }
     catch (Exception ex)

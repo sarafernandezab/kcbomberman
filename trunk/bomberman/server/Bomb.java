@@ -38,12 +38,20 @@ class Bomb extends Element implements Explodable
     new BombTimer(this);
   }
   
+  void explode()
+  {
+    System.out.println(this + " explodiert!");
+    player.bombs.remove(this);
+    player.game.getPlayground().setElement(gridX, gridY, 0, null);
+  }
+  
+  @Override
   public String getImageFilename()
   {
     return "resource/gfx/bomb/bomb" + stage + ".png";
   }
   
-  public int tick()
+  int tick()
   {
     player.game.forcePlaygroundUpdate();
     return ++stage;
