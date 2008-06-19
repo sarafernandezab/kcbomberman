@@ -45,6 +45,13 @@ public interface ServerListenerInterface extends Remote
   public void explosion(int x, int y, int distance)
     throws RemoteException;
   
+  /**
+   * The server notifies the client player that it has died.
+   * @throws java.rmi.RemoteException
+   */
+  public void youDied()
+    throws RemoteException;
+  
   public void receiveChatMessage(String message)
     throws RemoteException;
   
