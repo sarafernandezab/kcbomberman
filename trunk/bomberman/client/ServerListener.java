@@ -49,7 +49,8 @@ public class ServerListener
   public void explosion(int x, int y, int distance)
           throws RemoteException
   {
-    
+    PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
+    pp.drawExplosion(x, y, distance);
   }
   
   public void gameListUpdate(ArrayList<GameInfo> gameInfo)

@@ -38,14 +38,41 @@ import javax.swing.JComponent;
  */
 public class ElementPainter extends JComponent
 {
-  public static final int DEFAULT_SIZE = 40;
+  public static final int    DEFAULT_SIZE    = 40;
+  public static final String EXPLOSION_IMAGE = "resource/gfx/explosion/expl";
   
-  private static HashMap<String, Image> ImageCache = new HashMap<String, Image>();
+  private static HashMap<String, Image> ImageCache;
   
-  private Image[] images = new Image[5];
+  static
+  {
+    ImageCache = new HashMap<String, Image>();
+    for(int n = 1; n <= 5; n++)
+    {
+      Image img = Resource.getImage(EXPLOSION_IMAGE + n + ".png").getImage();
+      ImageCache.put(EXPLOSION_IMAGE + n + ".png", img);
+    }
+  }
+  
+  private Image[] images    = new Image[5];
+  private int     explStage = 0;
+  private ExplosionTimer explTimer;
   
   public ElementPainter()
   {
+  }
+  
+  void newExplosion(int delay, int period)
+  {
+    this.explTimer = new ExplosionTimer(this, delay, period);
+  }
+  
+  void nextExplosionImage()
+  {
+    explStage++;
+    if(explStage > 5)
+    {
+      this.explTimer.cancel();
+    }
   }
   
   @Override
@@ -58,6 +85,13 @@ public class ElementPainter extends JComponent
     {
       if(img != null)
         g.drawImage(img, 0, 0,null);  
+    }
+    
+    // Draw explosion if one has occurred
+    if(explStage > 0)
+    {
+      Image img = ImageCache.get(EXPLOSION_IMAGE + (explStage + 1) + ".png");
+      g.drawImage(img, 0, 0, null);
     }
   }
   
