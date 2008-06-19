@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.client.io.Resource;
 import bomberman.server.api.Element;
 
+import bomberman.server.api.Explodable;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -56,6 +57,7 @@ public class ElementPainter extends JComponent
   private Image[] images    = new Image[5];
   private int     explStage = 0;
   private ExplosionTimer explTimer;
+  private Element element;
   
   public ElementPainter()
   {
@@ -85,11 +87,11 @@ public class ElementPainter extends JComponent
     for(Image img : images)
     {
       if(img != null)
-        g.drawImage(img, 0, 0,null);  
+        g.drawImage(img, 0, 0, null);  
     }
     
     // Draw explosion if one has occurred
-    if(explStage > 0)
+    if(explStage > 0 && (element == null || (element instanceof Explodable)))
     {
       Image img = ImageCache.get(EXPLOSION_IMAGE + (explStage + 1) + ".png");
       g.drawImage(img, 0, 0, null);
@@ -110,6 +112,8 @@ public class ElementPainter extends JComponent
   
   public void setElement(Element[] elements)
   {
+    this.element = elements[0];
+    
     for(int n = 0; n < elements.length; n++)
     {
       if(elements[n] == null)

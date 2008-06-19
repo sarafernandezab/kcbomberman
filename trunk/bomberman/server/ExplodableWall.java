@@ -19,6 +19,8 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Explodable;
+
 /**
  * An exploadable wall.
  * @author Christian Lins (christian.lins@web.de)

@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Explodable;
 import bomberman.server.api.Element;
 import java.util.ArrayList;
 import java.util.List;
