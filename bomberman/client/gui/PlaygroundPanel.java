@@ -81,6 +81,23 @@ public class PlaygroundPanel
     MainFrame.getInstance().repaint();
   }
   
+  public void drawExplosion(int x, int y, int distance)
+  {
+    this.elementPainter[x][y].newExplosion(0, 100);
+    
+    for(int i = 1; i <= distance; i++)
+    {
+      if(x + i < this.elementPainter.length)
+        this.elementPainter[x + i][y].newExplosion(i * 100, 100);
+      if(x - i >= 0)
+        this.elementPainter[x - i][y].newExplosion(i * 100, 100);
+      if(y + i < this.elementPainter[0].length)
+        this.elementPainter[x][y + i].newExplosion(i * 100, 100);
+      if(y - i >= 0)
+        this.elementPainter[x][y - i].newExplosion(i * 100, 100);
+    }
+  }
+  
   public void keyTyped(KeyEvent event) {}
   public void keyReleased(KeyEvent event) {}
   
