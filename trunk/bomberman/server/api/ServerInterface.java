@@ -19,7 +19,6 @@
 
 package bomberman.server.api;
 
-import bomberman.server.Game;
 import bomberman.client.api.ServerListenerInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -33,27 +32,82 @@ import bomberman.server.Session;
  */
 public interface ServerInterface extends Remote
 {
+  /**
+   * Client wants to login with the given username.
+   * The server may throw an RemoteException if the username is 
+   * already used.
+   * @param nickname
+   * @param sli
+   * @throws java.rmi.RemoteException
+   */
   void login(String nickname, ServerListenerInterface sli)
     throws RemoteException;
   
+  /**
+   * The client notfies the server that it was logged out (mostly
+   * implicit through closing the client's frame).
+   * @param session
+   * @throws java.rmi.RemoteException
+   */
   void logout(Session session)
     throws RemoteException;
   
-  void logoutMessage(Game game)
-    throws RemoteException;
-  
+  /**
+   * Sends a chat message to the public channel.
+   * @param session
+   * @param message
+   * @throws java.rmi.RemoteException
+   * @throws bomberman.server.api.InvalidSessionException
+   */
   void sendChatMessage(Session session, String message)
     throws RemoteException, InvalidSessionException;
   
+  /**
+   * Creates a new game on the server.
+   * @param session
+   * @param gameName
+   * @return
+   * @throws java.rmi.RemoteException
+   * @throws bomberman.server.api.InvalidSessionException
+   */
   boolean createGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
 
+  /**
+   * A player wants to join the game.
+   * @param session
+   * @param gameName
+   * @return
+   * @throws java.rmi.RemoteException
+   * @throws bomberman.server.api.InvalidSessionException
+   */
   boolean joinGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
   
+  /**
+   * A spectator wants to join the game.
+   * @param session
+   * @param gameName
+   * @return
+   * @throws java.rmi.RemoteException
+   * @throws bomberman.server.api.InvalidSessionException
+   */
   boolean joinViewGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
   
+  /**
+   * The creator of a game wants to start the game through his 
+   * WaitingPanel. The Server checks the session of validity and
+   * if the caller is indeed the creator of the game.
+   * @param session
+   * @param gameName
+   * @return true if the game was startet, false if the caller is not
+   * the creator of the game. The return value is only for debugging reasons,
+   * because every client that waits for the game is notfied through the
+   * @see{ServerListenerInterface} that the game was started.
+   * @throws java.rmi.RemoteException
+   * @throws bomberman.server.api.InvalidSessionException
+   */
   boolean startGame(Session session, String gameName)
     throws RemoteException, InvalidSessionException;
   

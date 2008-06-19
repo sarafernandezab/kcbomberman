@@ -33,16 +33,15 @@ public class GameInfo implements Serializable
   private String status       = null;
   private String playerCount  = null;
   
-  
   public GameInfo(String gameName, String creator, boolean isRunning, int playerCount)
   {
     this.gameName = gameName;
     this.creator  = creator;
     
     if(isRunning)
-      this.status = "started...";
+      this.status = "Gestartet";
     else
-      this.status = "waiting...";
+      this.status = "Warten...";
     
     this.playerCount = playerCount + "/4";
   }
