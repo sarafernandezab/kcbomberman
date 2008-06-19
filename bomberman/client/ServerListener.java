@@ -74,9 +74,9 @@ public class ServerListener
     }
   }
   
-  public void gameStarted() throws RemoteException
+  public void gameStarted(boolean spectStatus) throws RemoteException
   {
-    MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, false));
+    MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, spectStatus));
     MainFrame.getInstance().setVisible(true);
     MainFrame.getInstance().repaint();
     System.out.println("Game start");

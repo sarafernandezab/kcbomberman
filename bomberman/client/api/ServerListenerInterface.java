@@ -80,7 +80,7 @@ public interface ServerListenerInterface extends Remote
    * Is called if the server starts the game this client has joined.
    * @throws java.rmi.RemoteException
    */
-  public void gameStarted()
+  public void gameStarted(boolean specStatus)
     throws RemoteException;
   
   public void userListUpdate(ArrayList<String> users)
