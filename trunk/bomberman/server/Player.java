@@ -24,6 +24,10 @@ import bomberman.server.api.Element;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Extras
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ */
 public class Player extends Element implements Explodable
 {
   protected List<Bomb> bombs = new ArrayList<Bomb>();
