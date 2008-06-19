@@ -19,33 +19,33 @@
 
 package bomberman.server;
 
-import bomberman.server.api.Element;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
- * The BOMB!
- * @author Christian Lins (christian.lins@web.de)
+ *
+ * @author chris
  */
-class Bomb extends Element implements Explodable
+class BombTimer extends TimerTask
 {
-  private Player player;
-  private int    stage = 1;
+  public static final int BOMB_TIME = 5000;
   
-  public Bomb(int x, int y, Player player)
-  {
-    super(x, y);
-    this.player = player;
+  private Timer timer = new Timer();
+  private Bomb bomb;
     
-    new BombTimer(this);
-  }
-  
-  public String getImageFilename()
+  public BombTimer(Bomb bomb)
   {
-    return "resource/gfx/bomb/bomb" + stage + ".png";
+    this.bomb = bomb;
+    timer.schedule(this, BOMB_TIME / 6, BOMB_TIME / 6);
   }
-  
-  public int tick()
+    
+  @Override
+  public void run()
   {
-    player.game.forcePlaygroundUpdate();
-    return ++stage;
-  }
+    if(bomb.tick() >= 6)
+    {
+      System.out.println(bomb + " explodiert!");
+      timer.cancel();
+    }
+  }  
 }

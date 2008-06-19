@@ -72,7 +72,7 @@ public class Player extends Element implements Explodable
   {
     System.out.println("Spieler " + nickname + " legt Bombe bei " + gridX + "/" + gridY);
     
-    Bomb bomb = new Bomb(gridX, gridY);
+    Bomb bomb = new Bomb(gridX, gridY, this);
     this.bombs.add(bomb);
     
     this.game.getPlayground().setElement(gridX, gridY, 0, bomb);
