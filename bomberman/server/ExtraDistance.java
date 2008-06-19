@@ -7,7 +7,7 @@ package bomberman.server;
 
 /**
  *
- * @author kai
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class ExtraDistance extends Extra
 {

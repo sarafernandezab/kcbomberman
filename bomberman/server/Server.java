@@ -119,25 +119,25 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 for(int k = 0; k < 5; k++)
                 {
                   if(!right)
-                    if(game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
+                    if(game.getPlayground().getElement(x+i, y) != null && game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
                     {
                       game.getPlayground().setElement(x+i, y, k, getRandomizeExtra(x+i,y)); 
                       right = true;
                     }
                   if(!left)
-                    if(game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
+                    if(game.getPlayground().getElement(x-i, y)[k] != null && game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
                     {
                       game.getPlayground().setElement(x-i, y, k, getRandomizeExtra(x-i,y));
                       left = true;
                     }
                   if(!top)
-                    if(game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
+                    if(game.getPlayground().getElement(x, y+i)[k] != null && game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
                     {
                       game.getPlayground().setElement(x, y+i, k, getRandomizeExtra(x,y+i));                  
                       top = true;
                     }
                   if(!bottom)
-                    if(game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
+                    if(game.getPlayground().getElement(x, y-i)[k] != null && game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
                     {
                       game.getPlayground().setElement(x, y-i, k, getRandomizeExtra(x,y-i));               
                       bottom = true;
