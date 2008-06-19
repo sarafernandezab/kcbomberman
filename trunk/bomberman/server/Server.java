@@ -119,27 +119,27 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 for(int k = 0; k < 5; k++)
                 {
                   if(!right)
-                    if(game.getPlayground().getElement(x+i, y) != null && game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
+                    if(game.getPlayground().getElement(x+i, y)[k] != null && game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x+i, y, k, getRandomizeExtra(x+i,y)); 
+                      game.getPlayground().setElement(x+i, y, 0, getRandomizeExtra(x+i,y)); 
                       right = true;
                     }
                   if(!left)
                     if(game.getPlayground().getElement(x-i, y)[k] != null && game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x-i, y, k, getRandomizeExtra(x-i,y));
+                      game.getPlayground().setElement(x-i, y, 0, getRandomizeExtra(x-i,y));
                       left = true;
                     }
                   if(!top)
                     if(game.getPlayground().getElement(x, y+i)[k] != null && game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x, y+i, k, getRandomizeExtra(x,y+i));                  
+                      game.getPlayground().setElement(x, y+i, 0, getRandomizeExtra(x,y+i));                  
                       top = true;
                     }
                   if(!bottom)
                     if(game.getPlayground().getElement(x, y-i)[k] != null && game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x, y-i, k, getRandomizeExtra(x,y-i));               
+                      game.getPlayground().setElement(x, y-i, 0, getRandomizeExtra(x,y-i));               
                       bottom = true;
                     }
                 }
@@ -174,9 +174,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     Random rn = new Random();
     float i = rn.nextFloat();
-    if(i < 0.2)
+    if(i < 0.1)
       return new ExtraDistance(x, y);
-    else if(i < 0.4)
+    else if(i < 0.2)
       return new ExtraBomb(x, y);
     else      
       return null;
