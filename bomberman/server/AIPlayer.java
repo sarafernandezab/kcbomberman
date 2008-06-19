@@ -39,6 +39,8 @@ class AIPlayer extends Player
   {
     super(g, "KI-Knecht");
     
+    this.nickname += hashCode();
+    
     if(g == null || playground == null)
       throw new IllegalArgumentException();
     

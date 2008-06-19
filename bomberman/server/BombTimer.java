@@ -28,7 +28,7 @@ import java.util.TimerTask;
  */
 class BombTimer extends TimerTask
 {
-  public static final int BOMB_TIME = 5000;
+  public static final int BOMB_TIME = 4000;
   
   private Timer timer = new Timer();
   private Bomb bomb;
