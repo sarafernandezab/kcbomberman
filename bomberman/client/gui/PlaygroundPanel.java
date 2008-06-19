@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.client.ClientThread;
 import bomberman.server.Playground;
 
+import bomberman.server.api.Explodable;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -86,16 +87,37 @@ public class PlaygroundPanel
     int explPeriod = 150;
     this.elementPainter[x][y].newExplosion(0, explPeriod);
     
+    boolean skipxp = false;
+    boolean skipxm = false;
+    boolean skipyp = false;
+    boolean skipym = false;
+    
     for(int i = 1; i <= distance; i++)
     {
-      if(x + i < this.elementPainter.length)
+      if(x + i < this.elementPainter.length && !skipxp)
+      {
         this.elementPainter[x + i][y].newExplosion(i * explPeriod, explPeriod);
-      if(x - i >= 0)
+        if(this.elementPainter[x + i][y].getElement() != null)
+          skipxp = true;
+      }
+      if(x - i >= 0 && !skipxm)
+      {
         this.elementPainter[x - i][y].newExplosion(i * explPeriod, explPeriod);
-      if(y + i < this.elementPainter[0].length)
+        if(this.elementPainter[x - i][y].getElement() != null)
+          skipxm = true;
+      }
+      if(y + i < this.elementPainter[0].length && !skipyp)
+      {
         this.elementPainter[x][y + i].newExplosion(i * explPeriod, explPeriod);
-      if(y - i >= 0)
+        if(this.elementPainter[x][y+i].getElement() != null)
+          skipyp = true;
+      }
+      if(y - i >= 0 && !skipym)
+      {
         this.elementPainter[x][y - i].newExplosion(i * explPeriod, explPeriod);
+        if(this.elementPainter[x][y-i].getElement() != null)
+          skipym = true;
+      }
     }
   }
   
