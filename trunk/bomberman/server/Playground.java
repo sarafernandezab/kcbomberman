@@ -109,7 +109,7 @@ public class Playground implements Serializable
     catch(ArrayIndexOutOfBoundsException ex)
     {
       return null;
-    }
+    }   
   }
   
   public void setElement(int x, int y, int layer, Element e)

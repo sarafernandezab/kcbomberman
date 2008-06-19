@@ -7,11 +7,11 @@ package bomberman.server;
 
 /**
  *
- * @author kai
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 class ExtraBomb extends Extra 
 {
-  public static final String IMAGE_FILENAME = "resource/gfx/extra/extraBomb.png";
+  public static final String IMAGE_FILENAME = "resource/gfx/extras/extraBomb.png";
   
   public ExtraBomb(int x, int y)
   {
