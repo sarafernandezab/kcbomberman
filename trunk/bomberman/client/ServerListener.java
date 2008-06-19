@@ -28,10 +28,8 @@ import bomberman.client.gui.WaitingPanel;
 import bomberman.client.io.Resource;
 import bomberman.server.Playground;
 import bomberman.server.Session;
-
 import bomberman.server.api.GameInfo;
-import java.applet.Applet;
-import java.applet.AudioClip;
+
 import java.awt.Container;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -40,6 +38,7 @@ import java.util.ArrayList;
 /**
  * Callback class for the Server to Client connection.
  * @author Kai Ritterbusch
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class ServerListener 
         extends UnicastRemoteObject 
@@ -52,6 +51,8 @@ public class ServerListener
   public void explosion(int x, int y, int distance)
           throws RemoteException
   {
+    new AudioThread(Resource.getAsURL("resource/sfx/explosion.wav")).start();
+
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawExplosion(x, y, distance);
   }
