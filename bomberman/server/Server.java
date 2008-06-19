@@ -178,10 +178,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
   }
   
-  // Logout with username
+  /**
+   * Logout with username
+   */ 
   public void logout(String userName) throws RemoteException
   {
-    for(Entry<Session, Player> ent : players.entrySet() )
+    for(Entry<Session, Player> ent : players.entrySet())
+    {
       if(ent.getValue().getNickname().equals(userName))
       {
         Game game = playerToGame.get(ent.getKey());
@@ -189,7 +192,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         {
           // send logoutmessage to other players in the game
           if(game.getCreator().equals(ent.getKey()))
-            logoutMessage(game);
+            stopGame(game);
         }
         this.clients.get(ent.getKey()).loggedOut();
         players.remove(ent.getKey());        
@@ -203,11 +206,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         // Notify all users of the new user 
         for(Session sess : clients.keySet())    
           clients.get(sess).userListUpdate(nicknames);
-      }      
+      }
+    }
   }
   
-  // Removes the player from game
-  public void logout(Session session)  throws RemoteException          
+  /**
+   * Logs out a client. 
+   */
+  public void logout(Session session)  
+    throws RemoteException          
   {
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
@@ -217,7 +224,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     Game game = playerToGame.get(session);     
     // send logoutmessage to other players in the game
     if(game.getCreator().equals(session))
-      logoutMessage(game);
+      stopGame(game);
     
     players.remove(session);
     clients.remove(session);
@@ -234,11 +241,25 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     gameListUpdate();
   }
   
-  // Sends logout-Message if Creator stopped Game
-  public void logoutMessage(Game game) throws RemoteException
-  {   
+  /**
+   * Stopps a game and sends a gameStopped() message to all players
+   * playing this specific game. Additionally this method stops all
+   * AIPlayerThreads running with this game.
+   * @param game
+   * @throws java.rmi.RemoteException
+   */
+  public void stopGame(Game game) throws RemoteException
+  {
+    game.setRunning(false);
+    
+    // Send gameStopped() message to all players
     for(Session sess : game.getPlayerSessions())
       clients.get(sess).gameStopped();
+    
+    // Send gameStopped() message to all spectators
+    for(Session sess : game.getSpectatorSessions())
+      clients.get(sess).gameStopped();
+    
     games.remove(game.toString()); 
   }
      
@@ -356,7 +377,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     for(Session sess : clients.keySet())    
       clients.get(sess).userListUpdate(nicknames);
     
-    
   }
   
   /**
@@ -375,7 +395,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     
     // All players of this Game will logged out        
-    logoutMessage(games.get(gameName));
+    stopGame(games.get(gameName));
     
     // close the game
     games.remove(gameName).setRunning(false);         
