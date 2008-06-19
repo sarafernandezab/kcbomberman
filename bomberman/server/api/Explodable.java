@@ -21,6 +21,10 @@ package bomberman.server.api;
 
 /**
  * All explodable game components must implement this interface.
+ * With this interface the client as well as the server can decide
+ * whether or not an @see{Element} is explodable or not.
+ * The client must omit the fireblast of explosions on not explodable
+ * elements.
  * @author Christian Lins (christian.lins@web.de)
  */
 public interface Explodable 

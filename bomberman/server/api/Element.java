@@ -19,9 +19,15 @@
 
 package bomberman.server.api;
 
-import java.awt.Graphics;
 import java.io.Serializable;
 
+/**
+ * One tile of the Playground that can be painted through the
+ * ElementPainter class on client side.
+ * There are various derived classes for the different tile
+ * types: @see{Bomb}, @see{Wall}, @see{Player}
+ * @author Christian Lins (christian.lins@web.de)
+ */
 public abstract class Element implements Serializable
 {
   protected int gridX;
