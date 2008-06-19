@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import bomberman.client.api.ServerListenerInterface;
+import bomberman.server.api.Element;
 import bomberman.server.api.Explodable;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
@@ -106,19 +107,40 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 clients.get(sess).explosion(x, y, dist);
               }
               
+              boolean top    = false;
+              boolean bottom = false;
+              boolean left   = false;
+              boolean right  = false;
+              
               // Delete exploded elements
               for(int i = 1; i <= dist; i++)
               {
                 for(int k = 0; k < 5; k++)
                 {
-                  if(game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
-                    game.getPlayground().setElement(x+i, y, k, null);                  
-                  if(game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
-                    game.getPlayground().setElement(x-i, y, k, null);
-                  if(game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
-                    game.getPlayground().setElement(x, y+i, k, null);                  
-                  if(game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
-                    game.getPlayground().setElement(x, y-i, k, null);               
+                  if(!right)
+                    if(game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
+                    {
+                      game.getPlayground().setElement(x+i, y, k, getRandomizeExtra()); 
+                      right = true;
+                    }
+                  if(!left)
+                    if(game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
+                    {
+                      game.getPlayground().setElement(x-i, y, k, getRandomizeExtra());
+                      left = true;
+                    }
+                  if(!top)
+                    if(game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
+                    {
+                      game.getPlayground().setElement(x, y+i, k, getRandomizeExtra());                  
+                      top = true;
+                    }
+                  if(!bottom)
+                    if(game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
+                    {
+                      game.getPlayground().setElement(x, y-i, k, getRandomizeExtra());               
+                      bottom = true;
+                    }
                 }
               }
             }
@@ -141,6 +163,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     if(ServerControlPanel.getInstance() != null)
       ServerControlPanel.getInstance().addLogMessages("ServerInstanz erstellt");
     System.out.println("ServerInstanz erstellt");
+  }
+  
+  /*
+   * Get randomized extras or null after explosion 
+   * @return Element or null
+   */
+  public Element getRandomizeExtra()
+  {
+    return null;
   }
   
   /**

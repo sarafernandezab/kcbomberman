@@ -32,7 +32,7 @@ public class Player extends Element implements Explodable
   protected int    id;
   
   // For extras
-  protected int bombDistance = 1;
+  protected int bombDistance = 3;
   protected int bombCount    = 1; 
 
   public Player(Game game, String nickname)
