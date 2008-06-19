@@ -150,10 +150,24 @@ public class Game implements Serializable
     
     Element el = this.playground.getElement(nx, ny)[0];
     if(el == null) // oder Extra
-    {
+    {  
       // Set old position in Playground to null...
       this.playground.setElement(player.getX(), player.getY(), player.getID(), null);
       // ...and set new position
+      player.setPosition(nx, ny);
+      this.playground.setElement(player.getX(), player.getY(), player.getID(), player);
+      
+      return true;
+    }
+    else if(el instanceof Extra)
+    {
+      if(el instanceof ExtraBomb)
+        player.raiseBombCount();
+      else
+        player.raiseBombDistance();
+      this.playground.setElement(el.getX(), el.getY(), 0, null);
+      // Set old position in Playground to null...
+      this.playground.setElement(player.getX(), player.getY(), player.getID(), null);
       player.setPosition(nx, ny);
       this.playground.setElement(player.getX(), player.getY(), player.getID(), player);
       
