@@ -44,7 +44,7 @@ class BombTimer extends TimerTask
   {
     if(bomb.tick() >= 6)
     {
-      System.out.println(bomb + " explodiert!");
+      bomb.explode();
       timer.cancel();
     }
   }  
