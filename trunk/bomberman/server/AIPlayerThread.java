@@ -26,7 +26,7 @@ import java.util.Random;
  */
 class AIPlayerThread extends Thread
 {
-  public static final int TICK_TIME = 300 + new Random().nextInt(100);
+  public static final int TICK_TIME = 350;
   
   private Game     game;
   private AIPlayer player;
@@ -38,7 +38,7 @@ class AIPlayerThread extends Thread
     this.game   = game;
     this.player = player;
     
-    //setPriority(Thread.MIN_PRIORITY);
+    setPriority(Thread.MIN_PRIORITY);
   }
   
   @Override
