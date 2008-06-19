@@ -29,8 +29,8 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
- * @author Kai Ritterbusch
+ * custum TableModel for LobbyPanel
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class GameListTableModel extends AbstractTableModel
 {

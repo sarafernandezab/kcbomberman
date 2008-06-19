@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.Document;
 
 /**
- *
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins
  */
 public class LobbyPanel extends javax.swing.JPanel 

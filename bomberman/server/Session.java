@@ -22,6 +22,10 @@ package bomberman.server;
 import java.io.Serializable;
 import java.util.Random;
 
+/**
+ * Creates randomized Session
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ */
 public class Session implements Serializable
 {
   static long serialVersionUID = 103984384;
