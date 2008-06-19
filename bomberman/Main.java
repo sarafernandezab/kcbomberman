@@ -55,7 +55,7 @@ public class Main
     
     if(startServer)
     {
-      ServerThread serverThread = new ServerThread(headlessServer);
+      ServerThread serverThread = new ServerThread(!headlessServer);
       serverThread.start();
       
       if(!headlessServer)
