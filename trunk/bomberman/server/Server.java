@@ -393,7 +393,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     {
       for(Session sess : game.getPlayerSessions())
       {
-        this.clients.get(sess).gameStarted();
+        this.clients.get(sess).gameStarted(false);
+      }
+      for(Session sess : game.getSpectatorSessions())
+      {
+        this.clients.get(sess).gameStarted(true);
       }
     }
     
@@ -466,14 +470,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         for(Session sess : sessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
-          client.gameStarted();
+          client.gameStarted(false);
         }
         
-        // Send to all Spectators start message
+        // Send start message to all Spectators 
         for(Session sess : specSessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
-          client.gameStarted();
+          client.gameStarted(true);
         }
         
         // Updates Playground when moved
