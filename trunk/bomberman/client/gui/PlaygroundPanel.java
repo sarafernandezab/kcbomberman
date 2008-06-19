@@ -48,7 +48,7 @@ public class PlaygroundPanel
   public PlaygroundPanel(int cols, int rows, boolean spectatorStatus)
   {
     setBackground(Color.BLACK);
-    
+    this.spectatorStatus = spectatorStatus;
     GridBagConstraints gbc = new GridBagConstraints();
     GridBagLayout gbl = new GridBagLayout(); 
     setLayout(gbl);

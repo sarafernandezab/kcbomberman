@@ -65,6 +65,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 // Updates Playground when moved
                 for(Session sess : game.getPlayerSessions())
                   clients.get(sess).playgroundUpdate(game.getPlayground());
+                // Updates Playground for Spectator when moved
+                for(Session sess : game.getSpectatorSessions())
+                  clients.get(sess).playgroundUpdate(game.getPlayground());
               }
               Thread.sleep(100);
             }
@@ -219,6 +222,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       // Updates Playground when moved
       for(Session sess : game.getPlayerSessions())
         clients.get(sess).playgroundUpdate(game.getPlayground());
+            
+      // Updates Playground for Spectators when moved
+      for(Session sess : game.getSpectatorSessions())
+        clients.get(sess).playgroundUpdate(game.getPlayground());
       return true;
     }
     else
@@ -351,6 +358,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     Game game = games.get(gameName);    
     Player player = players.get(session);  
+    game.getSpectatorSessions().add(session);
      // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
     return false;
@@ -375,6 +383,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Add the client as player
     game.getPlayerSessions().add(session);
+    
     
     Player player = players.get(session);   
     game.addPlayer(player);
