@@ -17,13 +17,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bomberman.server;
+package bomberman.server.api;
 
 /**
  * All explodable game components must implement this interface.
  * @author Christian Lins (christian.lins@web.de)
  */
-interface Explodable 
+public interface Explodable 
 {
 
 }
