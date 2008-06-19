@@ -41,12 +41,12 @@ public class ClientThread extends Thread
   public static ServerListener  ServerListener;
   public static Session         Session;
   
-  private String[] args;
+  private String hostname;
   
   // Konstruktor mit uebergabe von Argumenten
-  public ClientThread(String[] args)
+  public ClientThread(String hostname)
   {
-    this.args = args;
+    this.hostname = hostname;
   }
   
   @Override
@@ -74,10 +74,10 @@ public class ClientThread extends Thread
       
       ServerListener = new ServerListener();
       
-      if(this.args.length <= 1)
+      if(this.hostname == null)
         registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
       else
-        registry = LocateRegistry.getRegistry(args[1], Registry.REGISTRY_PORT);
+        registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
       
       Server = (ServerInterface)registry.lookup("KCBombermanServer");
     }

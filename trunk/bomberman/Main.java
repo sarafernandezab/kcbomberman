@@ -34,8 +34,14 @@ public class Main
   {
     /** Should we omit the Server GUI? */
     boolean headlessServer = false;
+    
+    /** Should we start a Server? */
     boolean startServer = false;
+    
+    /** Should we start a Client? */
     boolean startClient = false;
+    
+    String hostname = null;
     
     for(int n = 0; n < args.length; n++)
     {
@@ -50,6 +56,10 @@ public class Main
       else if(args[n].equals("--server"))
       {
         startServer = true;
+      }
+      else if(args[n].equals("-h"))
+      {
+        hostname = args[n+1];
       }
     }
     
@@ -66,6 +76,6 @@ public class Main
     }
     
     if(startClient)
-      new ClientThread(args).start();
+      new ClientThread(hostname).start();
   }
 }
