@@ -86,6 +86,8 @@ public class Player extends Element implements Explodable
 
   void placeBomb()
   {
+    if(bombs.size() >= this.bombCount)
+      return;
     System.out.println("Spieler " + nickname + " legt Bombe bei " + gridX + "/" + gridY);
     
     Bomb bomb = new Bomb(gridX, gridY, this);
