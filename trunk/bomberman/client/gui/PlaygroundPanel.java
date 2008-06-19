@@ -43,8 +43,9 @@ public class PlaygroundPanel
         implements KeyListener
 {
   private ElementPainter[][] elementPainter;
+  private boolean spectatorStatus = false;
   
-  public PlaygroundPanel(int cols, int rows)
+  public PlaygroundPanel(int cols, int rows, boolean spectatorStatus)
   {
     setBackground(Color.BLACK);
     
@@ -89,6 +90,9 @@ public class PlaygroundPanel
    */
   public void keyPressed(KeyEvent event)
   {
+    // do nothing if Spectator
+    if(spectatorStatus == true)
+      return;
     try
     {
       switch(event.getKeyCode())

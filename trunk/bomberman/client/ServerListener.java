@@ -76,7 +76,7 @@ public class ServerListener
   
   public void gameStarted() throws RemoteException
   {
-    MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT));
+    MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, false));
     MainFrame.getInstance().setVisible(true);
     MainFrame.getInstance().repaint();
     System.out.println("Game start");

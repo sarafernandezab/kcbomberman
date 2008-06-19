@@ -35,6 +35,7 @@ public class Game implements Serializable
   private String        gameName       = null;
   private List<Session> playerSessions = new ArrayList<Session>();
   private List<Player>  players        = new ArrayList<Player>();
+  private List<Session> spectSessions  = new ArrayList<Session>();
   private Playground    playground;
   private boolean       playgroundUpdateRequired = false;
   private boolean       running        = false;
@@ -53,6 +54,12 @@ public class Game implements Serializable
   {
     while(players.size() < 4)
       addPlayer(new AIPlayer(this, playground));
+  }
+  
+    // Adds a player to the playground
+  public void addSpectator(Session session)
+  {
+    spectSessions.add(session);
   }
   
   // Adds a player to the playground
@@ -164,6 +171,11 @@ public class Game implements Serializable
   public List<Session> getPlayerSessions()
   {
     return this.playerSessions;
+  }
+  
+  public List<Session> getSpectatorSessions()
+  {
+    return this.spectSessions;
   }
   
   @Override

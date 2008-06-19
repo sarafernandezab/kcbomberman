@@ -338,6 +338,24 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     return true;
   }
   
+   /**
+   * 
+   * @param session
+   * @param gameName
+   * @return
+   * @throws java.rmi.RemoteException
+   */
+  public boolean joinViewGame(Session session, String gameName) throws RemoteException
+  {
+    checkSession(session);
+    
+    Game game = games.get(gameName);    
+    Player player = players.get(session);  
+     // Notify the client that it has joined the game
+    this.clients.get(session).gameJoined(gameName);
+    return false;
+  }
+  
   /**
    * 
    * @param session
@@ -443,8 +461,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       {
         System.out.println("Creator ok");
         // Send game start message
-        List<Session> sessions = game.getPlayerSessions();
+        List<Session> sessions      = game.getPlayerSessions();
+        List<Session> specSessions  = game.getSpectatorSessions();
         for(Session sess : sessions)
+        {
+          ServerListenerInterface client = this.clients.get(sess);
+          client.gameStarted();
+        }
+        
+        // Send to all Spectators start message
+        for(Session sess : specSessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
           client.gameStarted();
@@ -452,6 +478,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         
         // Updates Playground when moved
         for(Session sess : game.getPlayerSessions())
+          clients.get(sess).playgroundUpdate(game.getPlayground());
+        
+        // Updates Playground when moved
+        for(Session sess : game.getSpectatorSessions())
           clients.get(sess).playgroundUpdate(game.getPlayground());
         
         // Add AI-controlled players if there are not enough human players
