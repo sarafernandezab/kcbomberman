@@ -19,9 +19,8 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.ClientThread;
 import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -57,8 +56,8 @@ public class MainFrame extends JFrame
       {
         try
         {
-          System.out.println("ausgeloggt");
-          bomberman.client.ClientThread.Server.logout(bomberman.client.ClientThread.Session);
+          System.out.println("Send logout message to server...");
+          ClientThread.Server.logout(bomberman.client.ClientThread.Session);
         }
         catch(Exception re)
         {
