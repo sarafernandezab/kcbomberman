@@ -25,10 +25,13 @@ import bomberman.client.gui.MainFrame;
 import bomberman.client.gui.PlaygroundPanel;
 import bomberman.client.gui.StartPanel;
 import bomberman.client.gui.WaitingPanel;
+import bomberman.client.io.Resource;
 import bomberman.server.Playground;
 import bomberman.server.Session;
 
 import bomberman.server.api.GameInfo;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Container;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

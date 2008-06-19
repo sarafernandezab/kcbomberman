@@ -20,7 +20,10 @@
 package bomberman.client.gui;
 
 import bomberman.client.ClientThread;
+import bomberman.client.io.Resource;
 import bomberman.server.Playground;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -83,6 +86,9 @@ public class PlaygroundPanel
   
   public void drawExplosion(int x, int y, int distance)
   {
+    AudioClip clip = Applet.newAudioClip(Resource.getAsURL("resource/sfx/explosion.wav"));
+    clip.play();
+    
     int explPeriod = 150;
     this.elementPainter[x][y].newExplosion(0, explPeriod);
     
