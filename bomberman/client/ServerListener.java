@@ -141,4 +141,10 @@ public class ServerListener
       lobby.setUserList(users);
     }
   }
+  
+  public void youDied()
+    throws RemoteException
+  {
+    
+  }
 }
