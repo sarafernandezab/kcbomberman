@@ -11,7 +11,7 @@ package bomberman.server;
  */
 class ExtraBomb extends Extra 
 {
-  public static final String IMAGE_FILENAME = "resource/gfx/extraBomb.png";
+  public static final String IMAGE_FILENAME = "resource/gfx/extra/extraBomb.png";
   
   public ExtraBomb(int x, int y)
   {

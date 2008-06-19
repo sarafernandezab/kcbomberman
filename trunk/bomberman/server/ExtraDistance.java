@@ -11,7 +11,7 @@ package bomberman.server;
  */
 public class ExtraDistance extends Extra
 {
-  public static final String IMAGE_FILENAME = "resource/gfx/bombDistance.png";
+  public static final String IMAGE_FILENAME = "resource/gfx/extras/bombDistance.png";
   
   public ExtraDistance(int x, int y)
   {
