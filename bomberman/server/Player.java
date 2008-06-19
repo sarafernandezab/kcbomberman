@@ -29,6 +29,10 @@ public class Player extends Element implements Explodable
   protected Game   game;
   protected String nickname;
   protected int    id;
+  
+  // For extras
+  protected int bombDistance = 1;
+  protected int bombCount    = 1; 
 
   public Player(Game game, String nickname)
   {
@@ -36,6 +40,18 @@ public class Player extends Element implements Explodable
     
     this.game     = game;
     this.nickname = nickname;
+  }
+  
+  // raise if collect BombDistance-Extra
+  public void raiseBombDistance()
+  {
+    this.bombDistance++;
+  }
+  
+  // raise if collect BombCount
+  public void raiseBombCount()
+  {
+    this.bombCount++;
   }
 
   public String getImageFilename()
