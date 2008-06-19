@@ -35,6 +35,7 @@ import bomberman.server.gui.ServerControlPanel;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -120,25 +121,25 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   if(!right)
                     if(game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x+i, y, k, getRandomizeExtra()); 
+                      game.getPlayground().setElement(x+i, y, k, getRandomizeExtra(x+i,y)); 
                       right = true;
                     }
                   if(!left)
                     if(game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x-i, y, k, getRandomizeExtra());
+                      game.getPlayground().setElement(x-i, y, k, getRandomizeExtra(x-i,y));
                       left = true;
                     }
                   if(!top)
                     if(game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x, y+i, k, getRandomizeExtra());                  
+                      game.getPlayground().setElement(x, y+i, k, getRandomizeExtra(x,y+i));                  
                       top = true;
                     }
                   if(!bottom)
                     if(game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
                     {
-                      game.getPlayground().setElement(x, y-i, k, getRandomizeExtra());               
+                      game.getPlayground().setElement(x, y-i, k, getRandomizeExtra(x,y-i));               
                       bottom = true;
                     }
                 }
@@ -169,9 +170,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * Get randomized extras or null after explosion 
    * @return Element or null
    */
-  public Element getRandomizeExtra()
+  private Element getRandomizeExtra(int x, int y)
   {
-    return null;
+    Random rn = new Random();
+    float i = rn.nextFloat();
+    if(i < 0.2)
+      return new ExtraDistance(x, y);
+    else if(i < 0.4)
+      return new ExtraBomb(x, y);
+    else      
+      return null;
   }
   
   /**
