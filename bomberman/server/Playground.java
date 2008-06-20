@@ -52,26 +52,24 @@ public class Playground implements Serializable
     {
       for (int y = 0; y < rows; y++)
       {
-        //matrix[x][y] = null;
-
         // Solid borders
         if ((x == 0) || (x == cols - 1) || (y == 0) || (y == rows - 1))
         {
           this.matrix[x][y][0] = new SolidWall(x, y); // A solid wall
         }
+        // Solid walls within
+        else if ((y % 2 == 0) && (x % 2 == 0))
+        {
+          this.matrix[x][y][0] = new SolidWall(x, y); // Solid wall
+        }
         // Player starting points
-        else if ((x == 1 && (y == 1 || y == 2)) || (x == 2 && y == 1) || // Links oben
+        else if ((x == 1 && (y == 1 || y == 2)) || (x == 2 && y == 1) || // top left
                 (x == cols - 2 && (y == 1 || y == 2)) || (x == cols - 3 && y == 1) || // Rechts oben
                 (x == 1 && (y == rows - 2 || y == rows - 3)) || (x == 2 && y == rows - 2) || // Links unten
                 (x == cols - 2 && (y == rows - 2 || y == rows - 3)) || (x == cols - 3 && y == rows - 3) // Rechts unten
                 )
         {          
           continue;
-        }
-        // Solid walls within
-        else if ((y % 2 == 0) && (x % 2 == 0))
-        {
-          this.matrix[x][y][0] = new SolidWall(x, y); // Solid wall
         }
         else
         {
