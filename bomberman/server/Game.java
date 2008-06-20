@@ -154,7 +154,7 @@ public class Game implements Serializable
       // Set old position in Playground to null...
       this.playground.setElement(player.getX(), player.getY(), player.getID(), null);
       // ...and set new position
-      player.setPosition(nx, ny);
+      player.move(dx, dy);
       this.playground.setElement(player.getX(), player.getY(), player.getID(), player);
       
       return true;

@@ -63,8 +63,18 @@ public class ElementPainter extends JComponent
   {
   }
   
-  void newExplosion(int delay, int period)
+  private void stopExplosionTimer()
   {
+    this.explTimer.cancel();
+    this.explTimer = null;
+    explStage = 0;
+  }
+  
+  synchronized void newExplosion(int delay, int period)
+  {
+    if(this.explTimer != null)
+      stopExplosionTimer();
+
     this.explTimer = new ExplosionTimer(this, delay, period);
   }
   
@@ -72,10 +82,7 @@ public class ElementPainter extends JComponent
   {
     explStage++;
     if(explStage > 5)
-    {
-      this.explTimer.cancel();
-      explStage = 0;
-    }
+      stopExplosionTimer();
   }
   
   @Override
