@@ -25,11 +25,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Extras
+ * Player
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Player extends Element implements Explodable
 {
+  static enum MoveDirection
+  {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    NONE,
+    EXPLODING
+  }
+  
   protected List<Bomb> bombs = new ArrayList<Bomb>();
   protected Game   game;
   protected String nickname;
@@ -38,6 +49,8 @@ public class Player extends Element implements Explodable
   // For extras
   protected int bombDistance = 1;
   protected int bombCount    = 1; 
+  
+  private MoveDirection lastMoveDirection = MoveDirection.DOWN;
 
   public Player(Game game, String nickname)
   {
@@ -61,16 +74,36 @@ public class Player extends Element implements Explodable
 
   public String getImageFilename()
   {
-    if(getID() == 1)                         
-      return "resource/gfx/player1/6.png";
-    else if(getID() == 2)
-      return "resource/gfx/player2/6.png";
-    else if(getID() == 3)
-      return "resource/gfx/player3/6.png";
-    else if(getID() == 4)
-      return "resource/gfx/player4/6.png";
-    else
-      return null;
+    String imgPath  = "resource/gfx/player" + getID() + "/";
+    String addition = "";
+    
+    switch(lastMoveDirection)
+    {
+      case UP:
+      {
+        addition = "1";
+        break;
+      }
+      case DOWN:
+      {
+        addition = "6";
+        break;
+      }
+      case LEFT:
+      {
+        addition = "11";
+        break;
+      }
+      case RIGHT:
+      {
+        addition = "16";
+        break;
+      }
+    }
+    
+    imgPath = imgPath + addition + ".png";
+    
+    return imgPath;
   }
   
   public String getNickname()
@@ -87,6 +120,21 @@ public class Player extends Element implements Explodable
   public int getID() 
   {
     return id;
+  }
+  
+  void move(int dx, int dy)
+  {
+    this.gridX += dx;
+    this.gridY += dy;
+    
+    if(dx < 0)
+      lastMoveDirection = MoveDirection.LEFT;
+    else if(dx > 0)
+      lastMoveDirection = MoveDirection.RIGHT;
+    else if(dy < 0)
+      lastMoveDirection = MoveDirection.UP;
+    else if(dy > 0)
+      lastMoveDirection = MoveDirection.DOWN;
   }
 
   void placeBomb()

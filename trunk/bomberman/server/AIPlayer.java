@@ -298,7 +298,7 @@ class AIPlayer extends Player
     return Math.round(new Random().nextFloat() * 2) - 1;
   }
   
-  private boolean move(int dx, int dy)
+  private boolean wannaMove(int dx, int dy)
   {
     System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
     boolean moved = this.game.movePlayer(this, dx, dy);
@@ -328,7 +328,7 @@ class AIPlayer extends Player
     if(currentPath.size() > 0) // Solange noch ein Pfad existiert, laufen wir
     {
       int[] node = currentPath.remove(0);
-      if(!move(node[0] - gridX, node[1] - gridY)) // Move expects relative direction
+      if(!wannaMove(node[0] - gridX, node[1] - gridY)) // Move expects relative direction
         currentPath = new ArrayList<int[]>();     // Delete path because it must be invalid
     }
     else if(bombs.size() < 1) // Es kann noch ne Bombe gelegt werden
