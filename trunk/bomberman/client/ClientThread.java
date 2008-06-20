@@ -74,16 +74,27 @@ public class ClientThread extends Thread
       
       ServerListener = new ServerListener();
       
-      if(this.hostname == null)
-        registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
-      else
-        registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
+      boolean retry = true;
       
-      Server = (ServerInterface)registry.lookup("KCBombermanServer");
-    }
-    catch (ConnectException ex)
-    {
-      JOptionPane.showMessageDialog(MainFrame.getInstance(), "Server läuft nicht!");
+      do
+      {
+        try
+        {
+          if(this.hostname == null)
+            registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
+          else
+            registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
+
+          Server = (ServerInterface)registry.lookup("KCBombermanServer");
+          retry = false;
+        }
+        catch(ConnectException ex)
+        {
+          System.out.println("Server läuft nicht. Warte...");
+          Thread.sleep(1000);
+        }
+      }
+      while(retry);
     }
     catch (Exception ex) 
     {
