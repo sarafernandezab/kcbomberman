@@ -52,13 +52,17 @@ class AIPlayer extends Player
     thread.start();
   }
   
-  private boolean containsExplodable(Element[] elements)
+  private int containsExplodable(Element[] elements)
   {
-    for(Element e : elements)
-      if(e instanceof Explodable)
-        return true;
+    int explodables = 0;
     
-    return false;
+    for(Element e : elements)
+    {
+      if(e instanceof Explodable)
+        explodables++;
+    }
+    
+    return explodables;
   }
   
   private boolean contains(Element[] elements, Element c)
@@ -70,6 +74,11 @@ class AIPlayer extends Player
     return false;
   }
   
+  private boolean contains(List<int[]> nodes, int[] node)
+  {
+    return false;
+  }
+  
   private boolean isTargetZone(Point pnt)
   {
     // Determine all possible neighbours...
@@ -77,17 +86,22 @@ class AIPlayer extends Player
     Element[] n2 = this.playground.getElement(pnt.x - 1, pnt.y);
     Element[] n3 = this.playground.getElement(pnt.x, pnt.y + 1);
     Element[] n4 = this.playground.getElement(pnt.x, pnt.y - 1);
-			
-    if(containsExplodable(n1) || 
-       containsExplodable(n2) || 
-       containsExplodable(n3) || 
-       containsExplodable(n4))
+
+    int numExpln1 = containsExplodable(n1);
+    int numExpln2 = containsExplodable(n2);
+    int numExpln3 = containsExplodable(n3);
+    int numExpln4 = containsExplodable(n4);
+    int sumExpl   = numExpln1 + numExpln2 + numExpln3 + numExpln4;
+    
+    if(sumExpl == 1)
     {
       if(contains(n1, this) || contains(n2, this) || contains(n3, this) || contains(n4, this))
         return false;
       else
         return true;
     }
+    else if(sumExpl > 1)
+      return true;
     else
       return false;
   }
@@ -122,7 +136,7 @@ class AIPlayer extends Player
         int r1 = Math.random() > 0.5 ? 1 : -1;
         int r2 = r1 == 1 ? -1 : 1;
 					
-        // Alle möglichen Nachbarn von node herausfinden
+        // Find all possible neighbours of node
         Element[] n1a = this.playground.getElement(node[0] + r1, node[1]);
         Element n1 = n1a == null ? null : n1a[0];
         Element[] n2a = this.playground.getElement(node[0] + r2, node[1]);
@@ -134,22 +148,22 @@ class AIPlayer extends Player
 					
         boolean saveNode = false;
 					
-        if(n1 == null && node[2] != node[0] + r1)
+        if((n1 == null || n1 instanceof Extra) && node[2] != node[0] + r1)
         {
           openNodes.add(0, new int[] {node[0] + r1, node[1], node[0], node[1]});
           saveNode = true;
         }
-        if(n2 == null && node[2] != node[0] + r2)
+        if((n2 == null || n2 instanceof Extra) && node[2] != node[0] + r2)
         {
           openNodes.add(0, new int[] {node[0] + r2, node[1], node[0], node[1]});
           saveNode = true;
         }
-        if(n3 == null && node[3] != node[1] + r1)
+        if((n3 == null || n3 instanceof Extra) && node[3] != node[1] + r1)
         {
           openNodes.add(0, new int[] {node[0], node[1] + r1, node[0], node[1]});
           saveNode = true;
         }
-        if(n4 == null && node[3] != node[1] + r2)
+        if((n4 == null || n4 instanceof Extra) && node[3] != node[1] + r2)
         {
           openNodes.add(0, new int[] {node[0], node[1] + r2, node[0], node[1]});
           saveNode = true;
@@ -205,22 +219,22 @@ class AIPlayer extends Player
 
         boolean saveNode = false;
 					
-        if(n1 == null && node[2] != node[0]+1)
+        if((n1 == null || n1 instanceof Extra) && node[2] != node[0]+1)
         {
           openNodes.add(0, new int[] {node[0]+1, node[1], node[0], node[1]});
           saveNode = true;
         }
-        if(n2 == null && node[2] != node[0]-1)
+        if((n2 == null || n2 instanceof Extra) && node[2] != node[0]-1)
         {
           openNodes.add(0, new int[] {node[0]-1, node[1], node[0], node[1]});
           saveNode = true;
         }
-        if(n3 == null && node[3] != node[1]+1)
+        if((n3 == null || n3 instanceof Extra) && node[3] != node[1]+1)
         {
           openNodes.add(0, new int[] {node[0], node[1]+1, node[0], node[1]});
           saveNode = true;
         }
-        if(n4 == null && node[3] != node[1]-1)
+        if((n4 == null || n4 instanceof Extra) && node[3] != node[1]-1)
         {
           openNodes.add(0, new int[]{node[0], node[1]-1, node[0], node[1]});
           saveNode = true;
