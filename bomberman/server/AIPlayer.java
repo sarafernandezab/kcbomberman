@@ -79,6 +79,12 @@ class AIPlayer extends Player
     return false;
   }
   
+  /**
+   * Determines if the given point is a possible target zone, that means
+   * has Explodable neighbours.
+   * @param pnt
+   * @return
+   */
   private boolean isTargetZone(Point pnt)
   {
     // Determine all possible neighbours...
