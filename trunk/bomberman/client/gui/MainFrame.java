@@ -19,7 +19,9 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.AudioThread;
 import bomberman.client.ClientThread;
+import bomberman.client.io.Resource;
 import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -66,6 +68,8 @@ public class MainFrame extends JFrame
       }
     };
     this.addWindowListener(listener);
+    
+    new AudioThread(Resource.getAsStream("resource/sfx/battle.mp3")).start();
   }
   
   @Override

@@ -51,7 +51,7 @@ public class ServerListener
   public void explosion(int x, int y, int distance)
           throws RemoteException
   {
-    new AudioThread(Resource.getAsURL("resource/sfx/explosion.wav")).start();
+    new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
 
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawExplosion(x, y, distance);

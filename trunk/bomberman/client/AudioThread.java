@@ -21,22 +21,36 @@ package bomberman.client;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
+import java.io.InputStream;
 import java.net.URL;
+import javazoom.jl.player.Player;
 
 /**
  * Thread playing a AudioClip.
  * @author Christian Lins (christian.lins@web.de)
  */
-class AudioThread extends Thread
+public class AudioThread extends Thread
 {
   public static int Instances = 0;
   
-  private AudioClip clip;
+  private AudioClip   clip = null;
+  private InputStream in   = null;
+  
+  private AudioThread()
+  {
+    setPriority(MAX_PRIORITY);
+  }
   
   public AudioThread(URL url)
   {
-    clip = Applet.newAudioClip(url);
-    setPriority(MAX_PRIORITY);
+    this();
+    
+    this.clip = Applet.newAudioClip(url);
+  }
+  
+  public AudioThread(InputStream in)
+  {
+    this.in = in;
   }
   
   @Override
@@ -44,13 +58,21 @@ class AudioThread extends Thread
   {
     try
     {
-      this.clip.play();
-      
-      // Rescue the thread from the garbage collection, 
-      // because this causes the AudioClip to stop too early.
-      // While sleeping the Thread does only consume little memory and
-      // no CPU which can be accepted.
-      sleep(10000); 
+      if(clip != null)
+      {
+        this.clip.play();
+
+        // Rescue the thread from the garbage collection, 
+        // because this causes the AudioClip to stop too early.
+        // While sleeping the Thread does only consume little memory and
+        // no CPU which can be accepted.
+        sleep(10000);
+      }
+      else
+      {
+        Player player = new Player(in);
+        player.play();
+      }
     }
     catch(Exception ex)
     {
