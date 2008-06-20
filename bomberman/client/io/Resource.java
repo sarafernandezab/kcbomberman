@@ -62,7 +62,7 @@ public class Resource
   public static ImageIcon getImage(String name)
   {
     URL url = 
-      ClassLoader.getSystemClassLoader().getResource(name);
+      Thread.currentThread().getContextClassLoader().getResource(name);
     
     if(url == null)
     {
@@ -80,7 +80,7 @@ public class Resource
    */
   public static URL getAsURL(String name)
   {
-    return ClassLoader.getSystemClassLoader().getResource(name);
+    return Thread.currentThread().getContextClassLoader().getResource(name);
   }
   
   /**
