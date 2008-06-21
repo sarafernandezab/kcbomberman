@@ -65,7 +65,40 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     Runnable run = new Runnable()
     {
-
+      private boolean processExplElement(Game game, Element e, int x, int y, int k)
+      {
+        if (e != null && e instanceof Explodable)
+        {
+          if (e instanceof Wall)
+          {
+            game.getPlayground().setElement(x, y, 0, getRandomizeExtra(x, y));
+            return true;
+          }
+          else if (e instanceof Player)
+          {
+            System.out.println(e + " died!");
+            if(e instanceof AIPlayer)
+              ((AIPlayer)e).die();
+            
+            // Send hasDied() message to clients
+            
+            // Remove player from game
+            game.removePlayer(x, y, (Player)e);
+            game.getPlayground().setElement(x, y, ((Player)e).getID(), null);
+            
+            return false;
+          }
+          else if (e instanceof Extra)
+          {
+            // Delete extra
+            game.getPlayground().setElement(x, y, 0, null);
+            return false;
+          }
+        }
+        
+        return false;
+      }
+      
       @Override
       public void run()
       {
@@ -119,29 +152,25 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 for(int k = 0; k < 5; k++)
                 {
                   if(!right)
-                    if(game.getPlayground().getElement(x+i, y)[k] != null && game.getPlayground().getElement(x+i, y)[k] instanceof Explodable)
-                    {
-                      game.getPlayground().setElement(x+i, y, 0, getRandomizeExtra(x+i,y)); 
-                      right = true;
-                    }
+                  {
+                    Element e = game.getPlayground().getElement(x+i, y)[k];
+                    right = processExplElement(game, e, x+i, y, k);
+                  }
                   if(!left)
-                    if(game.getPlayground().getElement(x-i, y)[k] != null && game.getPlayground().getElement(x-i, y)[k] instanceof Explodable)
-                    {
-                      game.getPlayground().setElement(x-i, y, 0, getRandomizeExtra(x-i,y));
-                      left = true;
-                    }
+                  {
+                    Element e = game.getPlayground().getElement(x-i, y)[k];
+                    left = processExplElement(game, e, x-i, y, k);
+                  }
                   if(!top)
-                    if(game.getPlayground().getElement(x, y+i)[k] != null && game.getPlayground().getElement(x, y+i)[k] instanceof Explodable)
-                    {
-                      game.getPlayground().setElement(x, y+i, 0, getRandomizeExtra(x,y+i));                  
-                      top = true;
-                    }
+                  {
+                    Element e = game.getPlayground().getElement(x, y-i)[k];
+                    top = processExplElement(game, e, x, y-i, k);
+                  }
                   if(!bottom)
-                    if(game.getPlayground().getElement(x, y-i)[k] != null && game.getPlayground().getElement(x, y-i)[k] instanceof Explodable)
-                    {
-                      game.getPlayground().setElement(x, y-i, 0, getRandomizeExtra(x,y-i));               
-                      bottom = true;
-                    }
+                  {
+                    Element e = game.getPlayground().getElement(x, y+i)[k];
+                    bottom = processExplElement(game, e, x, y+i, k);
+                  }
                 }
               }
             }

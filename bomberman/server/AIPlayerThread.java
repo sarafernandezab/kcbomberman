@@ -53,7 +53,7 @@ class AIPlayerThread extends Thread
       }
 
       // Run until game stopps
-      while (game.isRunning())
+      while (game.isRunning() && !player.isDead())
       {
         player.tick();
         Thread.sleep(TICK_TIME);

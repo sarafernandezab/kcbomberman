@@ -34,6 +34,7 @@ import java.util.Random;
 class AIPlayer extends Player
 {
   private List<int[]> currentPath = new ArrayList<int[]>();
+  private boolean     isDead      = false;
   private Playground  playground;
   
   public AIPlayer(Game g, Playground playground)
@@ -77,6 +78,16 @@ class AIPlayer extends Player
   private boolean contains(List<int[]> nodes, int[] node)
   {
     return false;
+  }
+  
+  public void die()
+  {
+    this.isDead = true;
+  }
+  
+  public boolean isDead()
+  {
+    return this.isDead;
   }
   
   /**
