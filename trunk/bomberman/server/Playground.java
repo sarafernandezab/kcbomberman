@@ -25,8 +25,8 @@ import java.io.Serializable;
 
 /**
  * Logical Playground where the Server manages a game.
- * @author Kai Ritterbusch
- * @author Christian Lins
+ * @author Kai Ritterbusch (kai.ritterbusch@googlemail.com)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Playground implements Serializable
 {
@@ -64,25 +64,20 @@ public class Playground implements Serializable
         }
         // Player starting points
         else if ((x == 1 && (y == 1 || y == 2)) || (x == 2 && y == 1) || // top left
-                (x == cols - 2 && (y == 1 || y == 2)) || (x == cols - 3 && y == 1) || // Rechts oben
-                (x == 1 && (y == rows - 2 || y == rows - 3)) || (x == 2 && y == rows - 2) || // Links unten
-                (x == cols - 2 && (y == rows - 2 || y == rows - 3)) || (x == cols - 3 && y == rows - 3) // Rechts unten
+                (x == cols - 2 && (y == 1 || y == 2)) || (x == cols - 3 && y == 1) || // top right
+                (x == 1 && (y == rows - 2 || y == rows - 3)) || (x == 2 && y == rows - 2) || // lower left
+                (x == cols - 2 && (y == rows - 2 || y == rows - 3)) 
+                  || (x == cols - 3 && y == rows - 2) // lower right
                 )
-        {          
+        {
+          // Make no walls
           continue;
         }
-        else
+        else if (Math.random() >= 0.2) // 20% of the area should be empty
         {
-          if (Math.random() < 0.2) // 20% of the area should be empty
-          {
-            continue;
-          }
-          else
-          {
-            matrix[x][y][0] = new ExplodableWall(x, y); // Exploadable wall
+          matrix[x][y][0] = new ExplodableWall(x, y); // Exploadable wall
  
-            // Extras are placed later when a Wall explodes.
-          }
+          // Extras are placed later when a Wall explodes.
         }
       }
     }

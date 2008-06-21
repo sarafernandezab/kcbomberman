@@ -20,12 +20,13 @@
 package bomberman.server;
 
 import bomberman.server.api.Element;
+import bomberman.server.api.Explodable;
 
 /**
  *
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
-abstract class Extra extends Element
+abstract class Extra extends Element implements Explodable
 { 
   public Extra(int x, int y)
   {
