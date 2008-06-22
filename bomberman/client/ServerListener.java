@@ -34,10 +34,11 @@ import java.awt.Container;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  * Callback class for the Server to Client connection.
- * @author Kai Ritterbusch
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class ServerListener 
@@ -146,9 +147,11 @@ public class ServerListener
     }
   }
   
-  public void youDied()
-    throws RemoteException
+  public void youDied() throws RemoteException
   {
-    
+    JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
+
+    MainFrame.getInstance().setContentPane(new LobbyPanel());
+    MainFrame.getInstance().setVisible(true);
   }
 }

@@ -78,8 +78,25 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           {
             System.out.println(e + " died!");
             if(e instanceof AIPlayer)
-              ((AIPlayer)e).die();
-            
+              ((AIPlayer)e).die();            
+            else
+              for(Entry<Session, Player> ent : players.entrySet())
+              {
+                if(ent.getValue().equals((Player)e))
+                {
+                  try
+                  {
+                    clients.get(ent.getKey()).youDied();
+                    playerToGame.remove(ent);
+                    refresh();
+                  }
+                  catch(RemoteException re)
+                  {
+                    re.printStackTrace();
+                  }
+                }
+              }
+         
             // Send hasDied() message to clients
             
             // Remove player from game
