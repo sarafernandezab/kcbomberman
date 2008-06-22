@@ -87,7 +87,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   try
                   {
                     clients.get(ent.getKey()).youDied();
-                    playerToGame.remove(ent);
+                    playerToGame.remove(ent.getKey());
                     refresh();
                   }
                   catch(RemoteException re)
