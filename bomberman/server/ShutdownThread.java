@@ -19,6 +19,8 @@
 
 package bomberman.server;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
@@ -45,6 +47,7 @@ class ShutdownThread extends Thread
   {
     try
     {
+      /*
       ObjectOutputStream out;
       
       out = new ObjectOutputStream(new FileOutputStream(DATABASE_FILE));
@@ -55,7 +58,10 @@ class ShutdownThread extends Thread
       out = new ObjectOutputStream(new FileOutputStream(HIGHSCORE_FILE));
       out.writeObject(this.highscore);
       out.flush();
-      out.close();
+      out.close();*/
+      XStream xstream = new XStream(new DomDriver());
+      xstream.toXML(this.database, new FileOutputStream(DATABASE_FILE));
+      xstream.toXML(this.highscore,new FileOutputStream(HIGHSCORE_FILE));
     }
     catch(Exception ex)
     {
