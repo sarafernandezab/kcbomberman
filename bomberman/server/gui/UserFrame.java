@@ -6,15 +6,28 @@
 
 package bomberman.server.gui;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author  kai
+ * @author  Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class UserFrame extends javax.swing.JFrame {
   
+  private ServerControlPanel parent;
+  
   /** Creates new form UserFrame */
-  public UserFrame() {
+  public UserFrame() 
+  {
     initComponents();
+  }
+  
+  /** Creates new form UserFrame */
+  public UserFrame(ServerControlPanel parent) 
+  {
+    initComponents();
+    this.parent = parent;
   }
   
   /** This method is called from within the constructor to
@@ -27,9 +40,9 @@ public class UserFrame extends javax.swing.JFrame {
 
     btnOk = new javax.swing.JButton();
     btnCancel = new javax.swing.JButton();
-    jTextField1 = new javax.swing.JTextField();
-    jPasswordField1 = new javax.swing.JPasswordField();
-    jPasswordField2 = new javax.swing.JPasswordField();
+    txtUsername = new javax.swing.JTextField();
+    txtPw1 = new javax.swing.JPasswordField();
+    txtPw2 = new javax.swing.JPasswordField();
     jLabel1 = new javax.swing.JLabel();
     jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
@@ -37,11 +50,22 @@ public class UserFrame extends javax.swing.JFrame {
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     btnOk.setText("OK");
+    btnOk.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnOkActionPerformed(evt);
+      }
+    });
 
     btnCancel.setText("Cancel");
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         btnCancelActionPerformed(evt);
+      }
+    });
+
+    txtPw2.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        txtPw2ActionPerformed(evt);
       }
     });
 
@@ -69,9 +93,9 @@ public class UserFrame extends javax.swing.JFrame {
               .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-              .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-              .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
+              .addComponent(txtPw1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+              .addComponent(txtPw2, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+              .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
         .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -80,14 +104,14 @@ public class UserFrame extends javax.swing.JFrame {
         .addGap(30, 30, 30)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(jLabel1)
-          .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(txtPw1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(jLabel2))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(txtPw2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(jLabel3))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -102,6 +126,18 @@ public class UserFrame extends javax.swing.JFrame {
   private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
     // TODO add your handling code here:
 }//GEN-LAST:event_btnCancelActionPerformed
+
+  private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
+    if(txtPw1.getText() == txtPw2.getText())
+      parent.setUserNameandPw(txtUsername.getText(), txtPw1.getText());
+    else
+      JOptionPane.showMessageDialog( null, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
+
+  }//GEN-LAST:event_btnOkActionPerformed
+
+  private void txtPw2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPw2ActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_txtPw2ActionPerformed
   
   /**
    * @param args the command line arguments
@@ -120,9 +156,9 @@ public class UserFrame extends javax.swing.JFrame {
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;
-  private javax.swing.JPasswordField jPasswordField1;
-  private javax.swing.JPasswordField jPasswordField2;
-  private javax.swing.JTextField jTextField1;
+  private javax.swing.JPasswordField txtPw1;
+  private javax.swing.JPasswordField txtPw2;
+  private javax.swing.JTextField txtUsername;
   // End of variables declaration//GEN-END:variables
   
 }

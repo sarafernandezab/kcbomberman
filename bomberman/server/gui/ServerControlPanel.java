@@ -40,6 +40,9 @@ public class ServerControlPanel extends javax.swing.JPanel
   
   private static ServerControlPanel instance = null;
   
+  private String newUsername=null;
+  private String newPW=null;
+  
   public static ServerControlPanel getInstance()
   {
     return instance;
@@ -97,6 +100,12 @@ public class ServerControlPanel extends javax.swing.JPanel
     }
   }
   
+  public void setUserNameandPw(String username, String password)
+  {
+    this.newUsername = username;
+    this.newPW       = password;
+  }
+          
   /** This method is called from within the constructor to
    * initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is
@@ -384,9 +393,11 @@ public class ServerControlPanel extends javax.swing.JPanel
   }//GEN-LAST:event_btnCloseGameActionPerformed
 
   private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
-    
-    //serverThread.getServer().getDatabase().addUser(username, pw);
-            
+    UserFrame uf = new UserFrame(this);
+    uf.setVisible(true);
+    serverThread.getServer().getDatabase().addUser(newUsername, newPW);
+    newUsername = null;
+    newPW       = null;
     
 }//GEN-LAST:event_btnCreateUserActionPerformed
   
