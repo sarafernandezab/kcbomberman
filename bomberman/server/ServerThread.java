@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -29,9 +30,12 @@ public class ServerThread extends Thread
   private Server server;
   
   public ServerThread(boolean daemon)
+          throws RemoteException
   {
     super("ServerThread");
     setDaemon(daemon);
+    
+    this.server = new Server();
   }
   
   public Server getServer()
@@ -43,9 +47,7 @@ public class ServerThread extends Thread
   public void run()
   {
     try
-    {
-      this.server = new Server();
-      
+    {      
       // Create local registry
       if(Registry == null)
         Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
@@ -58,9 +60,10 @@ public class ServerThread extends Thread
               new ShutdownThread(server.getDatabase(), server.getHighscore()));
       
       System.out.println("Bombermanserver bereit ...");
-      
+
       synchronized(this)
       {
+        notifyAll();
         wait();
       }
       
