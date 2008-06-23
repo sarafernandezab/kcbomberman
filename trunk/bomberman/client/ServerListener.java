@@ -34,6 +34,7 @@ import java.awt.Container;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -60,7 +61,7 @@ public class ServerListener
   
  
   
-  public void gameListUpdate(ArrayList<GameInfo> gameInfo)
+  public void gameListUpdate(List<GameInfo> gameInfo)
           throws RemoteException
   {
     Container cnt = MainFrame.getInstance().getContentPane();
@@ -90,7 +91,18 @@ public class ServerListener
     System.out.println("Game start");
   }
   
-  public void gameStopped() throws RemoteException
+  /**
+   * Notifies the Client that the game it was playing in was
+   * stopped by the Server due to the given condition.
+   * The condition can be one of the following values:
+   * <ul>
+   *  <li>0: Unknown</li>
+   *  <li>1: Game was stopped by admin</li>
+   *  <li>2: You won the game</li>
+   * </ul>
+   * @throws java.rmi.RemoteException
+   */
+  public void gameStopped(int condition) throws RemoteException
   {
     MainFrame.getInstance().setContentPane(new LobbyPanel());
     MainFrame.getInstance().setVisible(true);    
@@ -140,7 +152,7 @@ public class ServerListener
     ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
   }
   
-  public void userListUpdate(ArrayList<String> users) throws RemoteException
+  public void userListUpdate(List<String> users) throws RemoteException
   {
     if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
     {

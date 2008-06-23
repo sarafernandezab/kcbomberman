@@ -24,7 +24,7 @@ import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Callback interface for the clients.
@@ -69,7 +69,7 @@ public interface ServerListenerInterface extends Remote
   public void playgroundUpdate(Playground playground)
     throws RemoteException;
   
-  public void gameListUpdate(ArrayList<GameInfo> gameList)
+  public void gameListUpdate(List<GameInfo> gameList)
     throws RemoteException;
   
   /**
@@ -80,7 +80,18 @@ public interface ServerListenerInterface extends Remote
   public void gameJoined(String gameName)
     throws RemoteException;
   
-  public void gameStopped() 
+  /**
+   * Notifies the Client that the game it was playing in was
+   * stopped by the Server due to the given condition.
+   * The condition can be one of the following values:
+   * <ul>
+   *  <li>0: Unknown</li>
+   *  <li>1: Game was stopped by admin</li>
+   *  <li>2: You won the game</li>
+   * </ul>
+   * @throws java.rmi.RemoteException
+   */
+  public void gameStopped(int condition) 
     throws RemoteException;
   
   /**
@@ -90,6 +101,6 @@ public interface ServerListenerInterface extends Remote
   public void gameStarted(boolean specStatus)
     throws RemoteException;
   
-  public void userListUpdate(ArrayList<String> users)
+  public void userListUpdate(List<String> users)
     throws RemoteException;
 }

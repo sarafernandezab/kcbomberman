@@ -28,6 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.text.Document;
@@ -303,7 +304,7 @@ public class LobbyPanel extends javax.swing.JPanel
     }
   }
   
-  public void setUserList(ArrayList<String> users)
+  public void setUserList(List<String> users)
   {
     lstUser.setListData(new Vector<Object>(users));
   }
