@@ -24,6 +24,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -63,16 +64,17 @@ public class LoginPanel extends javax.swing.JPanel
     {
       NetworkInterface ni = (NetworkInterface)ifaces.nextElement();
       if(ni.isLoopback())
-        break;     
-
+        break;
+      
       Enumeration addrs = ni.getInetAddresses();
       while (addrs.hasMoreElements()) 
-      {
+      {        
         InetAddress ia = (InetAddress)addrs.nextElement();
+        System.out.println(ia.getHostAddress());
         if(!ia.isLoopbackAddress())
         {
-          System.out.println(ia.getHostAddress());
-          return ia.getHostAddress();          
+          if(ia instanceof Inet4Address)          
+            return ia.getHostAddress();          
         }
       }
     }
