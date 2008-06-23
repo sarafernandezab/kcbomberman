@@ -74,6 +74,8 @@ public class UserListTableModel extends AbstractTableModel
   @Override
   public Class<?> getColumnClass(int c) 
   {
+    if(data.size() == 0)
+      return Object.class;
     return getValueAt(0, c).getClass();
   }
   

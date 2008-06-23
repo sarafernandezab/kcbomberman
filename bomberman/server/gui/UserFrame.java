@@ -6,6 +6,8 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.ServerThread;
+import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -16,6 +18,7 @@ import javax.swing.JOptionPane;
 public class UserFrame extends javax.swing.JFrame {
   
   private ServerControlPanel parent;
+  
   
   /** Creates new form UserFrame */
   public UserFrame() 
@@ -129,7 +132,13 @@ public class UserFrame extends javax.swing.JFrame {
 
   private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
     if(txtPw1.getText().equals(txtPw2.getText()))
-      parent.setUserNameandPw(txtUsername.getText(), txtPw1.getText());
+    {
+      ArrayList<Object> user = new ArrayList<Object>();
+      user.add(txtUsername.getText());
+      user.add(txtPw1.getText());
+      parent.getServerThread().getServer().getDatabase().addUser(txtUsername.getText(), txtPw1.getText());
+      ((UserListTableModel)this.parent.getTblUserList().getModel()).addRow(user);
+    }
     else
       JOptionPane.showMessageDialog( this, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
     
