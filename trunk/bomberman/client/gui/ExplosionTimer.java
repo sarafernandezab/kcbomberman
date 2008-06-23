@@ -20,7 +20,7 @@
 package bomberman.client.gui;
 
 import java.util.Timer;
-import java.util.TimerTask;
+
 
 /**
  *

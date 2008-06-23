@@ -10,7 +10,7 @@ import java.util.TimerTask;
 
 /**
  *
- * @author kai
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class DieTimer extends AnimationTimer
 {
