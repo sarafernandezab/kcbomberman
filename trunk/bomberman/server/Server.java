@@ -32,6 +32,9 @@ import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
@@ -60,10 +63,39 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session, String>                  playerToIP  = new HashMap<Session, String>();
   private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
   private Logger logger = new Logger();
+  private Database  database  = null;
+  private Highscore highscore = null;
   
   public Server() throws RemoteException
   {
     instance = this;
+    
+    // Load database and highscore
+    try
+    {
+      ObjectInputStream in;
+      in = new ObjectInputStream(new FileInputStream(ShutdownThread.DATABASE_FILE));
+      this.database = (Database)in.readObject();
+      in.close();
+    }
+    catch(Exception ex)
+    {
+      System.out.println(ex.getLocalizedMessage());
+      System.out.println("No persistent database found!");
+    }
+    
+        try
+    {
+      ObjectInputStream in;
+      in = new ObjectInputStream(new FileInputStream(ShutdownThread.HIGHSCORE_FILE));
+      this.highscore = (Highscore)in.readObject();
+      in.close();
+    }
+    catch(Exception ex)
+    {
+      System.out.println(ex.getLocalizedMessage());
+      System.out.println("No persistent highscore found!");
+    }
     
     Runnable run = new Runnable()
     {
@@ -700,5 +732,15 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       else
         return false; // Not allowed
     }
+  }
+
+  Database getDatabase()
+  {
+    return database;
+  }
+
+  Highscore getHighscore()
+  {
+    return highscore;
   }
 }
