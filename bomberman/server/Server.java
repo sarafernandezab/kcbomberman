@@ -33,7 +33,6 @@ import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.Map.Entry;
@@ -80,11 +79,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     catch(Exception ex)
     {
+      this.database = new Database();
       System.out.println(ex.getLocalizedMessage());
       System.out.println("No persistent database found!");
     }
     
-        try
+    try
     {
       ObjectInputStream in;
       in = new ObjectInputStream(new FileInputStream(ShutdownThread.HIGHSCORE_FILE));
@@ -93,6 +93,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     catch(Exception ex)
     {
+      this.highscore = new Highscore();
       System.out.println(ex.getLocalizedMessage());
       System.out.println("No persistent highscore found!");
     }
