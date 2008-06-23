@@ -151,7 +151,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
               // Check if there are enough real players or any
               // spectators left for gaming
               if(game.isRunning() &&
-                 game.getPlayerCount() == 1)
+                 (game.getPlayerCount() == 1 ||
+                  game.getPlayerSessions().size() == 0))
               {
                 game.setRunning(false);
                 
@@ -189,6 +190,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
             {
               List<Object> explData = explosions.remove();
               Game game = (Game)explData.get(0);
+              if(!game.isRunning()) // Game could be stopped until now
+                continue;
+              
               int x = (Integer)explData.get(1);
               int y = (Integer)explData.get(2);
               int dist = (Integer)explData.get(3);
@@ -596,21 +600,21 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   { 
     checkSession(session);
     
-    // Logger
-    logger.addLogMessage("joinGame", playerToIP.get(session));
-    
     Game game = games.get(gameName);
    
-    playerToGame.put(session, game);
     if(game == null)
       return false; // No such game
     
+    Player player = players.get(session);   
+    if(!game.addPlayer(player))
+      return false;
+    
+    playerToGame.put(session, game);
+    // Logger
+    logger.addLogMessage("joinGame", playerToIP.get(session));
+    
     // Add the client as player
     game.getPlayerSessions().add(session);
-    
-    
-    Player player = players.get(session);   
-    game.addPlayer(player);
     
     // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);

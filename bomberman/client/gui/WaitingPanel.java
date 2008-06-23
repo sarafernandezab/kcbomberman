@@ -115,17 +115,17 @@ public class WaitingPanel extends javax.swing.JPanel
             .addComponent(txtInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
             .addContainerGap())
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addGap(121, 121, 121)
-            .addComponent(btnStartGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGap(132, 132, 132))))
+            .addComponent(btnStartGame)
+            .addGap(127, 127, 127))))
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addContainerGap(182, Short.MAX_VALUE)
+        .addContainerGap(170, Short.MAX_VALUE)
         .addComponent(txtInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(btnStartGame))
+        .addComponent(btnStartGame)
+        .addContainerGap())
     );
   }// </editor-fold>//GEN-END:initComponents
   

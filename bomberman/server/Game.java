@@ -67,9 +67,8 @@ public class Game implements Serializable
   /**
    * Adds a player to the playground.
    */ 
-  public void addPlayer(Player player)
+  public boolean addPlayer(Player player)
   {
-    player.setGame(this);
     player.setID(players.size() + 1);
     
     // Adds player to playground view, set starting position
@@ -94,13 +93,17 @@ public class Game implements Serializable
     {
       x = playground.getWidth() - 2;
       y = 1;
-    }    
+    }
+    else
+      return false; // Game is full
+    
     this.playground.setElement(x, y, player.getID(), player);
     player.setPosition(x, y);
     
     players.add(player);
-    
+    player.setGame(this);
     System.out.println("Player"+ player.getID() +"added to Playground ("+player.getNickname() +")");
+    return true;
   }
   
   public Session getCreator()
