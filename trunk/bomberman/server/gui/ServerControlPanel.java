@@ -307,19 +307,19 @@ public class ServerControlPanel extends javax.swing.JPanel
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
-    if(this.serverThread != null)
+    if(this.getServerThread() != null)
     {
-      this.serverThread.stopThread();
+      this.getServerThread().stopThread();
     }
     
     this.serverThread = new ServerThread(true);
-    this.serverThread.start();
-    setThread(this.serverThread);
+    this.getServerThread().start();
+    setThread(this.getServerThread());
     ServerControlPanel.getInstance().addLogMessages("Bombermanserver bereit ...");
   }//GEN-LAST:event_btnStartServerActionPerformed
 
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
-    if(this.serverThread != null)
+    if(this.getServerThread() != null)
     {     
 /*      for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
       {
@@ -359,7 +359,7 @@ public class ServerControlPanel extends javax.swing.JPanel
    {
     if(liGames.getSelectedValue() == null)
       return;
-    serverThread.getServer().closeGame(liGames.getSelectedValue().toString());
+      getServerThread().getServer().closeGame(liGames.getSelectedValue().toString());
     ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());
    }
    catch(RemoteException e)
@@ -372,13 +372,7 @@ public class ServerControlPanel extends javax.swing.JPanel
   private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
     UserFrame uf = new UserFrame(this);
     uf.setVisible(true);
-    serverThread.getServer().getDatabase().addUser(newUsername, newPW);
-    ArrayList<Object> user = new ArrayList<Object>();
-    user.add(newUsername);
-    user.add(newPW);
-    ((UserListTableModel)tblUserList.getModel()).addRow(user);
-    newUsername = null;
-    newPW       = null;
+    
 }//GEN-LAST:event_btnCreateUserActionPerformed
   
   
@@ -405,5 +399,15 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JTable tblUserList;
   private javax.swing.JTextArea txtLog;
   // End of variables declaration//GEN-END:variables
+
+  public javax.swing.JTable getTblUserList() 
+  {
+    return tblUserList;
+  }
+
+  public ServerThread getServerThread() 
+  {
+    return serverThread;
+  }
   
 }
