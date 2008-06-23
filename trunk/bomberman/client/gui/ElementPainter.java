@@ -120,7 +120,7 @@ public class ElementPainter extends JComponent
   {
     explStage++;
     if(explStage > 5)
-      stopDieTimer();
+      stopExplosionTimer();
   }
   
   @Override
