@@ -32,6 +32,8 @@ import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
@@ -72,32 +74,18 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Load database and highscore
     try
     {
-      ObjectInputStream in;
-      in = new ObjectInputStream(new FileInputStream(ShutdownThread.DATABASE_FILE));
-      this.database = (Database)in.readObject();
-      in.close();
+      XStream xstream = new XStream(new DomDriver());
+      this.database  = (Database)xstream.fromXML(new FileInputStream(ShutdownThread.DATABASE_FILE));
+      this.highscore = (Highscore)xstream.fromXML(new FileInputStream(ShutdownThread.DATABASE_FILE));
     }
     catch(Exception ex)
     {
-      this.database = new Database();
-      System.out.println(ex.getLocalizedMessage());
-      System.out.println("No persistent database found!");
-    }
-    
-    try
-    {
-      ObjectInputStream in;
-      in = new ObjectInputStream(new FileInputStream(ShutdownThread.HIGHSCORE_FILE));
-      this.highscore = (Highscore)in.readObject();
-      in.close();
-    }
-    catch(Exception ex)
-    {
+      this.database  = new Database();
       this.highscore = new Highscore();
       System.out.println(ex.getLocalizedMessage());
-      System.out.println("No persistent highscore found!");
+      System.out.println("No persistent database/highscore found!");
     }
-    
+
     Runnable run = new Runnable()
     {
       private boolean processExplElement(Game game, Element e, int x, int y, int k)
