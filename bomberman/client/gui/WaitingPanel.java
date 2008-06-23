@@ -19,6 +19,7 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.ClientThread;
 import bomberman.client.io.Resource;
 
 import java.awt.Graphics;
@@ -139,7 +140,7 @@ public class WaitingPanel extends javax.swing.JPanel
   {     
     try
     {
-      bomberman.client.ClientThread.Server.startGame(bomberman.client.ClientThread.Session, this.gameName);     
+      ClientThread.Server.startGame(bomberman.client.ClientThread.Session, this.gameName);     
     }
     catch(RemoteException rexc)
     {
