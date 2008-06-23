@@ -14,8 +14,6 @@ import java.util.TimerTask;
  */
 public class DieTimer extends AnimationTimer
 {
-  private ElementPainter painter;
-  //private Timer          timer = new Timer();
   private int            calls = 0;
   
   public DieTimer(ElementPainter painter, int delay, int period)

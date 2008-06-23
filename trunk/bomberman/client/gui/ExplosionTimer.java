@@ -28,8 +28,6 @@ import java.util.Timer;
  */
 class ExplosionTimer extends AnimationTimer
 {
-  private ElementPainter painter;
-  //private Timer          timer = new Timer();
   private int            calls = 0;
   
   public ExplosionTimer(ElementPainter painter, int delay, int period)
