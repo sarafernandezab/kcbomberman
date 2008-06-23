@@ -124,15 +124,16 @@ public class UserFrame extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-    // TODO add your handling code here:
+   this.setVisible(false);
 }//GEN-LAST:event_btnCancelActionPerformed
 
   private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
-    if(txtPw1.getText() == txtPw2.getText())
+    if(txtPw1.getText().equals(txtPw2.getText()))
       parent.setUserNameandPw(txtUsername.getText(), txtPw1.getText());
     else
-      JOptionPane.showMessageDialog( null, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
-
+      JOptionPane.showMessageDialog( this, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
+    
+    this.setVisible(false);
   }//GEN-LAST:event_btnOkActionPerformed
 
   private void txtPw2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPw2ActionPerformed
