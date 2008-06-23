@@ -120,11 +120,16 @@ public class Game implements Serializable
     return update;
   }
   
-  // Removes a player to the playground
+  // Removes a player from the playground
   public void removePlayer(int x, int y, Player player)
   {  
     if(this.playground.getElement(x, y).equals(player))   // Removes only the selected player 
-      this.playground.setElement(x, y, player.getID(), null);    
+      this.playground.setElement(x, y, player.getID(), null);
+  }
+  
+  public void removePlayer(Session session)
+  {
+    this.playerSessions.remove(session);
   }
   
   /**
