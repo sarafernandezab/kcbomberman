@@ -31,7 +31,7 @@
                               <Component id="btnChat" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="lblChatWindow" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" alignment="0" pref="474" max="32767" attributes="1"/>
+                          <Component id="jScrollPane2" alignment="0" pref="475" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -40,7 +40,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jScrollPane1" pref="531" max="32767" attributes="1"/>
+                      <Component id="jScrollPane1" pref="532" max="32767" attributes="1"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnSpectateGame" max="32767" attributes="1"/>
@@ -83,7 +83,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jScrollPane2" pref="118" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="120" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnChat" alignment="3" min="-2" max="-2" attributes="0"/>

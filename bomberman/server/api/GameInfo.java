@@ -24,10 +24,10 @@ import java.io.Serializable;
 /**
  * Contains the information for one Game. This class is used to update
  * clients with new game information.
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class GameInfo implements Serializable
-{
+{          
   private String gameName     = null;
   private String creator      = null;
   private String status       = null;

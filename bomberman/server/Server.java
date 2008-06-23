@@ -356,11 +356,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Send gameStopped() message to all players
     for(Session sess : game.getPlayerSessions())
-      clients.get(sess).gameStopped();
+      clients.get(sess).gameStopped(1); // Condition 1 means "Stopped by Server"
     
     // Send gameStopped() message to all spectators
     for(Session sess : game.getSpectatorSessions())
-      clients.get(sess).gameStopped();
+      clients.get(sess).gameStopped(1);
     
     games.remove(game.toString()); 
   }
