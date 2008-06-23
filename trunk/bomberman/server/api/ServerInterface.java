@@ -20,6 +20,7 @@
 package bomberman.server.api;
 
 import bomberman.client.api.ServerListenerInterface;
+import bomberman.server.Game;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -134,4 +135,6 @@ public interface ServerInterface extends Remote
    */
   boolean placeBomb(Session session)
     throws RemoteException, InvalidSessionException;
+
+  
 }

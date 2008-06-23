@@ -40,24 +40,38 @@ import javax.swing.JComponent;
 public class ElementPainter extends JComponent
 {
   public static final int    DEFAULT_SIZE    = 40;
-  public static final String EXPLOSION_IMAGE = "resource/gfx/explosion/expl";
+  public static final String EXPLOSION_IMAGE =  "resource/gfx/explosion/expl";
+  public static final String PLAYER_DIE_IMAGE = "resource/gfx/player";
   
   private static HashMap<String, Image> ImageCache;
   
   static
   {
     ImageCache = new HashMap<String, Image>();
+    // Explosion-Image
     for(int n = 1; n <= 5; n++)
     {
       Image img = Resource.getImage(EXPLOSION_IMAGE + n + ".png").getImage();
       ImageCache.put(EXPLOSION_IMAGE + n + ".png", img);
     }
+    // Player-Die-Image
+    for(int n = 1; n <= 4; n++)
+    {
+      for(int i = 21; i <= 25; i++)
+      {
+        Image img = Resource.getImage(PLAYER_DIE_IMAGE + n + "/"+ i +".png").getImage();
+        ImageCache.put(PLAYER_DIE_IMAGE + n + "/"+ i +".png", img);
+      }
+    }
   }
   
   private Image[] images    = new Image[5];
   private int     explStage = 0;
+  private int     dieStage = 0;
   private ExplosionTimer explTimer;
+  private DieTimer dieTimer;
   private Element element;
+  private int playerNumber;
   
   public ElementPainter()
   {
@@ -78,11 +92,35 @@ public class ElementPainter extends JComponent
     this.explTimer = new ExplosionTimer(this, delay, period);
   }
   
+  
+  synchronized void newDieAnimation(int delay, int period, int playerNumber)
+  {
+    if(this.dieTimer != null)
+      stopDieTimer();
+    this.playerNumber = playerNumber;
+    this.dieTimer = new DieTimer(this, delay, period);
+  }
+  
+  private void stopDieTimer()
+  {
+    this.dieTimer.cancel();
+    this.dieTimer = null;
+    explStage = 0;
+  }
+  
+  void nextDieImage()
+  {
+    dieStage++;
+    if(dieStage > 5)
+      stopDieTimer();
+  }
+
+  
   void nextExplosionImage()
   {
     explStage++;
     if(explStage > 5)
-      stopExplosionTimer();
+      stopDieTimer();
   }
   
   @Override
@@ -101,7 +139,13 @@ public class ElementPainter extends JComponent
     if(explStage > 0 && (getElement() == null || (getElement() instanceof Explodable)))
     {
       Image img = ImageCache.get(EXPLOSION_IMAGE + (explStage + 1) + ".png");
-      g.drawImage(img, 0, 0, null);
+      g.drawImage(img, 0, 0, null);      
+    }
+    // Draw die animation
+    if(dieStage > 0)
+    {
+      Image img = ImageCache.get(PLAYER_DIE_IMAGE + this.playerNumber + "/" + (dieStage + 20) + ".png");
+      g.drawImage(img, 0, 0, null);      
     }
   }
   

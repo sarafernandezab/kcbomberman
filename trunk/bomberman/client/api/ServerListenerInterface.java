@@ -49,7 +49,7 @@ public interface ServerListenerInterface extends Remote
    * The server notifies the client player that it has died.
    * @throws java.rmi.RemoteException
    */
-  public void youDied()
+  public void playerDied(int x, int y, int playerNumber)
     throws RemoteException;
   
   public void receiveChatMessage(String message)

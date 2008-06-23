@@ -58,6 +58,8 @@ public class ServerListener
     pp.drawExplosion(x, y, distance);
   }
   
+ 
+  
   public void gameListUpdate(ArrayList<GameInfo> gameInfo)
           throws RemoteException
   {
@@ -147,8 +149,15 @@ public class ServerListener
     }
   }
   
-  public void youDied() throws RemoteException
+  public void playerDied(int x, int y, int playerNumber) throws RemoteException
   {
+    new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
+
+    PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
+    pp.drawDieAnimation(x, y, playerNumber);
+
+    
+    
     JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
 
     MainFrame.getInstance().setContentPane(new LobbyPanel());
