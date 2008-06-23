@@ -31,6 +31,7 @@ import bomberman.server.gui.ServerFrame;
 public class Main 
 {
   public static void main(String[] args)
+          throws Exception
   {
     /** Should we omit the Server GUI? */
     boolean headlessServer = false;

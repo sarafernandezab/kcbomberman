@@ -72,7 +72,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     {
       XStream xstream = new XStream(new DomDriver());
       this.database  = (Database)xstream.fromXML(new FileInputStream(ShutdownThread.DATABASE_FILE));
-      this.highscore = (Highscore)xstream.fromXML(new FileInputStream(ShutdownThread.DATABASE_FILE));
+      this.highscore = (Highscore)xstream.fromXML(new FileInputStream(ShutdownThread.HIGHSCORE_FILE));
     }
     catch(Exception ex)
     {

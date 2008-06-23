@@ -19,6 +19,7 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.Database;
 import bomberman.server.Game;
 import bomberman.server.Player;
 import bomberman.server.ServerThread;
@@ -64,7 +65,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     // Sets Scrollposition to 0
     JScrollBar vbar = scrPane.getVerticalScrollBar();
     vbar.setValue(vbar.getMinimum()); 
-    txtLog.updateUI();
+   // txtLog.updateUI();
   } 
   
   // Adds player to List
@@ -85,6 +86,15 @@ public class ServerControlPanel extends javax.swing.JPanel
     initComponents();
     setThread(thread);
     instance = this;
+    
+    Database db = thread.getServer().getDatabase();
+    for(String user : db.getUsers())
+    {
+      ArrayList<Object> data = new ArrayList<Object>();
+      data.add(user);
+      data.add("-");
+      ((UserListTableModel)getTblUserList().getModel()).addRow(data);
+    }
   }
   
   private void setThread(ServerThread thread)
@@ -317,8 +327,16 @@ public class ServerControlPanel extends javax.swing.JPanel
       this.getServerThread().stopThread();
     }
     
-    this.serverThread = new ServerThread(true);
-    this.getServerThread().start();
+    try
+    {
+      this.serverThread = new ServerThread(true);
+      this.getServerThread().start();
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+    }
+
     setThread(this.getServerThread());
     ServerControlPanel.getInstance().addLogMessages("Bombermanserver bereit ...");
   }//GEN-LAST:event_btnStartServerActionPerformed
