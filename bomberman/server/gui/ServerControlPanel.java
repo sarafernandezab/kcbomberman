@@ -65,7 +65,7 @@ public class ServerControlPanel extends javax.swing.JPanel
   // Adds player to List
   public void addPlayer(Player pl)
   {
-    ((DefaultListModel)liUser.getModel()).addElement(pl);    
+    //((DefaultListModel)liUser.getModel()).addElement(pl);    
   }
   
   // Adds game to List
@@ -119,9 +119,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     liGames = new javax.swing.JList();
     btnCloseGame = new javax.swing.JButton();
     tabUsers = new javax.swing.JPanel();
-    jScrollPane3 = new javax.swing.JScrollPane();
-    liUser = new javax.swing.JList();
     btnKick = new javax.swing.JButton();
+    jScrollPane1 = new javax.swing.JScrollPane();
+    jTable1 = new javax.swing.JTable();
+    jButton1 = new javax.swing.JButton();
+    jButton2 = new javax.swing.JButton();
     btnHighscoreExport = new javax.swing.JButton();
     lblExportHighscore = new javax.swing.JLabel();
 
@@ -153,11 +155,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -178,7 +180,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(btnCloseGame)
         .addContainerGap())
@@ -188,22 +190,51 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
           .addComponent(btnCloseGame))
         .addContainerGap())
     );
 
     tabbedPane.addTab("Spiele", tabGames);
 
-    liUser.setModel(new DefaultListModel());
-    jScrollPane3.setViewportView(liUser);
-
-    btnKick.setText("Kicken");
+    btnKick.setText("User kicken");
     btnKick.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         btnKickActionPerformed(evt);
       }
     });
+
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null},
+        {null, null},
+        {null, null},
+        {null, null}
+      },
+      new String [] {
+        "Username", "Status"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        true, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    jScrollPane1.setViewportView(jTable1);
+
+    jButton1.setText("Neuer User");
+
+    jButton2.setText("User entf.");
 
     javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
     tabUsers.setLayout(tabUsersLayout);
@@ -211,9 +242,12 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-        .addGap(18, 18, 18)
-        .addComponent(btnKick)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+          .addComponent(btnKick, 0, 0, Short.MAX_VALUE)
+          .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+          .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap())
     );
     tabUsersLayout.setVerticalGroup(
@@ -221,8 +255,13 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-          .addComponent(btnKick))
+          .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+          .addGroup(tabUsersLayout.createSequentialGroup()
+            .addComponent(jButton1)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jButton2)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(btnKick)))
         .addContainerGap())
     );
 
@@ -239,7 +278,6 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
           .addComponent(lblCaption)
           .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -250,7 +288,8 @@ public class ServerControlPanel extends javax.swing.JPanel
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addComponent(lblExportHighscore)
               .addComponent(lblStopServer)
-              .addComponent(lblStartServer))))
+              .addComponent(lblStartServer)))
+          .addComponent(tabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
         .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -270,9 +309,9 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(btnHighscoreExport)
           .addComponent(lblExportHighscore))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-        .addContainerGap())
+        .addGap(18, 18, 18)
+        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+        .addGap(12, 12, 12))
     );
   }// </editor-fold>//GEN-END:initComponents
 
@@ -291,7 +330,7 @@ public class ServerControlPanel extends javax.swing.JPanel
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
     if(this.serverThread != null)
     {     
-      for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
+/*      for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
       {
         try
         {
@@ -306,19 +345,19 @@ public class ServerControlPanel extends javax.swing.JPanel
       this.serverThread.stopThread();
       setThread(null);
       ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
-
+*/
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
 
   private void btnKickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKickActionPerformed
     try
     {
-      Player pl = (Player)liUser.getSelectedValue();
+     /* Player pl = (Player)liUser.getSelectedValue();
       serverThread.getServer().logout(pl.toString());         
       ((DefaultListModel)liUser.getModel()).removeElement(pl);
-      addLogMessages(pl.getNickname() + " wurde gekickt");
+      addLogMessages(pl.getNickname() + " wurde gekickt");*/
     }
-    catch(RemoteException e)
+    catch(Exception e)
     {
       e.printStackTrace();
     }
@@ -346,14 +385,16 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JButton btnKick;
   private javax.swing.JButton btnStartServer;
   private javax.swing.JButton btnStopServer;
+  private javax.swing.JButton jButton1;
+  private javax.swing.JButton jButton2;
+  private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
-  private javax.swing.JScrollPane jScrollPane3;
+  private javax.swing.JTable jTable1;
   private javax.swing.JLabel lblCaption;
   private javax.swing.JLabel lblExportHighscore;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
   private javax.swing.JList liGames;
-  private javax.swing.JList liUser;
   private javax.swing.JScrollPane scrPane;
   private javax.swing.JPanel tabGames;
   private javax.swing.JPanel tabLog;
