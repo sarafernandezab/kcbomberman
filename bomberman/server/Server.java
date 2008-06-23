@@ -426,8 +426,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       clients.get(sess).receiveChatMessage(answer); // TODO: Spielende Player ausblenden
   }
   
-  public void login(String nickname, ServerListenerInterface sli) 
-          throws RemoteException
+  public void login(String nickname, String password, ServerListenerInterface sli) 
+    throws RemoteException
   {
     Session session = new Session();
     

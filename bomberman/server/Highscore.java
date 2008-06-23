@@ -20,13 +20,14 @@
 package bomberman.server;
 
 import bomberman.util.Pair;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- *
+ * Stores the persistent Highscore data.
  * @author Christian Lins (christian.lins@web.de)
  */
-public class Highscore 
+class Highscore implements Serializable
 {
   // Stores won and lost games per username
   private HashMap<String, Pair<Integer, Integer>> data = new HashMap<String, Pair<Integer, Integer>>();

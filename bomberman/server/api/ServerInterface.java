@@ -20,15 +20,14 @@
 package bomberman.server.api;
 
 import bomberman.client.api.ServerListenerInterface;
-import bomberman.server.Game;
+import bomberman.server.Session;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import bomberman.server.Session;
-
 /**
  * Main interface for the game server. 
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
  * @author Kai Ritterbusch
  */
 public interface ServerInterface extends Remote
@@ -41,7 +40,7 @@ public interface ServerInterface extends Remote
    * @param sli
    * @throws java.rmi.RemoteException
    */
-  void login(String nickname, ServerListenerInterface sli)
+  void login(String nickname, String password, ServerListenerInterface sli)
     throws RemoteException;
   
   /**

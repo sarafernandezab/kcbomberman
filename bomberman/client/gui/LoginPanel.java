@@ -19,6 +19,7 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.ClientThread;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -62,7 +63,7 @@ public class LoginPanel extends javax.swing.JPanel
     btnLogin = new javax.swing.JButton();
     btnClear = new javax.swing.JButton();
     txtPassword = new javax.swing.JPasswordField();
-    jLabel1 = new javax.swing.JLabel();
+    lblPassword = new javax.swing.JLabel();
 
     setNextFocusableComponent(txtNickname);
 
@@ -85,8 +86,8 @@ public class LoginPanel extends javax.swing.JPanel
       }
     });
 
-    jLabel1.setForeground(java.awt.Color.white);
-    jLabel1.setText("Passwort:");
+    lblPassword.setForeground(java.awt.Color.white);
+    lblPassword.setText("Passwort:");
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -96,7 +97,7 @@ public class LoginPanel extends javax.swing.JPanel
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(lblNickname)
-          .addComponent(jLabel1))
+          .addComponent(lblPassword))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -117,7 +118,7 @@ public class LoginPanel extends javax.swing.JPanel
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(jLabel1))
+          .addComponent(lblPassword))
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(btnLogin)
@@ -133,11 +134,12 @@ public class LoginPanel extends javax.swing.JPanel
 
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
     String nickname = this.txtNickname.getText();
+    String password = this.txtPassword.getText();
     
     try
     {
       // The Client request a login
-      bomberman.client.ClientThread.Server.login(nickname, bomberman.client.ClientThread.ServerListener);
+      ClientThread.Server.login(nickname, password, ClientThread.ServerListener);
     }
     catch(Exception ex)
     {
@@ -149,8 +151,8 @@ public class LoginPanel extends javax.swing.JPanel
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnClear;
   private javax.swing.JButton btnLogin;
-  private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel lblNickname;
+  private javax.swing.JLabel lblPassword;
   private javax.swing.JTextField txtNickname;
   private javax.swing.JPasswordField txtPassword;
   // End of variables declaration//GEN-END:variables
