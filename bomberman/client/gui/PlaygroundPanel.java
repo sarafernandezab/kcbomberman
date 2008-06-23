@@ -82,6 +82,12 @@ public class PlaygroundPanel
     MainFrame.getInstance().repaint();
   }
   
+  public void drawDieAnimation(int x, int y, int playerNumber)
+  {
+    int explPeriod = 150;
+    this.elementPainter[x][y].newDieAnimation(0, explPeriod, playerNumber);
+  }
+  
   public void drawExplosion(int x, int y, int distance)
   {   
     int explPeriod = 150;

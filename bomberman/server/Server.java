@@ -59,6 +59,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
   private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
   
+  
   public Server() throws RemoteException
   {
     instance = this;
@@ -86,7 +87,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                 {
                   try
                   {
-                    clients.get(ent.getKey()).youDied();
+                    clients.get(ent.getKey()).playerDied(x,y,ent.getValue().getID());
                     playerToGame.remove(ent.getKey());
                     refresh();
                   }
@@ -96,8 +97,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   }
                 }
               }
-         
-            // Send hasDied() message to clients
             
             // Remove player from game
             game.removePlayer(x, y, (Player)e);
@@ -190,10 +189,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   }
                 }
               }
-            }
+            }          
+            
+            
+            
+            
+            
+            
             
             Thread.yield();
           }
+          
           catch (Exception ex)
           {
             ex.printStackTrace();
@@ -279,7 +285,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       }
     }
   }
-  
+
   /**
    * Logout with username
    */ 
