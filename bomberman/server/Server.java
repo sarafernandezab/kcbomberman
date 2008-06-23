@@ -241,8 +241,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     if(!clients.containsKey(session))
       throw new InvalidSessionException();
-    
-    logger.addLogMessage("checkSession", "");
   }
   
   void notifyExplosion(Game game, int x, int y, int distance)
