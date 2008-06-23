@@ -226,6 +226,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     });
 
     btnRemoveUser.setText("User entf.");
+    btnRemoveUser.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnRemoveUserActionPerformed(evt);
+      }
+    });
 
     javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
     tabUsers.setLayout(tabUsersLayout);
@@ -371,9 +376,13 @@ public class ServerControlPanel extends javax.swing.JPanel
 
   private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
     UserFrame uf = new UserFrame(this);
-    uf.setVisible(true);
-    
+    uf.setVisible(true);    
 }//GEN-LAST:event_btnCreateUserActionPerformed
+
+  private void btnRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUserActionPerformed
+    serverThread.getServer().getDatabase().removeUser(((UserListTableModel)tblUserList.getModel()).getValueAt(tblUserList.getSelectedRow(), 0).toString());
+    ((UserListTableModel)tblUserList.getModel()).deleteRow(tblUserList.getSelectedRow());
+  }//GEN-LAST:event_btnRemoveUserActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
