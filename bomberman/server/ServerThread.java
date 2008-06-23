@@ -46,12 +46,16 @@ public class ServerThread extends Thread
     {
       this.server = new Server();
       
-      // Erzeuge neue lokale Registry
+      // Create local registry
       if(Registry == null)
         Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
       
-      // Binde Server an Namen
+      // Bind server to name
       Registry.rebind("KCBombermanServer", server);      
+      
+      // Set a shutdown hook that stores the changed highscore and database
+      Runtime.getRuntime().addShutdownHook(
+              new ShutdownThread(server.getDatabase(), server.getHighscore()));
       
       System.out.println("Bombermanserver bereit ...");
       

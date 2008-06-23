@@ -19,15 +19,47 @@
 
 package bomberman.server;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * Stores the persistent data of the Server
  * @author Christian Lins (christian.lins@web.de)
  */
 class ShutdownThread extends Thread
 {
+  public static final String DATABASE_FILE  = "database.po";
+  public static final String HIGHSCORE_FILE = "highscore.po";
+  
+  private Database  database  = null;
+  private Highscore highscore = null;
+  
+  public ShutdownThread(Database database, Highscore highscore)
+  {
+    this.database   = database;
+    this.highscore  = highscore;
+  }
+  
   @Override
   public void run()
   {
-    
+    try
+    {
+      ObjectOutputStream out;
+      
+      out = new ObjectOutputStream(new FileOutputStream(DATABASE_FILE));
+      out.writeObject(this.database);
+      out.flush();
+      out.close();
+      
+      out = new ObjectOutputStream(new FileOutputStream(HIGHSCORE_FILE));
+      out.writeObject(this.highscore);
+      out.flush();
+      out.close();
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+    }
   }
 }
