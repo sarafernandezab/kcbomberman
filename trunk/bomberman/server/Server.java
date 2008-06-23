@@ -59,7 +59,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
   private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
   
-  
   public Server() throws RemoteException
   {
     instance = this;
