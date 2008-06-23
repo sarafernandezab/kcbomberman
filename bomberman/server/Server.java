@@ -57,7 +57,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
   private HashMap<String, Game>                     games  = new HashMap<String, Game>();
   private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
+  private HashMap<Session, String>                  playerToIP  = new HashMap<Session, String>();
   private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
+  private Logger logger = new Logger();
   
   public Server() throws RemoteException
   {
@@ -239,6 +241,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     if(!clients.containsKey(session))
       throw new InvalidSessionException();
+    
+    logger.addLogMessage("checkSession", "");
   }
   
   void notifyExplosion(Game game, int x, int y, int distance)
@@ -426,7 +430,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       clients.get(sess).receiveChatMessage(answer); // TODO: Spielende Player ausblenden
   }
   
-  public void login(String nickname, String password, ServerListenerInterface sli) 
+
+  public void login(String nickname, String password, ServerListenerInterface sli, String ip) 
     throws RemoteException
   {
     Session session = new Session();
@@ -436,6 +441,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // register in Playerlist
     Player player = new Player(null, nickname);
     players.put(session, player);
+    
+    // register in IPlist
+    playerToIP.put(session, ip);
+    
+    // Logger
+    logger.addLogMessage("login", ip);
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
@@ -523,6 +534,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     checkSession(session);
     
+    // Logger
+    logger.addLogMessage("joinViewGame", playerToIP.get(session));
+    
     Game game = games.get(gameName);    
     Player player = players.get(session);  
     game.getSpectatorSessions().add(session);
@@ -539,8 +553,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @throws java.rmi.RemoteException
    */
   public boolean joinGame(Session session, String gameName) throws RemoteException
-  {
+  { 
     checkSession(session);
+    
+    // Logger
+    logger.addLogMessage("joinGame", playerToIP.get(session));
     
     Game game = games.get(gameName);
    
@@ -594,6 +611,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     checkSession(session);
     
+    // Logger
+    logger.addLogMessage("createGame", playerToIP.get(session));
+    
     if(games.containsKey(gameName)) // There is a game with this name
       return false;
     else
@@ -627,6 +647,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
           throws RemoteException
   {
     checkSession(session);
+    
+    // Logger
+    logger.addLogMessage("login", playerToIP.get(session));
+    
     System.out.println("Session ok");
     if(!games.containsKey(gameName)) // No such game
       return false;
