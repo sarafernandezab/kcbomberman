@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Represents a game that can be created and started by the users.
  * @author Kai Ritterbusch
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Game implements Serializable
 { 
@@ -56,13 +56,17 @@ public class Game implements Serializable
       addPlayer(new AIPlayer(this, playground));
   }
   
-    // Adds a player to the playground
+  /**
+   * Adds a spectator to the playground.
+   */ 
   public void addSpectator(Session session)
   {
     spectSessions.add(session);
   }
   
-  // Adds a player to the playground
+  /**
+   * Adds a player to the playground.
+   */ 
   public void addPlayer(Player player)
   {
     player.setGame(this);
@@ -97,6 +101,29 @@ public class Game implements Serializable
     players.add(player);
     
     System.out.println("Player"+ player.getID() +"added to Playground ("+player.getNickname() +")");
+  }
+  
+  public Session getCreator()
+  {
+    return this.creator;
+  }
+  
+  public List<Session> getPlayerSessions()
+  {
+    return this.playerSessions;
+  }
+  
+  public List<Session> getSpectatorSessions()
+  {
+    return this.spectSessions;
+  }
+  
+  /**
+   * @return Number of players in this game (incl. AIPlayers).
+   */
+  public int getPlayerCount()
+  {
+    return this.players.size();
   }
   
   /**
@@ -182,21 +209,6 @@ public class Game implements Serializable
       return false;
   }
   
-  public Session getCreator()
-  {
-    return this.creator;
-  }
-  
-  public List<Session> getPlayerSessions()
-  {
-    return this.playerSessions;
-  }
-  
-  public List<Session> getSpectatorSessions()
-  {
-    return this.spectSessions;
-  }
-  
   @Override
   public String toString()
   {
@@ -216,10 +228,5 @@ public class Game implements Serializable
   public void setRunning(boolean running) 
   {
     this.running = running;
-  }
-  
-  public int getPlayerCount()
-  {
-    return this.players.size();
   }
 }

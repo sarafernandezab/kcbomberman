@@ -58,9 +58,14 @@ public class ServerListener
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawExplosion(x, y, distance);
   }
-  
  
-  
+  /**
+   * Notifies the Client about an update of the game list, e.g.
+   * someone else has created a new game or an existing game was
+   * started elsewhere.
+   * @param gameInfo
+   * @throws java.rmi.RemoteException
+   */
   public void gameListUpdate(List<GameInfo> gameInfo)
           throws RemoteException
   {
@@ -104,10 +109,31 @@ public class ServerListener
    */
   public void gameStopped(int condition) throws RemoteException
   {
+    String msg = "Unknown gameStopped condition!";
+    
+    switch(condition)
+    {
+      case 0:
+      {
+        msg = "Spiel wurde aus unbekanntem Grund beendet!";
+        break;
+      }
+      case 1:
+      {
+        msg = "Du hast verloren!";
+        break;
+      }
+      case 2:
+      {
+        msg = "Hurra! Du hast gewonnen!";
+        break;
+      }
+    }
+    
     MainFrame.getInstance().setContentPane(new LobbyPanel());
     MainFrame.getInstance().setVisible(true);    
     MainFrame.getInstance().repaint();
-    System.out.println("Game stopped");
+    System.out.println("Game stopped: " + msg);
   }
   
   public void gameJoined(String gameName) throws RemoteException

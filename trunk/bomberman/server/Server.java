@@ -35,7 +35,6 @@ import bomberman.server.gui.ServerControlPanel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
@@ -145,11 +144,33 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         {
           try
           {
-            for (Entry<String, Game> e : games.entrySet())
+            for (Entry<String, Game> entry : games.entrySet())
             {
-              if (e.getValue().isPlaygroundUpdateRequired())
+              Game game = entry.getValue();
+              
+              // Check if there are enough real players or any
+              // spectators left for gaming
+              if(game.isRunning() &&
+                 game.getPlayerCount() == 1)
               {
-                Game game = e.getValue();
+                game.setRunning(false);
+                
+                // Send won game message to the remaining user
+                // (if not AIPlayer)
+                if(game.getPlayerSessions().size() > 0)
+                {
+                  clients.get(game.getPlayerSessions().get(0)).gameStopped(2);
+                  
+                  // We have to store the game result in the Highscore list
+                }
+                games.remove(game);
+                break; // Stop the for-loop
+              }
+              
+              // Check if it is necessary to send playground update
+              // messages to the Clients
+              if (game.isPlaygroundUpdateRequired())
+              {
                 // Updates Playground when moved
                 for (Session sess : game.getPlayerSessions())
                 {
