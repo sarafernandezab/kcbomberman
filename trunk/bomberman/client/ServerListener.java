@@ -120,7 +120,7 @@ public class ServerListener
       }
       case 1:
       {
-        msg = "Du hast verloren!";
+        msg = "Spiel wurde vom Admin beendet!";
         break;
       }
       case 2:

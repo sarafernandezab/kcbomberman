@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 import bomberman.client.api.ServerListenerInterface;
-import bomberman.server.api.Element;
-import bomberman.server.api.Explodable;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
@@ -38,7 +36,6 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -85,170 +82,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       System.out.println("No persistent database/highscore found!");
     }
 
-    Runnable run = new Runnable()
-    {
-      private boolean processExplElement(Game game, Element e, int x, int y, int k)
-      {
-        if (e != null && e instanceof Explodable)
-        {
-          if (e instanceof Wall)
-          {
-            game.getPlayground().setElement(x, y, 0, getRandomizeExtra(x, y));
-            return true;
-          }
-          else if (e instanceof Player)
-          {
-            System.out.println(e + " died!");
-            if(e instanceof AIPlayer)
-              ((AIPlayer)e).die();            
-            else
-              for(Entry<Session, Player> ent : players.entrySet())
-              {
-                if(ent.getValue().equals((Player)e))
-                {
-                  try
-                  {
-                    clients.get(ent.getKey()).playerDied(x,y,ent.getValue().getID());
-                    playerToGame.remove(ent.getKey());
-                    game.removePlayer(ent.getKey());
-                    refresh();
-                  }
-                  catch(RemoteException re)
-                  {
-                    re.printStackTrace();
-                  }
-                }
-              }
-            
-            // Remove player from game
-            game.removePlayer(x, y, (Player)e);
-            game.getPlayground().setElement(x, y, ((Player)e).getID(), null);
-            
-            return false;
-          }
-          else if (e instanceof Extra)
-          {
-            // Delete extra
-            game.getPlayground().setElement(x, y, 0, null);
-            return false;
-          }
-        }
-        
-        return false;
-      }
-      
-      @Override
-      public void run()
-      {
-        for (;;)
-        {
-          try
-          {
-            for (Entry<String, Game> entry : games.entrySet())
-            {
-              Game game = entry.getValue();
-              
-              // Check if there are enough real players or any
-              // spectators left for gaming
-              if(game.isRunning() &&
-                 (game.getPlayerCount() == 1 ||
-                  game.getPlayerSessions().size() == 0))
-              {
-                game.setRunning(false);
-                
-                // Send won game message to the remaining user
-                // (if not AIPlayer)
-                if(game.getPlayerSessions().size() > 0)
-                {
-                  clients.get(game.getPlayerSessions().get(0)).gameStopped(2);
-                  
-                  // We have to store the game result in the Highscore list
-                }
-                games.remove(game);
-                break; // Stop the for-loop
-              }
-              
-              // Check if it is necessary to send playground update
-              // messages to the Clients
-              if (game.isPlaygroundUpdateRequired())
-              {
-                // Updates Playground when moved
-                for (Session sess : game.getPlayerSessions())
-                {
-                  clients.get(sess).playgroundUpdate(game.getPlayground());
-                }
-                // Updates Playground for Spectator when moved
-                for (Session sess : game.getSpectatorSessions())
-                {
-                  clients.get(sess).playgroundUpdate(game.getPlayground());
-                }
-              }
-            }
-            
-            // Process all explosions
-            while(!explosions.isEmpty())
-            {
-              List<Object> explData = explosions.remove();
-              Game game = (Game)explData.get(0);
-              if(!game.isRunning()) // Game could be stopped until now
-                continue;
-              
-              int x = (Integer)explData.get(1);
-              int y = (Integer)explData.get(2);
-              int dist = (Integer)explData.get(3);
-              for(Session sess : game.getPlayerSessions())
-              {
-                clients.get(sess).explosion(x, y, dist);
-              }
-              for(Session sess : game.getSpectatorSessions())
-              {
-                clients.get(sess).explosion(x, y, dist);
-              }
-              
-              boolean top    = false;
-              boolean bottom = false;
-              boolean left   = false;
-              boolean right  = false;
-              
-              // Delete exploded elements
-              for(int i = 1; i <= dist; i++)
-              {
-                for(int k = 0; k < 5; k++)
-                {
-                  if(!right)
-                  {
-                    Element e = game.getPlayground().getElement(x+i, y)[k];
-                    right = processExplElement(game, e, x+i, y, k);
-                  }
-                  if(!left)
-                  {
-                    Element e = game.getPlayground().getElement(x-i, y)[k];
-                    left = processExplElement(game, e, x-i, y, k);
-                  }
-                  if(!top)
-                  {
-                    Element e = game.getPlayground().getElement(x, y-i)[k];
-                    top = processExplElement(game, e, x, y-i, k);
-                  }
-                  if(!bottom)
-                  {
-                    Element e = game.getPlayground().getElement(x, y+i)[k];
-                    bottom = processExplElement(game, e, x, y+i, k);
-                  }
-                }
-              }
-            }
-            
-            Thread.sleep(100);
-          }
-          catch (Exception ex)
-          {
-            ex.printStackTrace();
-          }
-        }
-      }
-    };
-    Thread updater = new Thread(run, "Playground updater");
+    Thread updater = new ServerLoop(this);
     //updater.setPriority(Thread.MIN_PRIORITY);
     updater.setDaemon(true);
     updater.start();
@@ -257,22 +91,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     if(ServerControlPanel.getInstance() != null)
       ServerControlPanel.getInstance().addLogMessages("ServerInstanz erstellt");
     System.out.println("ServerInstanz erstellt");
-  }
-  
-  /*
-   * Get randomized extras or null after explosion 
-   * @return Element or null
-   */
-  private Element getRandomizeExtra(int x, int y)
-  {
-    Random rn = new Random();
-    float i = rn.nextFloat();
-    if(i < 0.1)
-      return new ExtraDistance(x, y);
-    else if(i < 0.2)
-      return new ExtraBomb(x, y);
-    else      
-      return null;
   }
   
   /**
@@ -287,6 +105,31 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     if(!clients.containsKey(session))
       throw new InvalidSessionException();
+  }
+  
+  HashMap<Session,ServerListenerInterface> getClients()
+  {
+    return this.clients;
+  }
+  
+  Queue<List<Object>> getExplosions()
+  {
+    return this.explosions;
+  }
+  
+  HashMap<String, Game> getGames()
+  {
+    return this.games;
+  }
+  
+  HashMap<Session, Player> getPlayers()
+  {
+    return this.players;
+  }
+  
+  HashMap<Session, Game> getPlayerToGame()
+  {
+    return this.playerToGame;
   }
   
   void notifyExplosion(Game game, int x, int y, int distance)
@@ -518,7 +361,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     gameListUpdate();
   }
   
-  
+  /**
+   * Sends both user and game list to all clients.
+   * @throws java.rmi.RemoteException
+   */
   public void refresh() throws RemoteException
   {
      // Updates GameList
@@ -532,7 +378,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Notify all users of the new user 
     for(Session sess : clients.keySet())    
       clients.get(sess).userListUpdate(nicknames);
-    
   }
   
   /**
