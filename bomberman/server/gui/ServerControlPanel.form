@@ -15,18 +15,20 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="tabbedPane" alignment="0" pref="419" max="32767" attributes="0"/>
                   <Component id="lblCaption" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="btnHighscoreExport" alignment="0" max="32767" attributes="1"/>
                           <Component id="btnStartServer" alignment="0" max="32767" attributes="1"/>
                           <Component id="btnStopServer" alignment="0" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblExportHighscore" min="-2" max="-2" attributes="0"/>
                           <Component id="lblStopServer" min="-2" max="-2" attributes="0"/>
                           <Component id="lblStartServer" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -51,8 +53,13 @@
                   <Component id="btnStopServer" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblStopServer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="tabbedPane" pref="237" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnHighscoreExport" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblExportHighscore" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="tabbedPane" pref="212" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -106,12 +113,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="scrPane" alignment="0" pref="411" max="32767" attributes="0"/>
+                  <Component id="scrPane" alignment="0" pref="415" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="scrPane" alignment="0" pref="200" max="32767" attributes="0"/>
+                  <Component id="scrPane" alignment="0" pref="183" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -147,7 +154,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="304" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="307" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCloseGame" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -159,7 +166,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="176" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="159" max="32767" attributes="0"/>
                           <Component id="btnCloseGame" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -208,7 +215,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="320" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="323" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnKick" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -220,7 +227,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane3" alignment="0" pref="176" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" alignment="0" pref="159" max="32767" attributes="0"/>
                           <Component id="btnKick" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -257,5 +264,15 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btnHighscoreExport">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Highs. Export"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblExportHighscore">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Aktuellen Highscore in Datei exportieren"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

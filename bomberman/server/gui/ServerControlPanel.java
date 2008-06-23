@@ -122,6 +122,8 @@ public class ServerControlPanel extends javax.swing.JPanel
     jScrollPane3 = new javax.swing.JScrollPane();
     liUser = new javax.swing.JList();
     btnKick = new javax.swing.JButton();
+    btnHighscoreExport = new javax.swing.JButton();
+    lblExportHighscore = new javax.swing.JLabel();
 
     lblCaption.setText("Hier können Sie den KC Bomberman Server verwalten:");
 
@@ -151,11 +153,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -176,7 +178,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(btnCloseGame)
         .addContainerGap())
@@ -186,7 +188,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
           .addComponent(btnCloseGame))
         .addContainerGap())
     );
@@ -209,7 +211,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(btnKick)
         .addContainerGap())
@@ -219,12 +221,16 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+          .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
           .addComponent(btnKick))
         .addContainerGap())
     );
 
     tabbedPane.addTab("User", tabUsers);
+
+    btnHighscoreExport.setText("Highs. Export");
+
+    lblExportHighscore.setText("Aktuellen Highscore in Datei exportieren");
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
@@ -237,10 +243,12 @@ public class ServerControlPanel extends javax.swing.JPanel
           .addComponent(lblCaption)
           .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+              .addComponent(btnHighscoreExport, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
               .addComponent(btnStartServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
               .addComponent(btnStopServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(lblExportHighscore)
               .addComponent(lblStopServer)
               .addComponent(lblStartServer))))
         .addContainerGap())
@@ -258,8 +266,12 @@ public class ServerControlPanel extends javax.swing.JPanel
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(btnStopServer)
           .addComponent(lblStopServer))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(btnHighscoreExport)
+          .addComponent(lblExportHighscore))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
         .addContainerGap())
     );
   }// </editor-fold>//GEN-END:initComponents
@@ -330,12 +342,14 @@ public class ServerControlPanel extends javax.swing.JPanel
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnCloseGame;
+  private javax.swing.JButton btnHighscoreExport;
   private javax.swing.JButton btnKick;
   private javax.swing.JButton btnStartServer;
   private javax.swing.JButton btnStopServer;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JScrollPane jScrollPane3;
   private javax.swing.JLabel lblCaption;
+  private javax.swing.JLabel lblExportHighscore;
   private javax.swing.JLabel lblStartServer;
   private javax.swing.JLabel lblStopServer;
   private javax.swing.JList liGames;
