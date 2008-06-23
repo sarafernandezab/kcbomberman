@@ -61,6 +61,8 @@ public class LoginPanel extends javax.swing.JPanel
     txtNickname = new javax.swing.JTextField();
     btnLogin = new javax.swing.JButton();
     btnClear = new javax.swing.JButton();
+    txtPassword = new javax.swing.JPasswordField();
+    jLabel1 = new javax.swing.JLabel();
 
     setNextFocusableComponent(txtNickname);
 
@@ -83,6 +85,9 @@ public class LoginPanel extends javax.swing.JPanel
       }
     });
 
+    jLabel1.setForeground(java.awt.Color.white);
+    jLabel1.setText("Passwort:");
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -90,14 +95,16 @@ public class LoginPanel extends javax.swing.JPanel
       .addGroup(layout.createSequentialGroup()
         .addContainerGap()
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(layout.createSequentialGroup()
-            .addComponent(lblNickname)
-            .addGap(18, 18, 18)
-            .addComponent(txtNickname, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+          .addComponent(lblNickname)
+          .addComponent(jLabel1))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
             .addComponent(btnClear)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(btnLogin)))
+            .addComponent(btnLogin))
+          .addComponent(txtNickname, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+          .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
         .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -107,16 +114,21 @@ public class LoginPanel extends javax.swing.JPanel
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(lblNickname)
           .addComponent(txtNickname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(jLabel1))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(btnLogin)
           .addComponent(btnClear))
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addContainerGap())
     );
   }// </editor-fold>//GEN-END:initComponents
 
   private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
     this.txtNickname.setText("");
+    this.txtPassword.setText("");
   }//GEN-LAST:event_btnClearActionPerformed
 
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -137,8 +149,10 @@ public class LoginPanel extends javax.swing.JPanel
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnClear;
   private javax.swing.JButton btnLogin;
+  private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel lblNickname;
   private javax.swing.JTextField txtNickname;
+  private javax.swing.JPasswordField txtPassword;
   // End of variables declaration//GEN-END:variables
   
   @Override

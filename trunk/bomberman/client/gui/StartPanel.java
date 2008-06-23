@@ -48,8 +48,8 @@ public class StartPanel extends JPanel
       public void componentResized(ComponentEvent event)
       {
         int x = getWidth() / 2 - 200;
-        int y = getHeight() - 100;
-        loginPanel.setBounds(x, y, 400, 75);
+        int y = getHeight() - 150;
+        loginPanel.setBounds(x, y, 400, 100);
       }
     });
   }
