@@ -151,7 +151,7 @@ public class ServerListener
   
   public void playerDied(int x, int y, int playerNumber) throws RemoteException
   {
-    new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
+    new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
 
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
