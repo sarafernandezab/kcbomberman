@@ -26,7 +26,7 @@ import java.util.TimerTask;
  *
  * @author Christian Lins (christian.lins@web.de)
  */
-class ExplosionTimer extends TimerTask
+class ExplosionTimer extends AnimationTimer
 {
   private ElementPainter painter;
   private Timer          timer = new Timer();
@@ -34,9 +34,7 @@ class ExplosionTimer extends TimerTask
   
   public ExplosionTimer(ElementPainter painter, int delay, int period)
   {
-    this.painter = painter;
-    
-    this.timer.schedule(this, delay, period);
+    super(painter, delay, period);
   }
   
   @Override

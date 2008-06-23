@@ -12,7 +12,7 @@ import java.util.TimerTask;
  *
  * @author kai
  */
-public class DieTimer extends TimerTask
+public class DieTimer extends AnimationTimer
 {
   private ElementPainter painter;
   private Timer          timer = new Timer();
@@ -20,9 +20,7 @@ public class DieTimer extends TimerTask
   
   public DieTimer(ElementPainter painter, int delay, int period)
   {
-    this.painter = painter;
-    
-    this.timer.schedule(this, delay, period);
+    super(painter, delay, period);
   }
   
   @Override
