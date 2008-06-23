@@ -89,6 +89,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   {
                     clients.get(ent.getKey()).playerDied(x,y,ent.getValue().getID());
                     playerToGame.remove(ent.getKey());
+                    game.removePlayer(ent.getKey());
                     refresh();
                   }
                   catch(RemoteException re)
@@ -189,13 +190,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
                   }
                 }
               }
-            }          
-            
-            
-            
-            
-            
-            
+            }
             
             Thread.yield();
           }
