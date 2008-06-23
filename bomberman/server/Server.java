@@ -735,7 +735,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
   }
 
-  Database getDatabase()
+  public Database getDatabase()
   {
     return database;
   }

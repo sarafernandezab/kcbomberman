@@ -122,8 +122,8 @@ public class ServerControlPanel extends javax.swing.JPanel
     btnKick = new javax.swing.JButton();
     jScrollPane1 = new javax.swing.JScrollPane();
     jTable1 = new javax.swing.JTable();
-    jButton1 = new javax.swing.JButton();
-    jButton2 = new javax.swing.JButton();
+    btnCreateUser = new javax.swing.JButton();
+    btnRemoveUser = new javax.swing.JButton();
     btnHighscoreExport = new javax.swing.JButton();
     lblExportHighscore = new javax.swing.JLabel();
 
@@ -155,11 +155,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
       tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -180,7 +180,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
         .addGap(18, 18, 18)
         .addComponent(btnCloseGame)
         .addContainerGap())
@@ -190,7 +190,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
           .addComponent(btnCloseGame))
         .addContainerGap())
     );
@@ -232,9 +232,14 @@ public class ServerControlPanel extends javax.swing.JPanel
     });
     jScrollPane1.setViewportView(jTable1);
 
-    jButton1.setText("Neuer User");
+    btnCreateUser.setText("Neuer User");
+    btnCreateUser.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCreateUserActionPerformed(evt);
+      }
+    });
 
-    jButton2.setText("User entf.");
+    btnRemoveUser.setText("User entf.");
 
     javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
     tabUsers.setLayout(tabUsersLayout);
@@ -242,12 +247,12 @@ public class ServerControlPanel extends javax.swing.JPanel
       tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
           .addComponent(btnKick, 0, 0, Short.MAX_VALUE)
-          .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(btnRemoveUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+          .addComponent(btnCreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addContainerGap())
     );
     tabUsersLayout.setVerticalGroup(
@@ -255,11 +260,11 @@ public class ServerControlPanel extends javax.swing.JPanel
       .addGroup(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
         .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+          .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
           .addGroup(tabUsersLayout.createSequentialGroup()
-            .addComponent(jButton1)
+            .addComponent(btnCreateUser)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jButton2)
+            .addComponent(btnRemoveUser)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(btnKick)))
         .addContainerGap())
@@ -377,16 +382,23 @@ public class ServerControlPanel extends javax.swing.JPanel
    }
     
   }//GEN-LAST:event_btnCloseGameActionPerformed
+
+  private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
+    
+    //serverThread.getServer().getDatabase().addUser(username, pw);
+            
+    
+}//GEN-LAST:event_btnCreateUserActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnCloseGame;
+  private javax.swing.JButton btnCreateUser;
   private javax.swing.JButton btnHighscoreExport;
   private javax.swing.JButton btnKick;
+  private javax.swing.JButton btnRemoveUser;
   private javax.swing.JButton btnStartServer;
   private javax.swing.JButton btnStopServer;
-  private javax.swing.JButton jButton1;
-  private javax.swing.JButton jButton2;
   private javax.swing.JScrollPane jScrollPane1;
   private javax.swing.JScrollPane jScrollPane2;
   private javax.swing.JTable jTable1;

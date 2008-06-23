@@ -14,7 +14,7 @@ import java.util.List;
  * Holds all persistant user data (except @see{Highscore}).
  * @author Christian Lins (christian.lins@web.de)
  */
-class Database implements Serializable
+public class Database implements Serializable
 {
   private HashMap<String, String> data = new HashMap<String, String>();
   
