@@ -192,9 +192,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
               }
             }
             
-            Thread.yield();
+            Thread.sleep(100);
           }
-          
           catch (Exception ex)
           {
             ex.printStackTrace();
