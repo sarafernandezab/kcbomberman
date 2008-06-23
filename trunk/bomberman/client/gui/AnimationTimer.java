@@ -14,8 +14,8 @@ import java.util.TimerTask;
  */
 abstract class AnimationTimer extends TimerTask
 {
-  private ElementPainter painter;
-  private Timer          timer    = new Timer();
+  protected ElementPainter painter;
+  protected Timer          timer    = new Timer();
   
   public AnimationTimer(ElementPainter painter, int delay, int period)
   {
