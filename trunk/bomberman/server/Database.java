@@ -26,7 +26,7 @@ public class Database implements Serializable
    */
   public void addUser(String username, String password)
   {
-    this.data.put(username, password);
+    this.getData().put(username, password);
   }
   
   /**
@@ -34,7 +34,7 @@ public class Database implements Serializable
    */
   public List<String> getUsers()
   {
-    return new ArrayList<String>(data.keySet());
+    return new ArrayList<String>(getData().keySet());
   }
   
   /**
@@ -45,7 +45,7 @@ public class Database implements Serializable
    */
   public String getPassword(String username)
   {
-    return this.data.get(username);
+    return this.getData().get(username);
   }
   
   /**
@@ -54,6 +54,11 @@ public class Database implements Serializable
    */
   public void removeUser(String username)
   {
-    this.data.remove(username);
+    this.getData().remove(username);
+  }
+
+  public HashMap<String, String> getData() 
+  {
+    return data;
   }
 }
