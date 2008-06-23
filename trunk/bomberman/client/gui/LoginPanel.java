@@ -24,6 +24,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 /**
  *
@@ -49,6 +54,30 @@ public class LoginPanel extends javax.swing.JPanel
       }
     });
   }
+  
+  private String getOwnIP() throws SocketException
+  {
+    Enumeration ifaces = NetworkInterface.getNetworkInterfaces();
+  
+    while (ifaces.hasMoreElements()) 
+    {
+      NetworkInterface ni = (NetworkInterface)ifaces.nextElement();
+      if(ni.isLoopback())
+        break;     
+
+      Enumeration addrs = ni.getInetAddresses();
+      while (addrs.hasMoreElements()) 
+      {
+        InetAddress ia = (InetAddress)addrs.nextElement();
+        if(!ia.isLoopbackAddress())
+        {
+          System.out.println(ia.getHostAddress());
+          return ia.getHostAddress();          
+        }
+      }
+    }
+    return "";
+   }
   
   /** This method is called from within the constructor to
    * initialize the form.
@@ -134,12 +163,17 @@ public class LoginPanel extends javax.swing.JPanel
 
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
     String nickname = this.txtNickname.getText();
+
+    //InetAddress inet = InetAddress. getByName(InetAddress.getLocalHost());
+
     String password = this.txtPassword.getText();
-    
+    String ip = null;
     try
-    {
+    { 
+      
       // The Client request a login
-      ClientThread.Server.login(nickname, password, ClientThread.ServerListener);
+      ClientThread.Server.login(nickname, password, ClientThread.ServerListener,  getOwnIP());
+
     }
     catch(Exception ex)
     {
