@@ -97,7 +97,11 @@ public class ServerLoop extends Thread
       {
         ((Bomb)e).explode();
         return false;
-      }      
+      }  
+      else if(e instanceof SolidWall)
+      {       
+        return true;
+      }
     }
 
     return false;
