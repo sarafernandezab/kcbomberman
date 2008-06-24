@@ -136,7 +136,7 @@ public class ServerListener
     {
       public void run() 
       {
-        JOptionPane.showMessageDialog(null, "Sie sind leider gestorben!");
+        JOptionPane.showMessageDialog(null, "TODO: Endnachricht!");
         MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
         MainFrame.getInstance().setVisible(true);        
       }
