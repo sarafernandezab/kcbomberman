@@ -74,11 +74,22 @@ public class ServerControlPanel extends javax.swing.JPanel
     //((DefaultListModel)liUser.getModel()).addElement(pl);    
   }
   
-  // Adds game to List
+  /*
+   * Adds game to List
+   */ 
   public void addGame(Game game)
   {
     ((DefaultListModel)liGames.getModel()).addElement(game);    
   }
+  
+  /*
+   * Removes Game from list
+   */ 
+  public void removeGame(Game game)
+  {
+    ((DefaultListModel)liGames.getModel()).removeElement(game);    
+  }
+  
   
   /** Creates new form ServerControlPanel */
   public ServerControlPanel(ServerThread thread) 
@@ -367,6 +378,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     try
     {
       int i = tblUserList.getSelectedRow();
+  
       String username = tblUserList.getModel().getValueAt(i, 0).toString();
       serverThread.getServer().logout(username);       
       ((UserListTableModel)tblUserList.getModel()).setValueAt("offline", i, 1);
@@ -384,7 +396,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     if(liGames.getSelectedValue() == null)
       return;
       getServerThread().getServer().closeGame(liGames.getSelectedValue().toString());
-    ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());
+    ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());    
    }
    catch(RemoteException e)
    {

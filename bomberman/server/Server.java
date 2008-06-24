@@ -191,6 +191,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         players.remove(ent.getKey());        
         clients.remove(ent.getKey());
         
+        refresh();
+        /*
         // Build list of usernames
         ArrayList<String> nicknames = new ArrayList<String>();
         for(Session sess : players.keySet())    
@@ -199,6 +201,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         // Notify all users of the new user 
         for(Session sess : clients.keySet())    
           clients.get(sess).userListUpdate(nicknames);
+         */
       }
     }
   }
@@ -423,12 +426,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // All players of this Game will logged out        
     stopGame(games.get(gameName));
     
-    // close the game
-    games.remove(gameName).setRunning(false);         
-    
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
     {
+      ServerControlPanel.getInstance().removeGame(games.get(gameName));
       ServerControlPanel.getInstance().addLogMessages("Spiel: " + gameName +" wurde durch Server beendet");      
     }
     
