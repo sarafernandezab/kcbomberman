@@ -178,11 +178,16 @@ public class ServerLoop extends Thread
           boolean left = false;
           boolean right = false;
 
+          
           // Delete exploded elements
           for (int i = 1; i <= dist; i++)
           {
             for (int k = 0; k < 5; k++)
             {
+              // on the bomb
+              Element el = game.getPlayground().getElement(x, y)[k];
+              processExplElement(game, el, x, y, k);
+              
               if (!right)
               {
                 Element e = game.getPlayground().getElement(x + i, y)[k];
