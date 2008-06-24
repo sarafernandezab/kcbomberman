@@ -30,6 +30,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -165,17 +166,13 @@ public class LoginPanel extends javax.swing.JPanel
 
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
     String nickname = this.txtNickname.getText();
-
-    //InetAddress inet = InetAddress. getByName(InetAddress.getLocalHost());
-
     String password = this.txtPassword.getText();
     String ip = null;
     try
-    { 
-      
+    {      
       // The Client request a login
-      ClientThread.Server.login(nickname, password, ClientThread.ServerListener,  getOwnIP());
-
+      if(!ClientThread.Server.login(nickname, password, ClientThread.ServerListener,  getOwnIP()))
+         JOptionPane.showMessageDialog( this, "Login fehlgeschlagen", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)
     {

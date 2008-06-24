@@ -41,7 +41,7 @@ public interface ServerInterface extends Remote
    * @throws java.rmi.RemoteException
    */
 
-  void login(String nickname, String password, ServerListenerInterface sli, String ip)
+  boolean login(String nickname, String password, ServerListenerInterface sli, String ip)
     throws RemoteException;
   
   /**
