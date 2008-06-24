@@ -23,8 +23,9 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * Creates randomized Session
+ * Creates randomized Session.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Session implements Serializable
 {

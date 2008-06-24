@@ -23,7 +23,7 @@ import bomberman.server.api.Element;
 import bomberman.server.api.Explodable;
 
 /**
- *
+ * An collectable Extra.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 abstract class Extra extends Element implements Explodable

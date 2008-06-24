@@ -40,7 +40,6 @@ public interface ServerInterface extends Remote
    * @param sli
    * @throws java.rmi.RemoteException
    */
-
   boolean login(String nickname, String password, ServerListenerInterface sli, String ip)
     throws RemoteException;
   
@@ -135,6 +134,4 @@ public interface ServerInterface extends Remote
    */
   boolean placeBomb(Session session)
     throws RemoteException, InvalidSessionException;
-
-  
 }

@@ -30,8 +30,8 @@ import java.io.Serializable;
  */
 public abstract class Element implements Serializable
 {
-  protected int gridX;
-  protected int gridY;
+  protected transient int gridX;
+  protected transient int gridY;
   
   public Element(int x, int y)
   {

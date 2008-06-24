@@ -28,7 +28,7 @@ import java.util.zip.CRC32;
  * Implementation of Challenge Handshake Authentication Protocol (CHAP).
  * @author Christian Lins (christian.lins@web.de)
  */
-public class CHAP 
+class CHAP 
 {
   /**
    * How many seconds the challenge will be valid.

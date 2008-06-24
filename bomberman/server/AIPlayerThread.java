@@ -16,17 +16,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package bomberman.server;
 
-import java.util.Random;
-
 /**
- *
- * @author chris
+ * Thread controlling one AIPlayer.
+ * @author Christian Lins (christian.lins@web.de)
  */
 class AIPlayerThread extends Thread
 {
-  public static final int TICK_TIME = 350;
+  public static final int TICK_TIME = 300;
   
   private Game     game;
   private AIPlayer player;

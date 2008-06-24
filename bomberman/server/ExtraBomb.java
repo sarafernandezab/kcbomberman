@@ -6,7 +6,7 @@
 package bomberman.server;
 
 /**
- * Extras
+ * Additional bomb extra.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 class ExtraBomb extends Extra 

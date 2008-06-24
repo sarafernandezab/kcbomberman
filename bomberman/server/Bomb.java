@@ -29,9 +29,12 @@ import java.io.Serializable;
  */
 class Bomb extends Element implements Explodable, Serializable
 {
-  private Player    player;
-  private int       stage = 1;
+  // Transient fields
+  private transient Player    player;
   private transient BombTimer timer;
+  
+  // Serializable fields
+  private int stage = 1;
   
   public Bomb(int x, int y, Player player)
   {

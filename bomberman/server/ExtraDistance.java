@@ -9,7 +9,7 @@ package bomberman.server;
  * Extra: raise Bombdistance
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
-public class ExtraDistance extends Extra
+class ExtraDistance extends Extra
 {
   public static final String IMAGE_FILENAME = "resource/gfx/extras/bombDistance.png";
   
