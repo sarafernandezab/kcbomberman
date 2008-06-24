@@ -225,13 +225,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     if(game.getCreator().equals(session))
       stopGame(game);
     
-    // Userlist update
-    if(ServerControlPanel.getInstance() != null)
-    {
-      
-    }
-
-    
     players.remove(session);
     clients.remove(session);
     
