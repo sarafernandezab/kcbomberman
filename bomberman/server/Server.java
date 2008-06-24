@@ -336,6 +336,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     System.out.println(nickname + " hat sich eingeloggt");
     
+    // Checks if user is allowed to login
+    if(database.getPassword(nickname) == null)
+      throw new RemoteException();
+    else if(!database.getPassword(nickname).equals(password))
+      throw new RemoteException();    
+    
     // register in Playerlist
     Player player = new Player(null, nickname);
     players.put(session, player);
