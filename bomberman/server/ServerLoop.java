@@ -46,9 +46,9 @@ public class ServerLoop extends Thread
    */
   private boolean processExplElement(Game game, Element e, int x, int y, int k)
   {
-    if (e != null && e instanceof Explodable)
+    if (e != null)
     {
-      if (e instanceof Wall)
+      if (e instanceof ExplodableWall)
       {
         game.getPlayground().setElement(x, y, 0, createRandomizedExtra(x, y));
         return true;
@@ -91,7 +91,7 @@ public class ServerLoop extends Thread
       {
         // Delete extra
         game.getPlayground().setElement(x, y, 0, null);
-        return false;
+        return true;
       }      
       else if(e instanceof Bomb)
       {
