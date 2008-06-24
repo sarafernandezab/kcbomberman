@@ -36,6 +36,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  * Callback class for the Server to Client connection.
@@ -194,9 +195,17 @@ public class ServerListener
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
 
-    MainFrame.getInstance().setContentPane(new LobbyPanel());
-    MainFrame.getInstance().setVisible(true);
     // Change Window
-    JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
+    
+    SwingUtilities.invokeLater(new Runnable()
+    {
+      public void run() 
+      {
+        JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
+        MainFrame.getInstance().setContentPane(new LobbyPanel());
+        MainFrame.getInstance().setVisible(true);
+      }
+    });
+    
   }
 }
