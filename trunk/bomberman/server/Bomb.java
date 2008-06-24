@@ -21,22 +21,24 @@ package bomberman.server;
 
 import bomberman.server.api.Explodable;
 import bomberman.server.api.Element;
+import java.io.Serializable;
 
 /**
  * The BOMB!
  * @author Christian Lins (christian.lins@web.de)
  */
-class Bomb extends Element implements Explodable
+class Bomb extends Element implements Explodable, Serializable
 {
-  private Player player;
-  private int    stage = 1;
+  private Player    player;
+  private int       stage = 1;
+  private transient BombTimer timer;
   
   public Bomb(int x, int y, Player player)
   {
     super(x, y);
     this.player = player;
     
-    new BombTimer(this);
+    timer = new BombTimer(this);
   }
   
   void explode()
@@ -46,6 +48,7 @@ class Bomb extends Element implements Explodable
     player.game.getPlayground().setElement(gridX, gridY, 0, null);
     
     Server.getInstance().notifyExplosion(player.game, gridX, gridY, player.bombDistance);
+    timer.cancel();
   }
   
   @Override
