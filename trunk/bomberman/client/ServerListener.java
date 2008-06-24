@@ -131,9 +131,16 @@ public class ServerListener
       }
     }
     
-    MainFrame.getInstance().setContentPane(new LobbyPanel());
-    MainFrame.getInstance().setVisible(true);    
-    MainFrame.getInstance().repaint();
+    // Change Window 
+    SwingUtilities.invokeLater(new Runnable()
+    {
+      public void run() 
+      {
+        JOptionPane.showMessageDialog(null, "Sie sind leider gestorben!");
+        MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
+        MainFrame.getInstance().setVisible(true);        
+      }
+    });
     System.out.println("Game stopped: " + msg);
   }
   
@@ -188,6 +195,7 @@ public class ServerListener
     }
   }
   
+  // TODO: playerDied für jeden Player aufrufen => Code nach youDied()
   public void playerDied(int x, int y, int playerNumber) throws RemoteException
   {
     new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
@@ -195,8 +203,7 @@ public class ServerListener
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
 
-    // Change Window
-    
+    // Change Window 
     SwingUtilities.invokeLater(new Runnable()
     {
       public void run() 
@@ -206,6 +213,5 @@ public class ServerListener
         MainFrame.getInstance().setVisible(true);        
       }
     });
-    
   }
 }
