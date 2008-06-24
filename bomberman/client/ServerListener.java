@@ -194,11 +194,9 @@ public class ServerListener
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
 
-    
-    
-    JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
-
     MainFrame.getInstance().setContentPane(new LobbyPanel());
     MainFrame.getInstance().setVisible(true);
+    // Change Window
+    JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
   }
 }
