@@ -135,7 +135,7 @@ public class UserFrame extends javax.swing.JFrame {
     {
       ArrayList<Object> user = new ArrayList<Object>();
       user.add(txtUsername.getText());
-      user.add(txtPw1.getText());
+      user.add("offline");
       parent.getServerThread().getServer().getDatabase().addUser(txtUsername.getText(), txtPw1.getText());
       ((UserListTableModel)this.parent.getTblUserList().getModel()).addRow(user);
     }
