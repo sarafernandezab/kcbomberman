@@ -162,6 +162,11 @@ public class Game implements Serializable
     this.playerSessions.remove(session);
   }
   
+  public void removePlayer(Player player)
+  {
+    this.players.remove(player);
+  }
+  
   /**
    * Moves a player in the game's playground if possible.
    * @param player

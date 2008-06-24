@@ -83,6 +83,9 @@ class AIPlayer extends Player
   public void die()
   {
     this.isDead = true;
+    
+    // Remove player from game
+    this.game.removePlayer(this);
   }
   
   public boolean isDead()

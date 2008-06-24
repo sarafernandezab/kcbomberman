@@ -71,7 +71,7 @@ public class ServerLoop extends Thread
         System.out.println(e + " died!");
         if (e instanceof AIPlayer)
         {
-          ((AIPlayer) e).die();
+          ((AIPlayer)e).die();
         }
         else
         {
@@ -131,6 +131,7 @@ public class ServerLoop extends Thread
         {
           Game game = entry.getValue();
 
+          //System.out.println(game.isRunning() + " " + game.getPlayerCount());
           // Check if there are enough real players or any
           // spectators left for gaming
           if (game.isRunning() &&
