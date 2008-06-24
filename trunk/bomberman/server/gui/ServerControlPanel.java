@@ -92,7 +92,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     {
       ArrayList<Object> data = new ArrayList<Object>();
       data.add(user);
-      data.add("-");
+      data.add("offline");
       ((UserListTableModel)getTblUserList().getModel()).addRow(data);
     }
   }
