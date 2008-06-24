@@ -45,7 +45,7 @@ public class Database implements Serializable
    */
   public String getPassword(String username)
   {
-    return this.getData().get(username);
+    return this.data.get(username);
   }
   
   /**
@@ -54,7 +54,7 @@ public class Database implements Serializable
    */
   public void removeUser(String username)
   {
-    this.getData().remove(username);
+    this.data.remove(username);
   }
 
   public HashMap<String, String> getData() 
