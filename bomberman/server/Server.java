@@ -30,6 +30,7 @@ import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
+import bomberman.server.gui.UserListTableModel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileInputStream;
@@ -333,7 +334,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     playerToIP.put(session, ip);
     
     // Logger
-    logger.addLogMessage("login", ip);
+    logger.addLogMessage("login", ip);    
+    
+    // Userlist update
+    if(ServerControlPanel.getInstance() != null)
+    {
+      ((UserListTableModel)ServerControlPanel.getInstance().getTblUserList().getModel()).setDataForUsername(nickname, "online");      
+    }
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)

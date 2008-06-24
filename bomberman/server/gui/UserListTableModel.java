@@ -70,6 +70,18 @@ public class UserListTableModel extends AbstractTableModel
     return columnNames[col];
   }
   
+  /*
+   * Set Row data for username
+   */
+  public void setDataForUsername(String username, String strData)
+  {
+    for(ArrayList<Object> a : data)
+      if(a.get(0).equals(username))
+      {
+        a.set(0, strData);        
+      }
+  }
+  
   /** Datentyp einer Spalte zurueckgeben */
   @Override
   public Class<?> getColumnClass(int c) 
@@ -88,9 +100,7 @@ public class UserListTableModel extends AbstractTableModel
   public void setData(ArrayList<ArrayList<Object>> data)
   {
     this.data = data;
-    fireTableDataChanged();
-  }
-  
+  } 
   /** Setzen eines speziellen Wertes */
   @Override
   public void setValueAt(Object value, int row, int col)
