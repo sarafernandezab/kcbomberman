@@ -19,13 +19,12 @@
 
 package bomberman.server;
 
-import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- *
- * @author chris
+ * Timer controlling exploding bombs.
+ * @author Christian Lins (christian.lins@web.de)
  */
 class BombTimer extends TimerTask
 {

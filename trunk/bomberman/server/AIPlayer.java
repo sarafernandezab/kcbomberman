@@ -33,9 +33,9 @@ import java.util.Random;
  */
 class AIPlayer extends Player
 {
-  private List<int[]> currentPath = new ArrayList<int[]>();
-  private boolean     isDead      = false;
-  private Playground  playground;
+  private transient List<int[]> currentPath = new ArrayList<int[]>();
+  private transient boolean     isDead      = false;
+  private transient Playground  playground  = null;
   
   public AIPlayer(Game g, Playground playground)
   {
