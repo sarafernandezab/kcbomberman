@@ -92,7 +92,12 @@ public class ServerLoop extends Thread
         // Delete extra
         game.getPlayground().setElement(x, y, 0, null);
         return false;
-      }
+      }      
+      else if(e instanceof Bomb)
+      {
+        ((Bomb)e).explode();
+        return false;
+      }      
     }
 
     return false;
