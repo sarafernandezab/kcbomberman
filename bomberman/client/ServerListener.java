@@ -164,7 +164,7 @@ public class ServerListener
   {
     bomberman.client.ClientThread.Session = session;
     
-    MainFrame.getInstance().setContentPane(new LobbyPanel());
+    MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
     MainFrame.getInstance().setVisible(true);
   }
   
@@ -202,8 +202,8 @@ public class ServerListener
       public void run() 
       {
         JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
-        MainFrame.getInstance().setContentPane(new LobbyPanel());
-        MainFrame.getInstance().setVisible(true);
+        MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
+        MainFrame.getInstance().setVisible(true);        
       }
     });
     

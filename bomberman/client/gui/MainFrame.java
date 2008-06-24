@@ -38,6 +38,8 @@ public class MainFrame extends JFrame
 {
   private static MainFrame instance = null;
   
+  private LobbyPanel lobbyPanel = new LobbyPanel();
+  
   public static MainFrame getInstance()
   {
     return instance;
@@ -80,5 +82,10 @@ public class MainFrame extends JFrame
   {
     super.setContentPane(cnt);
     repaint();
+  }
+
+  public LobbyPanel getLobbyPanel() 
+  {
+    return lobbyPanel;
   }
 }
