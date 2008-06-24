@@ -58,12 +58,15 @@ public class MainFrame extends JFrame
       {
         try
         {
-          System.out.println("Send logout message to server...");
-          ClientThread.Server.logout(ClientThread.Session);
+          if(ClientThread.Session != null)
+          {
+            System.out.println("Send logout message to server...");
+            ClientThread.Server.logout(ClientThread.Session);
+          }
         }
-        catch(Exception re)
+        catch(Exception ex)
         {
-          System.err.println(re.getLocalizedMessage());
+          ex.printStackTrace();
         }
       }
     };
