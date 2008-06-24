@@ -211,13 +211,23 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
+    {
       ServerControlPanel.getInstance().addLogMessages(players.get(session).getNickname() + " logout");
+      ((UserListTableModel)ServerControlPanel.getInstance().getTblUserList().getModel()).setDataForUsername(players.get(session).getNickname(), "offline");            
+    }
     System.out.println(players.get(session).getNickname() + " logout");    
        
     Game game = playerToGame.get(session);     
     // send logoutmessage to other players in the game
     if(game.getCreator().equals(session))
       stopGame(game);
+    
+    // Userlist update
+    if(ServerControlPanel.getInstance() != null)
+    {
+      
+    }
+
     
     players.remove(session);
     clients.remove(session);

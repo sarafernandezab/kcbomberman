@@ -78,7 +78,9 @@ public class UserListTableModel extends AbstractTableModel
     for(ArrayList<Object> a : data)
       if(a.get(0).equals(username))
       {
-        a.set(0, strData);        
+        a.set(1, strData);
+        int y = data.indexOf(a);
+        fireTableCellUpdated(y, 1);
       }
   }
   
