@@ -46,7 +46,7 @@ public class LoginPanel extends javax.swing.JPanel
     
     txtNickname.selectAll();
     
-    txtNickname.addKeyListener(new KeyAdapter()     
+    txtPassword.addKeyListener(new KeyAdapter()     
     {
       @Override
       public void keyPressed(KeyEvent ke)
