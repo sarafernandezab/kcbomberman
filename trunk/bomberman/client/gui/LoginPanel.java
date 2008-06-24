@@ -72,11 +72,11 @@ public class LoginPanel extends javax.swing.JPanel
       {        
         InetAddress ia = (InetAddress)addrs.nextElement();
         System.out.println(ia.getHostAddress());
-        if(!ia.isLoopbackAddress())
+        /*if(!ia.isLoopbackAddress())
         {
           if(ia instanceof Inet4Address)          
             return ia.getHostAddress();          
-        }
+        }*/
       }
     }
     return "";
