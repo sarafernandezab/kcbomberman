@@ -146,14 +146,21 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   /**
    * Sends a game list update to all client that are not playing.
    */
-  private void gameListUpdate()
+  private void gameListUpdate() throws RemoteException
   {
     ArrayList<GameInfo> gameList = new ArrayList<GameInfo>();
     Set<String> gameNames = this.games.keySet();
     for(String str : gameNames)
     {
-      Game game = this.games.get(str);
-      gameList.add(new GameInfo(str, players.get(game.getCreator()).getNickname(), game.isRunning(), game.getPlayerCount() ));
+      Game   game     = this.games.get(str);
+      Player creator  = players.get(game.getCreator());
+      if(creator == null)
+      {
+        // Stop the game
+        stopGame(game);
+      }
+      else
+        gameList.add(new GameInfo(str, creator.getNickname(), game.isRunning(), game.getPlayerCount()));
     }
     
     Set<Session> sessions = this.clients.keySet();
@@ -216,7 +223,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // was the game creator and the game is not running.
     // This is necessary, because if we did not cancel the Game no one
     // can ever start it if the creator has logged out
-    if(!game.isRunning() && game.getCreator().equals(session))
+    if(game != null && !game.isRunning() && game.getCreator().equals(session))
       stopGame(game);
     
     // Remove all session references
@@ -241,11 +248,19 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Send gameStopped() message to all players
     for(Session sess : game.getPlayerSessions())
-      clients.get(sess).gameStopped(1); // Condition 1 means "Stopped by Server"
+    {
+      ServerListenerInterface sli = clients.get(sess);
+      if(sli != null)
+        clients.get(sess).gameStopped(1); // Condition 1 means "Stopped by Server"
+    }
     
     // Send gameStopped() message to all spectators
     for(Session sess : game.getSpectatorSessions())
-      clients.get(sess).gameStopped(1);
+    {
+      ServerListenerInterface sli = clients.get(sess);
+      if(sli != null)
+        clients.get(sess).gameStopped(1);
+    }
     
     games.remove(game.toString()); 
   }
