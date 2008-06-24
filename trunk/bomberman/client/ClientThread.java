@@ -83,7 +83,10 @@ public class ClientThread extends Thread
           if(this.hostname == null)
             registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
           else
+          {
+            System.out.println("Search registry on host " + hostname + "...");
             registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
+          }
 
           Server = (ServerInterface)registry.lookup("KCBombermanServer");
           retry = false;
