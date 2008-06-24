@@ -329,7 +329,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }
   
 
-  public void login(String nickname, String password, ServerListenerInterface sli, String ip) 
+  public boolean login(String nickname, String password, ServerListenerInterface sli, String ip) 
     throws RemoteException
   {
     Session session = new Session();
@@ -338,9 +338,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Checks if user is allowed to login
     if(database.getPassword(nickname) == null)
-      throw new RemoteException();
+      return false;
     else if(!database.getPassword(nickname).equals(password))
-      throw new RemoteException();    
+      return false;
     
     // register in Playerlist
     Player player = new Player(null, nickname);
@@ -382,6 +382,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     // Updates GameList
     gameListUpdate();
+    
+    return true;
   }
   
   /**
