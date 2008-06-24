@@ -64,8 +64,8 @@ public class LoginPanel extends javax.swing.JPanel
     while (ifaces.hasMoreElements()) 
     {
       NetworkInterface ni = (NetworkInterface)ifaces.nextElement();
-      if(ni.isLoopback())
-        break;
+      /*if(ni.isLoopback())
+        break;*/
       
       Enumeration addrs = ni.getInetAddresses();
       while (addrs.hasMoreElements()) 
