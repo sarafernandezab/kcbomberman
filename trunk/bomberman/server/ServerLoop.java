@@ -83,7 +83,7 @@ public class ServerLoop extends Thread
               {
                 this.server.getClients().get(ent.getKey()).playerDied(x, y, ent.getValue().getID());                
                 this.server.getPlayerToGame().remove(ent.getKey());
-                game.removePlayer(ent.getKey());
+                game.removePlayer(ent.getKey());                
                 this.server.refresh();
               }
               catch (RemoteException re)
