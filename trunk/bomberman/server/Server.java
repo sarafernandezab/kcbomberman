@@ -210,13 +210,20 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     System.out.println(players.get(session).getNickname() + " logout");    
        
-    Game game = playerToGame.get(session);     
-    // send logoutmessage to other players in the game
-    if(game.getCreator().equals(session))
+    Game game = playerToGame.get(session);
+    
+    // Send logoutmessage to other players in the game, if the player
+    // was the game creator and the game is not running.
+    // This is necessary, because if we did not cancel the Game no one
+    // can ever start it if the creator has logged out
+    if(!game.isRunning() && game.getCreator().equals(session))
       stopGame(game);
     
+    // Remove all session references
     players.remove(session);
     clients.remove(session);
+    playerToGame.remove(session);
+    playerToIP.remove(session);
     
     refresh();
   }
