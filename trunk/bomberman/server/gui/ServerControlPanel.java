@@ -366,10 +366,11 @@ public class ServerControlPanel extends javax.swing.JPanel
   private void btnKickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKickActionPerformed
     try
     {
-     /* Player pl = (Player)liUser.getSelectedValue();
-      serverThread.getServer().logout(pl.toString());         
-      ((DefaultListModel)liUser.getModel()).removeElement(pl);
-      addLogMessages(pl.getNickname() + " wurde gekickt");*/
+      int i = tblUserList.getSelectedRow();
+      String username = tblUserList.getModel().getValueAt(i, 0).toString();
+      serverThread.getServer().logout(username);       
+      ((UserListTableModel)tblUserList.getModel()).setValueAt("offline", i, 1);
+      addLogMessages(username + " wurde gekickt");
     }
     catch(Exception e)
     {
