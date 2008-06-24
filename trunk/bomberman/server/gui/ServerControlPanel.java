@@ -395,7 +395,7 @@ public class ServerControlPanel extends javax.swing.JPanel
    {
     if(liGames.getSelectedValue() == null)
       return;
-      getServerThread().getServer().closeGame(liGames.getSelectedValue().toString());
+      getServerThread().getServer().stopGame(liGames.getSelectedValue().toString());
     ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());    
    }
    catch(RemoteException e)

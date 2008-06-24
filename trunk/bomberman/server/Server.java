@@ -246,6 +246,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     game.setRunning(false);
     
+    // delete player <-> game connection
+    for(Entry<Session, Game> e : playerToGame.entrySet())
+    {
+      if(e.getValue().equals(game.toString()))
+        playerToGame.remove(e);
+    }    
+    
     // Send gameStopped() message to all players
     for(Session sess : game.getPlayerSessions())
     {
@@ -262,7 +269,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         clients.get(sess).gameStopped(1);
     }
     
-    games.remove(game.toString()); 
+    // Log-Message
+    if(ServerControlPanel.getInstance() != null)
+    {
+      ServerControlPanel.getInstance().removeGame(games.get(game.toString()));
+      ServerControlPanel.getInstance().addLogMessages("Spiel: " + game.toString() +" wurde durch Server beendet");      
+    }
+    
+    games.remove(game.toString());
+    
+    refresh();
   }
      
   /**
@@ -410,27 +426,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    * @throws java.rmi.RemoteException
    */
-  public boolean closeGame(String gameName) throws RemoteException
-  {    
-    // delete player <-> game connection
-    for(Entry<Session, Game> e : playerToGame.entrySet())
-    {
-      if(e.getValue().equals(gameName))
-        playerToGame.remove(e);
-    }
-    
+  public boolean stopGame(String gameName) throws RemoteException
+  {
     // All players of this Game will logged out        
     stopGame(games.get(gameName));
-    
-    // Log-Message
-    if(ServerControlPanel.getInstance() != null)
-    {
-      ServerControlPanel.getInstance().removeGame(games.get(gameName));
-      ServerControlPanel.getInstance().addLogMessages("Spiel: " + gameName +" wurde durch Server beendet");      
-    }
-    
-    refresh();
-    
     return true;
   }
   
