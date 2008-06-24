@@ -59,7 +59,7 @@ public class MainFrame extends JFrame
         try
         {
           System.out.println("Send logout message to server...");
-          ClientThread.Server.logout(bomberman.client.ClientThread.Session);
+          ClientThread.Server.logout(ClientThread.Session);
         }
         catch(Exception re)
         {

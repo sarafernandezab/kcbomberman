@@ -192,16 +192,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         clients.remove(ent.getKey());
         
         refresh();
-        /*
-        // Build list of usernames
-        ArrayList<String> nicknames = new ArrayList<String>();
-        for(Session sess : players.keySet())    
-          nicknames.add(players.get(sess).getNickname());       
-        
-        // Notify all users of the new user 
-        for(Session sess : clients.keySet())    
-          clients.get(sess).userListUpdate(nicknames);
-         */
       }
     }
   }
@@ -228,16 +218,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     players.remove(session);
     clients.remove(session);
     
-    // Build list of usernames
-    ArrayList<String> nicknames = new ArrayList<String>();
-    for(Session sess : players.keySet())    
-      nicknames.add(players.get(sess).getNickname());
-    
-    // Notify all users of the new user 
-    for(Session sess : clients.keySet())    
-      clients.get(sess).userListUpdate(nicknames);
-    
-    gameListUpdate();
+    refresh();
   }
   
   /**
