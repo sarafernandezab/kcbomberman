@@ -172,15 +172,15 @@ public class ServerControlPanel extends javax.swing.JPanel
     txtLog.setRows(5);
     scrPane.setViewportView(txtLog);
 
-    javax.swing.GroupLayout tabLogLayout = new javax.swing.GroupLayout(tabLog);
+    org.jdesktop.layout.GroupLayout tabLogLayout = new org.jdesktop.layout.GroupLayout(tabLog);
     tabLog.setLayout(tabLogLayout);
     tabLogLayout.setHorizontalGroup(
-      tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+      tabLogLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(scrPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
     );
     tabLogLayout.setVerticalGroup(
-      tabLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(scrPane, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+      tabLogLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(scrPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
     );
 
     tabbedPane.addTab("Log", tabLog);
@@ -195,24 +195,24 @@ public class ServerControlPanel extends javax.swing.JPanel
       }
     });
 
-    javax.swing.GroupLayout tabGamesLayout = new javax.swing.GroupLayout(tabGames);
+    org.jdesktop.layout.GroupLayout tabGamesLayout = new org.jdesktop.layout.GroupLayout(tabGames);
     tabGames.setLayout(tabGamesLayout);
     tabGamesLayout.setHorizontalGroup(
-      tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabGamesLayout.createSequentialGroup()
+      tabGamesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(org.jdesktop.layout.GroupLayout.TRAILING, tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-        .addGap(18, 18, 18)
-        .addComponent(btnCloseGame)
+        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+        .add(18, 18, 18)
+        .add(btnCloseGame)
         .addContainerGap())
     );
     tabGamesLayout.setVerticalGroup(
-      tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(tabGamesLayout.createSequentialGroup()
+      tabGamesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(tabGamesLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(tabGamesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-          .addComponent(btnCloseGame))
+        .add(tabGamesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+          .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+          .add(btnCloseGame))
         .addContainerGap())
     );
 
@@ -242,32 +242,32 @@ public class ServerControlPanel extends javax.swing.JPanel
       }
     });
 
-    javax.swing.GroupLayout tabUsersLayout = new javax.swing.GroupLayout(tabUsers);
+    org.jdesktop.layout.GroupLayout tabUsersLayout = new org.jdesktop.layout.GroupLayout(tabUsers);
     tabUsers.setLayout(tabUsersLayout);
     tabUsersLayout.setHorizontalGroup(
-      tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabUsersLayout.createSequentialGroup()
+      tabUsersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(org.jdesktop.layout.GroupLayout.TRAILING, tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-          .addComponent(btnKick, 0, 0, Short.MAX_VALUE)
-          .addComponent(btnRemoveUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .addComponent(btnCreateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+        .add(tabUsersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+          .add(btnKick, 0, 0, Short.MAX_VALUE)
+          .add(btnRemoveUser, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+          .add(btnCreateUser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 89, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         .addContainerGap())
     );
     tabUsersLayout.setVerticalGroup(
-      tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(tabUsersLayout.createSequentialGroup()
+      tabUsersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(tabUsersLayout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(tabUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-          .addGroup(tabUsersLayout.createSequentialGroup()
-            .addComponent(btnCreateUser)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(btnRemoveUser)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(btnKick)))
+        .add(tabUsersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+          .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+          .add(tabUsersLayout.createSequentialGroup()
+            .add(btnCreateUser)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(btnRemoveUser)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(btnKick)))
         .addContainerGap())
     );
 
@@ -277,47 +277,47 @@ public class ServerControlPanel extends javax.swing.JPanel
 
     lblExportHighscore.setText("Aktuellen Highscore in Datei exportieren");
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
+      layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(layout.createSequentialGroup()
         .addContainerGap()
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(lblCaption)
-          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-              .addComponent(btnHighscoreExport, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(btnStartServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addComponent(btnStopServer, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(lblExportHighscore)
-              .addComponent(lblStopServer)
-              .addComponent(lblStartServer)))
-          .addComponent(tabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
+        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+          .add(lblCaption)
+          .add(layout.createSequentialGroup()
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+              .add(org.jdesktop.layout.GroupLayout.LEADING, btnHighscoreExport, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+              .add(org.jdesktop.layout.GroupLayout.LEADING, btnStartServer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+              .add(org.jdesktop.layout.GroupLayout.LEADING, btnStopServer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+              .add(lblExportHighscore)
+              .add(lblStopServer)
+              .add(lblStartServer)))
+          .add(org.jdesktop.layout.GroupLayout.TRAILING, tabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
         .addContainerGap())
     );
     layout.setVerticalGroup(
-      layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
+      layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+      .add(layout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(lblCaption)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(btnStartServer)
-          .addComponent(lblStartServer))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(btnStopServer)
-          .addComponent(lblStopServer))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(btnHighscoreExport)
-          .addComponent(lblExportHighscore))
-        .addGap(18, 18, 18)
-        .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-        .addGap(12, 12, 12))
+        .add(lblCaption)
+        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+          .add(btnStartServer)
+          .add(lblStartServer))
+        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+          .add(btnStopServer)
+          .add(lblStopServer))
+        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+          .add(btnHighscoreExport)
+          .add(lblExportHighscore))
+        .add(18, 18, 18)
+        .add(tabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+        .add(12, 12, 12))
     );
   }// </editor-fold>//GEN-END:initComponents
 
