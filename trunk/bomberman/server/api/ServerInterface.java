@@ -31,16 +31,30 @@ import java.rmi.RemoteException;
  * @author Kai Ritterbusch
  */
 public interface ServerInterface extends Remote
-{
+{  
   /**
-   * Client wants to login with the given username.
-   * The server may throw an RemoteException if the username is 
-   * already used.
-   * @param nickname
+   * Client wants to login with the given username. This method is
+   * part one of the Challenge Handshake Authentification Protocol (CHAP)
+   * and returns a challenge that is valid for a few seconds (default: 30s).
+   * @param username
    * @param sli
+   * @return A challenge > 0 if the username is valid, otherwise 0 is
+   * returned.
    * @throws java.rmi.RemoteException
    */
-  boolean login(String nickname, String password, ServerListenerInterface sli, String ip)
+  long login1(String username)
+    throws RemoteException;
+  
+  /**
+   * Second part of the Challenge Handshake Authentification Protocol (CHAP).
+   * If the login is successful the Server will transmit a Session object
+   * through the given @see{ServerListenerInterface}.
+   * @param username
+   * @param hash
+   * @return
+   * @throws java.rmi.RemoteException
+   */
+  boolean login2(String username, long hash, ServerListenerInterface sli, String ip)
     throws RemoteException;
   
   /**

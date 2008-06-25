@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bomberman.server;
+package bomberman.util;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,19 +28,19 @@ import java.util.zip.CRC32;
  * Implementation of Challenge Handshake Authentication Protocol (CHAP).
  * @author Christian Lins (christian.lins@web.de)
  */
-class CHAP 
+public class CHAP 
 {
   /**
    * How many seconds the challenge will be valid.
    */
-  public static final int TIMEOUT = 60;
+  public static final int TIMEOUT = 30;
   
   private HashMap<String, Long> challenges         = new HashMap<String, Long>();
   private HashMap<Long, Date>   challenge_validity = new HashMap<Long, Date>();
   
   /**
    * Creates and returns a randomized number for the given nickname.
-   * This number is valid for one minute.
+   * This number is valid for @see{TIMEOUT} seconds.
    * @return
    */
   public long createChallenge(String nickname)
@@ -66,7 +66,7 @@ class CHAP
    * @param password
    * @return
    */
-  public long createChecksum(long random, String password)
+  public static long createChecksum(long random, String password)
   {
     if(password == null)
       return -1;
