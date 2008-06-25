@@ -262,9 +262,9 @@ public class ServerControlPanel extends javax.swing.JPanel
         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
         .add(tabUsersLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-          .add(btnKick, 0, 0, Short.MAX_VALUE)
-          .add(btnRemoveUser, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .add(btnCreateUser, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 89, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+          .add(org.jdesktop.layout.GroupLayout.LEADING, btnRemoveUser, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+          .add(org.jdesktop.layout.GroupLayout.LEADING, btnCreateUser, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+          .add(org.jdesktop.layout.GroupLayout.LEADING, btnKick, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         .addContainerGap())
     );
     tabUsersLayout.setVerticalGroup(
