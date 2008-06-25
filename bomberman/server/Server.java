@@ -713,7 +713,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     return database;
   }
 
-  Highscore getHighscore()
+  public Highscore getHighscore()
   {
     return highscore;
   }

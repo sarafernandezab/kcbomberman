@@ -21,17 +21,54 @@ package bomberman.server;
 
 import bomberman.util.Pair;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Stores the persistent Highscore data.
  * @author Christian Lins (christian.lins@web.de)
  */
-class Highscore implements Serializable
+public class Highscore implements Serializable
 {
-  // Stores won and lost games per username
+  /** Stores won and lost games per username */
   private HashMap<String, Pair<Integer, Integer>> data = new HashMap<String, Pair<Integer, Integer>>();
 
+  public int getLostGames(String username)
+  {
+    Pair<Integer, Integer> p = data.get(username);
+    if(p != null)
+    {
+      return p.getB();
+    }
+    else
+      return 0;
+  }
+  
+  public int getWonGames(String username)
+  {
+    Pair<Integer, Integer> p = data.get(username);
+    if(p != null)
+    {
+      return p.getA();
+    }
+    else
+      return 0;
+  }
+  
+  /**
+   * @return A list of names this Highscore knows.
+   */
+  public List<String> getNames()
+  {
+    return new ArrayList<String>(data.keySet()); 
+  }
+  
+  /**
+   * Increases the number of lost games for this username.
+   * @param username
+   * @return
+   */
   public int hasLostGame(String username)
   {
     int lostGames = 0;
@@ -45,6 +82,11 @@ class Highscore implements Serializable
     return lostGames;
   }
   
+  /**
+   * Increases the number of won games for this username.
+   * @param username
+   * @return
+   */
   public int hasWonGame(String username)
   {
     int wonGames = 0;

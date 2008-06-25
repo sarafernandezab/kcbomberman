@@ -311,6 +311,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Highs. Export"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHighscoreExportActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblExportHighscore">
       <Properties>

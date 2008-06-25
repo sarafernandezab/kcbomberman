@@ -21,6 +21,7 @@ package bomberman.server.gui;
 
 import bomberman.server.Database;
 import bomberman.server.Game;
+import bomberman.server.Highscore;
 import bomberman.server.Player;
 import bomberman.server.ServerThread;
 import java.rmi.RemoteException;
@@ -31,7 +32,9 @@ import java.util.TimeZone;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
 import bomberman.server.gui.UserListTableModel;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 
 /**
  * @author  Christian Lins
@@ -285,6 +288,11 @@ public class ServerControlPanel extends javax.swing.JPanel
     tabbedPane.addTab("User", tabUsers);
 
     btnHighscoreExport.setText("Highs. Export");
+    btnHighscoreExport.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnHighscoreExportActionPerformed(evt);
+      }
+    });
 
     lblExportHighscore.setText("Aktuellen Highscore in Datei exportieren");
 
@@ -414,6 +422,23 @@ public class ServerControlPanel extends javax.swing.JPanel
     serverThread.getServer().getDatabase().removeUser(((UserListTableModel)tblUserList.getModel()).getValueAt(tblUserList.getSelectedRow(), 0).toString());
     ((UserListTableModel)tblUserList.getModel()).deleteRow(tblUserList.getSelectedRow());
   }//GEN-LAST:event_btnRemoveUserActionPerformed
+
+  private void btnHighscoreExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHighscoreExportActionPerformed
+    try
+    {
+      JFileChooser fc = new JFileChooser();
+   
+      if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+      {
+        Highscore highscore = this.serverThread.getServer().getHighscore();
+        HighscoreHtmlExporter.export(highscore, new FileOutputStream(fc.getSelectedFile()));
+      }
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+    }
+  }//GEN-LAST:event_btnHighscoreExportActionPerformed
   
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
