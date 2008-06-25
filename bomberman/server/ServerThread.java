@@ -58,9 +58,18 @@ public class ServerThread extends Thread
       // Bind server to name
       Registry.rebind("KCBombermanServer", server);      
       
-      // Set a shutdown hook that stores the changed highscore and database
-      Runtime.getRuntime().addShutdownHook(
-              new ShutdownThread(server.getDatabase(), server.getHighscore()));
+      try
+      {
+        // Set a shutdown hook that stores the changed highscore and database
+        Runtime.getRuntime().addShutdownHook(
+                new ShutdownThread(server.getDatabase(), server.getHighscore()));
+      }
+      catch(Exception ex)
+      {
+        System.err.println("Could not register shutdown hook due to exception:" +
+                ex.getLocalizedMessage());
+        System.err.println("As a result no persistent database/highscore available!");
+      }
       
       System.out.println("Bombermanserver bereit ...");
 
