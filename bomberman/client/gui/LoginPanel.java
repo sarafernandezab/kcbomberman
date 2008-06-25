@@ -20,6 +20,7 @@
 package bomberman.client.gui;
 
 import bomberman.client.ClientThread;
+import bomberman.util.CHAP;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -167,11 +168,13 @@ public class LoginPanel extends javax.swing.JPanel
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
     String nickname = this.txtNickname.getText();
     String password = this.txtPassword.getText();
-    String ip = null;
     try
-    {      
+    {
+      long challenge = ClientThread.Server.login1(nickname);
+      long hash      = CHAP.createChecksum(challenge, password);
+      
       // The Client request a login
-      if(!ClientThread.Server.login(nickname, password, ClientThread.ServerListener,  getOwnIP()))
+      if(!ClientThread.Server.login2(nickname, hash, ClientThread.ServerListener, getOwnIP()))
          JOptionPane.showMessageDialog( this, "Login fehlgeschlagen", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)

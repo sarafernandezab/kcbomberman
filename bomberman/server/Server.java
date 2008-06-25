@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.util.CHAP;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -54,12 +55,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     return instance;
   }
   
-  private HashMap<Session,Player>                   players = new HashMap<Session,Player>(); 
+  private CHAP                     chap         = new CHAP();
+  private HashMap<Session,Player>  players      = new HashMap<Session,Player>(); 
   private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
-  private HashMap<String, Game>                     games  = new HashMap<String, Game>();
-  private HashMap<Session, Game>                    playerToGame  = new HashMap<Session, Game>();
-  private HashMap<Session, String>                  playerToIP  = new HashMap<Session, String>();
-  private Queue<List<Object>>                       explosions = new ArrayBlockingQueue<List<Object>>(25);
+  private HashMap<String, Game>    games        = new HashMap<String, Game>();
+  private HashMap<Session, Game>   playerToGame = new HashMap<Session, Game>();
+  private HashMap<Session, String> playerToIP   = new HashMap<Session, String>();
+  private Queue<List<Object>>      explosions   = new ArrayBlockingQueue<List<Object>>(25);
   private Logger logger = new Logger();
   private Database  database  = null;
   private Highscore highscore = null;
@@ -343,8 +345,70 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       clients.get(sess).receiveChatMessage(answer); // TODO: Spielende Player ausblenden
   }
   
-
-  public boolean login(String nickname, String password, ServerListenerInterface sli, String ip) 
+  /**
+   * Client wants to login with the given username. This method is
+   * part one of the Challenge Handshake Authentification Protocol (CHAP)
+   * and returns a challenge that is valid for a few seconds (default: 30s).
+   * @param username
+   * @param sli
+   * @return A challenge > 0 if the username is valid, otherwise 0 is
+   * returned.
+   * @throws java.rmi.RemoteException
+   */
+  public long login1(String username)
+  {
+    String pw = this.database.getPassword(username);
+    if(pw == null)
+      return 0;
+    else
+    {
+      // Create a challenge
+      return this.chap.createChallenge(username);
+    }
+  }
+  
+  /**
+   * Second part of the Challenge Handshake Authentification Protocol (CHAP).
+   * If the login is successful the Server will transmit a Session object
+   * through the given @see{ServerListenerInterface}.
+   * @param username
+   * @param hash
+   * @return
+   * @throws java.rmi.RemoteException
+   */
+  public boolean login2(String username, long hash, ServerListenerInterface sli, String ip)
+    throws RemoteException
+  {
+    if(this.chap.isValid(username)) // Has this username performed a login1?
+    {
+      String pw = this.database.getPassword(username);
+      if(pw == null)
+        return false;
+      else
+      {
+        long challenge = this.chap.getChallenge(username);
+        long myHash    = this.chap.createChecksum(challenge, pw);
+        
+        if(myHash == hash)
+          return login(username, pw, sli, ip);
+        else
+          return false;
+      }
+    }
+    else
+      return false;
+  }
+  
+  /**
+   * This method is only used internally by login2 method.
+   * @param nickname
+   * @param password
+   * @param sli
+   * @param ip
+   * @return
+   * @throws java.rmi.RemoteException
+   */
+  private boolean login(String nickname, String password, ServerListenerInterface sli, String ip) 
     throws RemoteException
   {
     Session session = new Session();
