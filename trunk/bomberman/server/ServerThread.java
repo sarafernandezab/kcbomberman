@@ -19,9 +19,12 @@
 
 package bomberman.server;
 
+import java.net.BindException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
+import javax.swing.JOptionPane;
 
 public class ServerThread extends Thread
 {
@@ -68,6 +71,25 @@ public class ServerThread extends Thread
       }
       
       System.out.println("Server gestoppt!");
+    }
+    catch(ExportException ex)
+    {
+      if(ex.getCause() instanceof BindException)
+      {
+        System.out.println(ex.getLocalizedMessage());
+        System.out.println("Server/Registry already running?");
+        
+        if(isDaemon())
+        {
+          JOptionPane.showMessageDialog(null, 
+                  "Port ist belegt. Server schon am Laufen?", 
+                  "KCBomberman", JOptionPane.WARNING_MESSAGE);
+        }
+      }
+      else
+        ex.printStackTrace();
+      
+      System.exit(1);
     }
     catch(Exception ex)
     {
