@@ -222,6 +222,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     // Updates Playground when moved
     for(Session sess : game.getPlayerSessions())
       clients.get(sess).playgroundUpdate(game.getPlayground());
+    
+    if(game.getPlayerSessions().size() == 0)
+      for(Session sess : game.getSpectatorSessions())
+        clients.get(sess).playerLeftGame();
   }
   
   /**
