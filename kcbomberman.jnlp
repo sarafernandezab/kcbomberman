@@ -13,6 +13,8 @@
       <j2se version="1.5+"/>
       <jar href="bomberman.jar" main="true" download="eager"/>
       <jar href="jlayer.jar" main="false" download="eager"/>
+      <jar href="swing-layout-1.0.3.jar" main="false" download="eager"/>
+      <jar href="xstream-1.3.jar" main="false" download="eager" />
    </resources>
    <application-desc main-class="bomberman.Main">
     <argument>--server</argument>
