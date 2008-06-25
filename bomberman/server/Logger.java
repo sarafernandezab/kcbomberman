@@ -19,51 +19,46 @@
 
 package bomberman.server;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
- *
+ * Provides logging methods.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Logger 
 {
-  public static final String FILENAME = "log.txt";
-  private PrintWriter out;
+  public static final String FILENAME = "server.log";
+  
+  private PrintStream out = System.out;
     
   public Logger()
   {
     try
     {
-      out = new PrintWriter(FILENAME);  
+      out = new PrintStream(FILENAME);  
     }
-    catch(FileNotFoundException fe)
+    catch(Exception ex)
     {
-      fe.printStackTrace();
+      System.err.println("Logging disabled due to exception: " + ex.getLocalizedMessage());
     }
-     
   }
   
-  /*
-   * Adds Log-Message to file
+  /**
+   * Adds log message to file.
    */
   public void addLogMessage(String action, String ip)
   {
-     // Creates actual Date
+    // Creates actual Date
     Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT") );
     SimpleDateFormat formater = new SimpleDateFormat();
     String date = formater.format(cal.getTime());
     
-    out.println(date + ": " + ip + "->" + action );
+    out.println(date + ": " + ip + "->" + action);
     out.flush();
   }
-  
-  
-
 }
-
