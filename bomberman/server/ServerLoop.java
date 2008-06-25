@@ -69,30 +69,30 @@ public class ServerLoop extends Thread
       else if (e instanceof Player)
       {
         System.out.println(e + " died!");
-        if (e instanceof AIPlayer)
+        for (Entry<Session, Player> ent : this.server.getPlayers().entrySet())
         {
-          ((AIPlayer)e).die();
-        }
-        else
-        {
-          for (Entry<Session, Player> ent : this.server.getPlayers().entrySet())
+          if (ent.getValue().equals((Player) e))
           {
-            if (ent.getValue().equals((Player) e))
+            try
             {
-              try
+              this.server.getClients().get(ent.getKey()).playerDied(x, y, ent.getValue().getID());
+              this.server.getPlayerToGame().remove(ent.getKey());
+              game.removePlayer(ent.getKey());
+              this.server.refresh();
+
+              // Save this death to highscore list
+              if (e instanceof AIPlayer)
               {
-                this.server.getClients().get(ent.getKey()).playerDied(x, y, ent.getValue().getID());                
-                this.server.getPlayerToGame().remove(ent.getKey());
-                game.removePlayer(ent.getKey());                
-                this.server.refresh();
-                
-                // Save this death to highscore list
-                this.server.getHighscore().hasLostGame(((Player)e).getNickname());
+                ((AIPlayer) e).die();
               }
-              catch (RemoteException re)
+              else
               {
-                re.printStackTrace();
+                this.server.getHighscore().hasLostGame(((Player) e).getNickname());
               }
+            }
+            catch (RemoteException re)
+            {
+              re.printStackTrace();
             }
           }
         }

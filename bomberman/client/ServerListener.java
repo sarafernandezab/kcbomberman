@@ -51,8 +51,15 @@ public class ServerListener
   {
   }
   
+  /**
+   * An explosion has occurred that the Client must show.
+   * @param x
+   * @param y
+   * @param distance
+   * @throws java.rmi.RemoteException
+   */
   public void explosion(int x, int y, int distance)
-          throws RemoteException
+    throws RemoteException
   {
     new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
 
@@ -89,6 +96,11 @@ public class ServerListener
     }
   }
   
+  /**
+   * Notifies the Client that a game he was waiting for has started.
+   * @param spectStatus
+   * @throws java.rmi.RemoteException
+   */
   public void gameStarted(boolean spectStatus) throws RemoteException
   {
     MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, spectStatus));
@@ -195,23 +207,19 @@ public class ServerListener
     }
   }
   
-  // TODO: playerDied für jeden Player aufrufen => Code nach youDied()
+  /**
+   * This method is called for every player that dies on the playground
+   * this Client is playing on.
+   * @param x
+   * @param y
+   * @param playerNumber
+   * @throws java.rmi.RemoteException
+   */
   public void playerDied(int x, int y, int playerNumber) throws RemoteException
   {
     new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
 
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
-
-    // Change Window 
-    SwingUtilities.invokeLater(new Runnable()
-    {
-      public void run() 
-      {
-        JOptionPane.showMessageDialog( null, "Sie sind leider gestorben!" );
-        MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
-        MainFrame.getInstance().setVisible(true);        
-      }
-    });
   }
 }
