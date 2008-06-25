@@ -71,35 +71,36 @@ public class ServerLoop extends Thread
       {
         System.out.println(e + " died!");
         
-        // Remove player from game
+        // Remove player from game (happens for both AI and Non-AI players)
         game.removePlayer((Player)e);
         
+        // If e is an AIPlayer then it must die.
+        // A Non-AI Player will trigger the if-clause in the following
+        // for-loop.
+        if (e instanceof AIPlayer)
+        {
+          ((AIPlayer) e).die();
+        }
+        
+        // Loop through all Non-AI players
         List<Session> sessions = new ArrayList<Session>(game.getPlayerSessions());
         for (Session sess : sessions)
         {
           try
           {
             this.server.getClients().get(sess).playerDied(x, y, ((Player)e).getID());
-            this.server.getPlayerToGame().remove(sess);
             
-            // Save this death to highscore list
-            if (e instanceof AIPlayer)
+            // Save this death to highscore list. 
+            // Note: !(e instanceof AIPlayer) is obsolet at this point
+            if (e.equals(this.server.getPlayers().get(sess)))
             {
-              ((AIPlayer) e).die();
-            }
-            else
-            {
-              if(e.equals(this.server.getPlayers().get(sess)))
-              {
-                // Send youDied() message to client
-                this.server.getClients().get(sess).youDied();
-                
-                // Remove session from game; this is important, otherwise
-                // the game would not stop
-                game.removePlayer(sess);
-              }
-              this.server.refresh();
-              this.server.getHighscore().hasLostGame(((Player) e).getNickname());
+              // Send youDied() message to client
+              this.server.getClients().get(sess).youDied();
+
+              // Remove session from game; this is important, otherwise
+              // the game would not stop
+              game.removePlayer(sess);
+              this.server.getPlayerToGame().remove(sess);
             }
           }
           catch (RemoteException re)
@@ -108,6 +109,16 @@ public class ServerLoop extends Thread
           }
         }
 
+        try
+        {
+          this.server.getHighscore().hasLostGame(((Player)e).getNickname());
+          this.server.refresh();
+        }
+        catch(RemoteException ex)
+        {
+          ex.printStackTrace();
+        }
+        
         // Remove player from game
         game.removePlayer(x, y, (Player) e);
         game.getPlayground().setElement(x, y, ((Player) e).getID(), null);
