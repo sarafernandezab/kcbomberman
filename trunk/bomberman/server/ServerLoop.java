@@ -21,6 +21,7 @@ package bomberman.server;
 
 import bomberman.server.api.Element;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -69,31 +70,36 @@ public class ServerLoop extends Thread
       else if (e instanceof Player)
       {
         System.out.println(e + " died!");
-        for (Entry<Session, Player> ent : this.server.getPlayers().entrySet())
+        List<Session> sessions = new ArrayList<Session>(game.getPlayerSessions());
+        for (Session sess : sessions)
         {
-          if (ent.getValue().equals((Player) e))
+          try
           {
-            try
-            {
-              this.server.getClients().get(ent.getKey()).playerDied(x, y, ent.getValue().getID());
-              this.server.getPlayerToGame().remove(ent.getKey());
-              game.removePlayer(ent.getKey());
-              this.server.refresh();
+            Player player = this.server.getPlayers().get(sess);
+            this.server.getClients().get(sess).playerDied(x, y, player.getID());
+            this.server.getPlayerToGame().remove(sess);
+            game.removePlayer(sess);
+            game.removePlayer(player);
+            this.server.refresh();
 
-              // Save this death to highscore list
-              if (e instanceof AIPlayer)
-              {
-                ((AIPlayer) e).die();
-              }
-              else
-              {
-                this.server.getHighscore().hasLostGame(((Player) e).getNickname());
-              }
-            }
-            catch (RemoteException re)
+            // Save this death to highscore list
+            if (e instanceof AIPlayer)
             {
-              re.printStackTrace();
+              ((AIPlayer) e).die();
             }
+            else
+            {
+              if(e.equals(player))
+              {
+                // Send youDied() message to client
+                this.server.getClients().get(sess).youDied();
+              }
+              this.server.getHighscore().hasLostGame(((Player) e).getNickname());
+            }
+          }
+          catch (RemoteException re)
+          {
+            re.printStackTrace();
           }
         }
 
