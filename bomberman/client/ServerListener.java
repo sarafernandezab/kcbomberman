@@ -223,6 +223,15 @@ public class ServerListener
     pp.drawDieAnimation(x, y, playerNumber);
   }
   
+    /**
+   * This method is called when players leaves game
+   * @throws java.rmi.RemoteException
+   */
+  public void playerLeftGame() throws RemoteException
+  {
+    MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());   
+  }
+  
   public void youDied()
   {
     SwingUtilities.invokeLater(new Runnable() 

@@ -104,6 +104,9 @@ public interface ServerListenerInterface extends Remote
   public void userListUpdate(List<String> users)
     throws RemoteException;
   
+  public void playerLeftGame() 
+    throws RemoteException;
+  
   public void youDied()
     throws RemoteException;
 }
