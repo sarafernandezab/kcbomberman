@@ -70,18 +70,19 @@ public class ServerLoop extends Thread
       else if (e instanceof Player)
       {
         System.out.println(e + " died!");
+        
+        // Remove player from game
+       // game.removePlayer(this.server);
+        game.removePlayer((Player)e);
+        
         List<Session> sessions = new ArrayList<Session>(game.getPlayerSessions());
         for (Session sess : sessions)
         {
           try
           {
-            Player player = this.server.getPlayers().get(sess);
-            this.server.getClients().get(sess).playerDied(x, y, player.getID());
+            this.server.getClients().get(sess).playerDied(x, y, ((Player)e).getID());
             this.server.getPlayerToGame().remove(sess);
-            game.removePlayer(sess);
-            game.removePlayer(player);
-            this.server.refresh();
-
+            
             // Save this death to highscore list
             if (e instanceof AIPlayer)
             {
@@ -89,11 +90,12 @@ public class ServerLoop extends Thread
             }
             else
             {
-              if(e.equals(player))
+              if(e.equals(this.server.getPlayers().get(sess)))
               {
                 // Send youDied() message to client
                 this.server.getClients().get(sess).youDied();
               }
+              this.server.refresh();
               this.server.getHighscore().hasLostGame(((Player) e).getNickname());
             }
           }
