@@ -535,6 +535,13 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     game.getSpectatorSessions().add(session);
      // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
+    
+    if(game.isRunning())
+    {
+      this.clients.get(session).gameStarted(true);
+      clients.get(session).playgroundUpdate(game.getPlayground());
+    }       
+      
     return false;
   }
   
