@@ -142,6 +142,11 @@ public class Game implements Serializable
     return this.playground;
   }
   
+  public List<Player> getPlayers()
+  {
+    return this.players;
+  }
+  
   public boolean isPlaygroundUpdateRequired()
   {
     boolean update = this.playgroundUpdateRequired;

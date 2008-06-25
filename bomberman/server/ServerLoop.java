@@ -85,6 +85,9 @@ public class ServerLoop extends Thread
                 this.server.getPlayerToGame().remove(ent.getKey());
                 game.removePlayer(ent.getKey());                
                 this.server.refresh();
+                
+                // Save this death to highscore list
+                this.server.getHighscore().hasLostGame(((Player)e).getNickname());
               }
               catch (RemoteException re)
               {
@@ -146,7 +149,8 @@ public class ServerLoop extends Thread
             {
               this.server.getClients().get(game.getPlayerSessions().get(0)).gameStopped(2);
 
-            // We have to store the game result in the Highscore list
+              // We have to store the game result in the Highscore list
+              this.server.getHighscore().hasWonGame(game.getPlayers().get(0).getNickname());
             }
             this.server.getGames().remove(game);
             break; // Stop the for-loop
