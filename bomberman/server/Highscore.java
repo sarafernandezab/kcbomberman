@@ -37,6 +37,8 @@ class Highscore implements Serializable
     int lostGames = 0;
     if(this.data.containsKey(username))
       lostGames = this.data.get(username).getB();
+    else
+      this.data.put(username, new Pair<Integer, Integer>(0, 0));
     
     lostGames++;
     this.data.get(username).setB(lostGames);
@@ -48,6 +50,8 @@ class Highscore implements Serializable
     int wonGames = 0;
     if(this.data.containsKey(username))
       wonGames = this.data.get(username).getA();
+    else
+      this.data.put(username, new Pair<Integer, Integer>(0, 0));
     
     wonGames++;
     this.data.get(username).setA(wonGames);
