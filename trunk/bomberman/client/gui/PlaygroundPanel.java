@@ -172,6 +172,12 @@ public class PlaygroundPanel
           ClientThread.Server.placeBomb(ClientThread.Session);
           break;
         }
+        case KeyEvent.VK_ESCAPE:
+        {
+          ClientThread.Server.removePlayerFromPlayground(ClientThread.Session);          
+          ClientThread.ServerListener.playerLeftGame();
+          break;
+        }
       }
     }
     catch(RemoteException ex)

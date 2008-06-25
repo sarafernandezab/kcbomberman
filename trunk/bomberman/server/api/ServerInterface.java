@@ -148,4 +148,15 @@ public interface ServerInterface extends Remote
    */
   boolean placeBomb(Session session)
     throws RemoteException, InvalidSessionException;
+  
+    
+  /**
+   * Is called when a client has pressed 'ESC' which is
+   * usually the key for leaving a game
+   * @param session
+   * @return
+   * @throws java.rmi.RemoteException
+   */
+  void removePlayerFromPlayground(Session session) 
+    throws RemoteException;
 }
