@@ -72,7 +72,6 @@ public class ServerLoop extends Thread
         System.out.println(e + " died!");
         
         // Remove player from game
-       // game.removePlayer(this.server);
         game.removePlayer((Player)e);
         
         List<Session> sessions = new ArrayList<Session>(game.getPlayerSessions());
@@ -94,6 +93,10 @@ public class ServerLoop extends Thread
               {
                 // Send youDied() message to client
                 this.server.getClients().get(sess).youDied();
+                
+                // Remove session from game; this is important, otherwise
+                // the game would not stop
+                game.removePlayer(sess);
               }
               this.server.refresh();
               this.server.getHighscore().hasLostGame(((Player) e).getNickname());
