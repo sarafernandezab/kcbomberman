@@ -135,12 +135,16 @@ public class PlaygroundPanel
    * @param event
    */
   public void keyPressed(KeyEvent event)
-  {
-    // do nothing if Spectator
-    if(spectatorStatus == true)
-      return;
+  {    
     try
     {
+      // do nothing if Spectator
+      if(spectatorStatus == true)
+      {      
+        if(event.getKeyCode() == KeyEvent.VK_ESCAPE)        
+          ClientThread.ServerListener.playerLeftGame();
+        return;
+      }
       switch(event.getKeyCode())
       {
         case KeyEvent.VK_UP:
