@@ -222,4 +222,17 @@ public class ServerListener
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
   }
+  
+  public void youDied()
+  {
+    SwingUtilities.invokeLater(new Runnable() 
+    {
+      public void run()
+      {
+        JOptionPane.showMessageDialog(MainFrame.getInstance(), "Leider verloren!", "Game over", JOptionPane.INFORMATION_MESSAGE);
+        MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
+        MainFrame.getInstance().setSize(640, 500);
+      }
+    });
+  }
 }
