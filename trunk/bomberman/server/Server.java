@@ -464,7 +464,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     if(ServerControlPanel.getInstance() != null)
     {
       ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
-      ServerControlPanel.getInstance().addPlayer(player);
     }
     
     // register in Clientlist

@@ -53,6 +53,11 @@ public class CHAP
     return challenge;
   }
   
+  /**
+   * Returns a previously generated challenge for the given username.
+   * @param nickname
+   * @return
+   */
   public long getChallenge(String nickname)
   {
     return this.challenges.get(nickname);

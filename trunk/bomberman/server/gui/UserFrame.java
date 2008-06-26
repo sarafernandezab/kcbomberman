@@ -1,24 +1,34 @@
 /*
- * UserFrame.java
+ *  KC Bomberman
+ *  Copyright 2008 Christian Lins <christian.lins@web.de>
+ *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * Created on 23. Juni 2008, 14:22
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package bomberman.server.gui;
 
-import bomberman.server.ServerThread;
 import java.util.ArrayList;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Frame that allows the creation of a new user.
  * @author  Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
-public class UserFrame extends javax.swing.JFrame {
-  
+public class UserFrame extends javax.swing.JFrame 
+{
   private ServerControlPanel parent;
-  
   
   /** Creates new form UserFrame */
   public UserFrame() 
@@ -50,16 +60,16 @@ public class UserFrame extends javax.swing.JFrame {
     jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setTitle("Neuen User erstellen");
 
-    btnOk.setText("OK");
+    btnOk.setText("Erstellen");
     btnOk.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         btnOkActionPerformed(evt);
       }
     });
 
-    btnCancel.setText("Cancel");
+    btnCancel.setText("Abbrechen");
     btnCancel.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         btnCancelActionPerformed(evt);
@@ -85,10 +95,6 @@ public class UserFrame extends javax.swing.JFrame {
       .add(layout.createSequentialGroup()
         .addContainerGap()
         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-          .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-            .add(btnOk)
-            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-            .add(btnCancel))
           .add(layout.createSequentialGroup()
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
               .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
@@ -98,7 +104,11 @@ public class UserFrame extends javax.swing.JFrame {
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
               .add(txtPw1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
               .add(txtPw2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-              .add(org.jdesktop.layout.GroupLayout.TRAILING, txtUsername, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 187, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+              .add(org.jdesktop.layout.GroupLayout.TRAILING, txtUsername, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))
+          .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(btnOk)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(btnCancel)))
         .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -116,20 +126,28 @@ public class UserFrame extends javax.swing.JFrame {
         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
           .add(txtPw2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
           .add(jLabel3))
-        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 55, Short.MAX_VALUE)
+        .add(18, 18, 18)
         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
           .add(btnCancel)
           .add(btnOk))
-        .addContainerGap())
+        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
+  /**
+   * Called on hit on the cancel button.
+   * @param evt
+   */
   private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-   this.setVisible(false);
+    this.setVisible(false);
 }//GEN-LAST:event_btnCancelActionPerformed
 
+  /**
+   * Called on hit on the create button.
+   * @param evt
+   */
   private void btnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOkActionPerformed
     if(txtPw1.getText().equals(txtPw2.getText()))
     {
@@ -138,27 +156,16 @@ public class UserFrame extends javax.swing.JFrame {
       user.add("offline");
       parent.getServerThread().getServer().getDatabase().addUser(txtUsername.getText(), txtPw1.getText());
       ((UserListTableModel)this.parent.getTblUserList().getModel()).addRow(user);
+      
+      this.setVisible(false);
     }
     else
-      JOptionPane.showMessageDialog( this, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
-    
-    this.setVisible(false);
+      JOptionPane.showMessageDialog( this, "Das Passwort und die Bestätigung stimmen nicht überein!!" );
   }//GEN-LAST:event_btnOkActionPerformed
 
   private void txtPw2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPw2ActionPerformed
     // TODO add your handling code here:
 }//GEN-LAST:event_txtPw2ActionPerformed
-  
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String args[]) {
-    java.awt.EventQueue.invokeLater(new Runnable() {
-      public void run() {
-        new UserFrame().setVisible(true);
-      }
-    });
-  }
   
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton btnCancel;
@@ -170,5 +177,5 @@ public class UserFrame extends javax.swing.JFrame {
   private javax.swing.JPasswordField txtPw2;
   private javax.swing.JTextField txtUsername;
   // End of variables declaration//GEN-END:variables
-  
+
 }

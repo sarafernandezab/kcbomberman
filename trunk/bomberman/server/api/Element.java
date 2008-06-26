@@ -25,7 +25,8 @@ import java.io.Serializable;
  * One tile of the Playground that can be painted through the
  * ElementPainter class on client side.
  * There are various derived classes for the different tile
- * types: @see{Bomb}, @see{Wall}, @see{Player}
+ * types: @see{Bomb}, @see{Wall}, @see{Player}.
+ * This class could be seen as model component on a MVC-architecture.
  * @author Christian Lins (christian.lins@web.de)
  */
 public abstract class Element implements Serializable

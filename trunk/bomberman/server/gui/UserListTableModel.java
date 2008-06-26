@@ -1,7 +1,22 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *  KC Bomberman
+ *  Copyright 2008 Christian Lins <christian.lins@web.de>
+ *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 
 package bomberman.server.gui;
 
@@ -15,7 +30,7 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
+ * A custom table model for the user list.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class UserListTableModel extends AbstractTableModel
@@ -29,49 +44,63 @@ public class UserListTableModel extends AbstractTableModel
     this.sortColumnDesc = new boolean[columnNames.length];
   }
   
+  /**
+   * Adds a row to this table model.
+   * @param row
+   */
   public void addRow(ArrayList<Object> row)
   {
     data.add(row);
-    this.fireTableRowsInserted(data.size()-1, data.size()-1);
+    this.fireTableRowsInserted(data.size() - 1, data.size() - 1);
   }
   
-  public void deleteRow(int y)
+  /**
+   * Deletes a row from this table model. The row is specified through the
+   * given index.
+   * @param idx
+   */
+  public void deleteRow(int idx)
   {
-    data.remove(y);
-    this.fireTableRowsDeleted(y, y);
+    data.remove(idx);
+    this.fireTableRowsDeleted(idx, idx);
   }
     
-  /** Anzahl der Zeilen zurueckgeben */
+  /**
+   * @return Number of rows. 
+   */
   public int getRowCount() 
   {
     return data.size();
   }    
   
-  /** Gibt das Objekt in der angegebenen Zeile und Spalte zurueck */
+  /** 
+   * @return Object at the given row and col.
+   */
   public Object getValueAt(int row, int col) 
   {     
     return data.get(row).get(col);
   }
   
   /**
-   * Gibt die durch den Index spezifizierte Zeile zurueck.
    * @param row
-   * @return
+   * @return Row at specified row index.
    */
   public Object getRow(int row) 
   {
     return data.get(row);
   }
   
-  /** Name einer Spalte zurueckgeben */
+  /**
+   * @return Name of the column specified by the given column index. 
+   */
   @Override
   public String getColumnName(int col) 
   {  
     return columnNames[col];
   }
   
-  /*
-   * Set Row data for username
+  /**
+   * Set row data for username.
    */
   public void setDataForUsername(String username, String strData)
   {
@@ -84,7 +113,9 @@ public class UserListTableModel extends AbstractTableModel
       }
   }
   
-  /** Datentyp einer Spalte zurueckgeben */
+  /** 
+   * @return Class type of the specified column c.
+   */
   @Override
   public Class<?> getColumnClass(int c) 
   {
@@ -93,17 +124,26 @@ public class UserListTableModel extends AbstractTableModel
     return getValueAt(0, c).getClass();
   }
   
-  /** Anzahl der Spalten */
+  /**
+   * @return Number of columns.
+   */
   public int getColumnCount() 
   { 
     return columnNames.length;
   }
   
+  /**
+   * Overwrites this model data with the given data object.
+   * @param data
+   */
   public void setData(ArrayList<ArrayList<Object>> data)
   {
     this.data = data;
   } 
-  /** Setzen eines speziellen Wertes */
+  
+  /** 
+   * Sets a value at the specified index positions.
+   */
   @Override
   public void setValueAt(Object value, int row, int col)
   {
@@ -111,6 +151,12 @@ public class UserListTableModel extends AbstractTableModel
     fireTableCellUpdated(row, col);    
   }
   
+  /**
+   * Always returns false.
+   * @param row
+   * @param col
+   * @return false
+   */
   @Override
   public boolean isCellEditable(int row, int col) 
   {
@@ -118,16 +164,15 @@ public class UserListTableModel extends AbstractTableModel
   }
   
   /**
-   * Gibt alle Zeilen der Tabelle zurueck.
-   * @return
+   * @return All rows of this table model.
    */
   public ArrayList getRows()
   {   
     return data; 
   }
   
-    /**
-   * Gibt an ob die angegebene Spalte sortiert ist oder nicht.
+  /**
+   * Returns the sort state of the specified column.
    * @param col
    * @return
    */
@@ -136,7 +181,11 @@ public class UserListTableModel extends AbstractTableModel
     return sortColumnDesc[col];
   }
   
-    /** Sortiericon erstellen */
+  /**
+   * Creates a custom ascend sorting icon.
+   * @param col
+   * @return
+   */
   private Icon createAscendingIcon(int col)
   {
     sortColumnDesc[col] = false;
@@ -163,7 +212,7 @@ public class UserListTableModel extends AbstractTableModel
   }
   
   /**
-   * Sortiericon erstellen.
+   * Creates a custom descend sorting icon.
    * @param col
    * @return
    */
@@ -188,11 +237,15 @@ public class UserListTableModel extends AbstractTableModel
     };
   } 
   
-  /** Sortieren */
+  /** 
+   * Sort this model by the specified column.
+   * @param col
+   */
   public void sortByColumn(final int col)
   {
     if(data.size() == 0)
       return;
+    
     Collections.sort(data, new Comparator<ArrayList>()
     {
       public int compare(ArrayList v1, ArrayList v2)
@@ -204,12 +257,9 @@ public class UserListTableModel extends AbstractTableModel
         Comparable s1 = (Comparable<?>) v1.get(col);
         Comparable s2 = (Comparable<?>) v2.get(col);
         
-       
-        
         int cmp = s1.compareTo(s2);
         if (sortColumnDesc[col])
         {
-          
           cmp *= -1;
         }
         return cmp;

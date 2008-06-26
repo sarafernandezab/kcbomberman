@@ -22,8 +22,9 @@ package bomberman.server.gui;
 import bomberman.server.Database;
 import bomberman.server.Game;
 import bomberman.server.Highscore;
-import bomberman.server.Player;
 import bomberman.server.ServerThread;
+import bomberman.server.gui.UserListTableModel;
+
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,70 +32,32 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollBar;
-import bomberman.server.gui.UserListTableModel;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 /**
- * @author  Christian Lins
- * @author  Kai Ritterbusch
+ * Main control panel of the Server.
+ * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
  */
 public class ServerControlPanel extends javax.swing.JPanel 
 {
-  private ServerThread serverThread;
-  
   private static ServerControlPanel instance = null;
   
-  private String newUsername=null;
-  private String newPW=null;
-  
+  /**
+   * @return The created instance of this.
+   */
   public static ServerControlPanel getInstance()
   {
     return instance;
   }
   
-  // New Log-Message
-  public void addLogMessages(String txt)
-  {
-    // Creates actual Date
-    Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT") );
-    SimpleDateFormat formater = new SimpleDateFormat();
-    String date = formater.format(cal.getTime());
-
-    // Adds logsmessage to textarea
-    txtLog.setText("("+ date + "): "+ txt +"\n" + txtLog.getText());    
-    
-    // Sets Scrollposition to 0
-    JScrollBar vbar = scrPane.getVerticalScrollBar();
-    vbar.setValue(vbar.getMinimum()); 
-   // txtLog.updateUI();
-  } 
+  private ServerThread serverThread;
   
-  // Adds player to List
-  public void addPlayer(Player pl)
-  {
-    //((DefaultListModel)liUser.getModel()).addElement(pl);    
-  }
-  
-  /*
-   * Adds game to List
-   */ 
-  public void addGame(Game game)
-  {
-    ((DefaultListModel)liGames.getModel()).addElement(game);    
-  }
-  
-  /*
-   * Removes Game from list
-   */ 
-  public void removeGame(Game game)
-  {
-    ((DefaultListModel)liGames.getModel()).removeElement(game);    
-  }
-  
-  
-  /** Creates new form ServerControlPanel */
+  /** 
+   * Creates new form ServerControlPanel.
+   */
   public ServerControlPanel(ServerThread thread) 
   {   
     initComponents();
@@ -111,6 +74,44 @@ public class ServerControlPanel extends javax.swing.JPanel
     }
   }
   
+  /**
+   * Adds a new log message to the log view.
+   */ 
+  public void addLogMessages(String txt)
+  {
+    // Creates actual Date
+    Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("ECT"));
+    SimpleDateFormat formater = new SimpleDateFormat();
+    String date = formater.format(cal.getTime());
+
+    // Adds logsmessage to textarea
+    txtLog.setText("("+ date + "): "+ txt +"\n" + txtLog.getText());    
+    
+    // Sets Scrollposition to 0
+    JScrollBar vbar = scrPane.getVerticalScrollBar();
+    vbar.setValue(vbar.getMinimum()); 
+  }
+  
+  /**
+   * Adds game to List.
+   */ 
+  public void addGame(Game game)
+  {
+    ((DefaultListModel)liGames.getModel()).addElement(game);    
+  }
+  
+  /**
+   * Removes Game from list.
+   */ 
+  public void removeGame(Game game)
+  {
+    ((DefaultListModel)liGames.getModel()).removeElement(game);    
+  }
+  
+  /**
+   * Sets the ServerThread this panel can control.
+   * @param thread
+   */
   private void setThread(ServerThread thread)
   {
     this.serverThread = thread;
@@ -124,12 +125,6 @@ public class ServerControlPanel extends javax.swing.JPanel
       btnStartServer.setEnabled(false);
       btnStopServer.setEnabled(true);
     }
-  }
-  
-  public void setUserNameandPw(String username, String password)
-  {
-    this.newUsername = username;
-    this.newPW       = password;
   }
           
   /** This method is called from within the constructor to
@@ -340,6 +335,10 @@ public class ServerControlPanel extends javax.swing.JPanel
     );
   }// </editor-fold>//GEN-END:initComponents
 
+  /**
+   * Is called on start server button click.
+   * @param evt
+   */
   private void btnStartServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartServerActionPerformed
     if(this.getServerThread() != null)
     {
@@ -360,28 +359,23 @@ public class ServerControlPanel extends javax.swing.JPanel
     ServerControlPanel.getInstance().addLogMessages("Bombermanserver bereit ...");
   }//GEN-LAST:event_btnStartServerActionPerformed
 
+  /**
+   * Is called on server stop button click.
+   * @param evt
+   */
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
     if(this.getServerThread() != null)
-    {     
-/*      for(int i = 0; i < ((DefaultListModel)liUser.getModel()).getSize(); i++)
-      {
-        try
-        {
-          serverThread.getServer().logout( ((DefaultListModel)liUser.getModel()).getElementAt(i).toString() );
-          ((DefaultListModel)liUser.getModel()).removeElement(((DefaultListModel)liUser.getModel()).getElementAt(i));
-        }
-        catch(RemoteException e)
-        {
-          e.printStackTrace();
-        }
-      }
+    {
       this.serverThread.stopThread();
       setThread(null);
       ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
-*/
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
 
+  /**
+   * Is called on click to user kick button.
+   * @param evt
+   */
   private void btnKickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKickActionPerformed
     try
     {
@@ -398,6 +392,10 @@ public class ServerControlPanel extends javax.swing.JPanel
     }
   }//GEN-LAST:event_btnKickActionPerformed
 
+  /**
+   * Is called on close game button click.
+   * @param evt
+   */
   private void btnCloseGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseGameActionPerformed
    try
    {
@@ -413,16 +411,29 @@ public class ServerControlPanel extends javax.swing.JPanel
     
   }//GEN-LAST:event_btnCloseGameActionPerformed
 
+  /**
+   * Is called on add user button click. Shows up a new UserFrame dialog.
+   * @param evt
+   */
   private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
     UserFrame uf = new UserFrame(this);
     uf.setVisible(true);    
 }//GEN-LAST:event_btnCreateUserActionPerformed
 
+  /**
+   * Is called on a click to "Remove User" button.
+   * @param evt
+   */
   private void btnRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUserActionPerformed
     serverThread.getServer().getDatabase().removeUser(((UserListTableModel)tblUserList.getModel()).getValueAt(tblUserList.getSelectedRow(), 0).toString());
     ((UserListTableModel)tblUserList.getModel()).deleteRow(tblUserList.getSelectedRow());
   }//GEN-LAST:event_btnRemoveUserActionPerformed
 
+  /**
+   * Is called on a click to "Export Highscore" button. Shows up a file chooser
+   * dialog that let the user select an export target.
+   * @param evt
+   */
   private void btnHighscoreExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHighscoreExportActionPerformed
     try
     {
@@ -465,14 +476,19 @@ public class ServerControlPanel extends javax.swing.JPanel
   private javax.swing.JTextArea txtLog;
   // End of variables declaration//GEN-END:variables
 
+  /**
+   * @return Instance to the user table.
+   */
   public javax.swing.JTable getTblUserList() 
   {
     return tblUserList;
   }
 
+  /**
+   * @return Instance to the ServerThread.
+   */
   public ServerThread getServerThread() 
   {
     return serverThread;
   }
-  
 }

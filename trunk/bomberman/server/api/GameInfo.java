@@ -24,6 +24,9 @@ import java.io.Serializable;
 /**
  * Contains the information for one Game. This class is used to update
  * clients with new game information.
+ * This class capsulates all necessary information for the client about
+ * a @see{Game}. To transmit a full Game class instance would be a lot of
+ * overhead and a potential security leak.
  * @author Christian Lins (christian.lins@web.de)
  */
 public class GameInfo implements Serializable
@@ -33,6 +36,13 @@ public class GameInfo implements Serializable
   private String status       = null;
   private String playerCount  = null;
   
+  /**
+   * Constructs a new GameInfo using the given parameters.
+   * @param gameName
+   * @param creator
+   * @param isRunning
+   * @param playerCount
+   */
   public GameInfo(String gameName, String creator, boolean isRunning, int playerCount)
   {
     this.gameName = gameName;
@@ -46,26 +56,33 @@ public class GameInfo implements Serializable
     this.playerCount = playerCount + "/4";
   }
   
+  /**
+   * @return Name of the game.
+   */
   public String getName()
   {
     return this.gameName;
   }
   
+  /**
+   * @return Creator of the game.
+   */
   public String getCreator()
   {
     return this.creator;
   }
   
+  /**
+   * @return Status of the game.
+   */
   public String getStatus()
   {
     return this.status;
   }
-  
-  public void setStatus(String status)
-  {
-    this.status = status;
-  }
-    
+
+  /**
+   * @return Number of players that have joined the game.
+   */
   public String getPlayerCount()
   {
     return this.playerCount;
