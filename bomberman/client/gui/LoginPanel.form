@@ -74,7 +74,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtNickname">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;bitte w&#xe4;hlen&gt;"/>
+        <Property name="text" type="java.lang.String" value="gast"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnLogin">
