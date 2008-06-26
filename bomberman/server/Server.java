@@ -562,7 +562,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     Game game = games.get(gameName);
    
-    if(game == null)
+    if(game == null || game.isRunning())
       return false; // No such game
     
     Player player = players.get(session);   
