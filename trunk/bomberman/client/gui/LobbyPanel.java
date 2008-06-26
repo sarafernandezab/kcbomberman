@@ -240,12 +240,18 @@ public class LobbyPanel extends javax.swing.JPanel
   }//GEN-LAST:event_btnCreateGameActionPerformed
 
   private void btnJoinGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJoinGameActionPerformed
-    //MainFrame.getInstance().setContentPane(new PlaygroundPanel(14, 16));
     try
     {
       int row = tblGamelist.getSelectedRow();
-      String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-      bomberman.client.ClientThread.Server.joinGame(bomberman.client.ClientThread.Session, name);
+      if(row >= 0)
+      {
+        String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
+        bomberman.client.ClientThread.Server.joinGame(bomberman.client.ClientThread.Session, name);
+      }
+      else
+      {
+        JOptionPane.showMessageDialog(this, "Bitte wähle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
+      }
     }
     catch(Exception ex)
     {
@@ -257,8 +263,15 @@ public class LobbyPanel extends javax.swing.JPanel
    try
     {
       int row = tblGamelist.getSelectedRow();
-      String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-      bomberman.client.ClientThread.Server.joinViewGame(bomberman.client.ClientThread.Session, name);
+      if(row >= 0)
+      {
+        String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
+        bomberman.client.ClientThread.Server.joinViewGame(bomberman.client.ClientThread.Session, name);
+      }
+      else
+      {
+        JOptionPane.showMessageDialog(this, "Bitte wähle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
+      }
     }
     catch(Exception ex)
     {
