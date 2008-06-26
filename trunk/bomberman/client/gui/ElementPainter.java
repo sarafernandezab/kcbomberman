@@ -45,6 +45,9 @@ public class ElementPainter extends JComponent
   
   private static HashMap<String, Image> ImageCache;
   
+  /**
+   * Loads Images from filesystem and puts them into cache
+   */
   static
   {
     ImageCache = new HashMap<String, Image>();
@@ -77,6 +80,9 @@ public class ElementPainter extends JComponent
   {
   }
   
+  /**
+   * Stops ExplosionTime -- ExplosionTimer.java
+   */
   private void stopExplosionTimer()
   {
     this.explTimer.cancel();
@@ -84,6 +90,11 @@ public class ElementPainter extends JComponent
     explStage = 0;
   }
   
+  /**
+   * Creates new Explosion Timer
+   * @param delay
+   * @param period
+   */   
   synchronized void newExplosion(int delay, int period)
   {
     if(this.explTimer != null)
@@ -92,7 +103,12 @@ public class ElementPainter extends JComponent
     this.explTimer = new ExplosionTimer(this, delay, period);
   }
   
-  
+  /**
+   * Creates new die Timer
+   * @param delay
+   * @param period
+   * @param playerNumber
+   */
   synchronized void newDieAnimation(int delay, int period, int playerNumber)
   {
     if(this.dieTimer != null)
@@ -101,6 +117,9 @@ public class ElementPainter extends JComponent
     this.dieTimer = new DieTimer(this, delay, period);
   }
   
+  /**
+   * Stops die Timer
+   */   
   private void stopDieTimer()
   {
     this.dieTimer.cancel();
@@ -108,6 +127,10 @@ public class ElementPainter extends JComponent
     explStage = 0;
   }
   
+  /**
+   * Switch to next die Image
+   * Stops Timer if last Image was shown
+   */
   void nextDieImage()
   {
     dieStage++;
@@ -115,7 +138,10 @@ public class ElementPainter extends JComponent
       stopDieTimer();
   }
 
-  
+  /**
+   * Switch to next Explosion Image
+   * Stops Timer if last Image was shown
+   */
   void nextExplosionImage()
   {
     explStage++;
@@ -123,6 +149,10 @@ public class ElementPainter extends JComponent
       stopExplosionTimer();
   }
   
+  /**
+   * Paint the Image
+   * @param g
+   */   
   @Override
   public void paintComponent(Graphics g)
   {    
@@ -149,18 +179,31 @@ public class ElementPainter extends JComponent
     }
   }
   
+  /**
+   * Get preferredSize of the Image (e.g. 40px x 40px)
+   * @return
+   */
   @Override
   public Dimension getPreferredSize()
   {
     return new Dimension(40, 40);
   }
   
+  /**
+   * Minimum size equals 40px x 40px
+   * @return
+   */
   @Override
   public Dimension getMinimumSize()
   {
     return getPreferredSize();
   }
   
+  /**
+   * Sets Elements of the ElementPainter
+   * element[0] equals this.element position of the bombs
+   * @param elements
+   */
   public void setElement(Element[] elements)
   {
     this.element = elements[0];
@@ -184,8 +227,11 @@ public class ElementPainter extends JComponent
     }
   }
 
-  public
-  Element getElement()
+  /**
+   * Getter for this.element
+   * @return
+   */
+  public Element getElement()
   {
     return element;
   }

@@ -29,7 +29,7 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * custum TableModel for LobbyPanel
+ * Custom TableModel for LobbyPanel, Gamelist
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class GameListTableModel extends AbstractTableModel
@@ -43,67 +43,103 @@ public class GameListTableModel extends AbstractTableModel
     this.sortColumnDesc = new boolean[columnNames.length];
   }
   
+  /**
+   * Inser new Row into Table
+   * @param row
+   */
   public void addRow(ArrayList<Object> row)
   {
     data.add(row);
     this.fireTableRowsInserted(data.size()-1, data.size()-1);
   }
   
+  /**
+   * Delete specific (y) row
+   * @param y
+   */   
   public void deleteRow(int y)
   {
     data.remove(y);
     this.fireTableRowsDeleted(y, y);
   }
     
-  /** Anzahl der Zeilen zurueckgeben */
+  /**
+   * Returns size of data
+   * @return int
+   */   
   public int getRowCount() 
   {
     return data.size();
   }    
   
-  /** Gibt das Objekt in der angegebenen Zeile und Spalte zurueck */
+  /**
+   * Returns specific Value for a Column at row,colw
+   * @param row
+   * @param col
+   * @return Object
+   */
   public Object getValueAt(int row, int col) 
   {     
     return data.get(row).get(col);
   }
   
   /**
-   * Gibt die durch den Index spezifizierte Zeile zurueck.
+   * Returns row (row)
    * @param row
-   * @return
+   * @return Object
    */
   public Object getRow(int row) 
   {
     return data.get(row);
   }
   
-  /** Name einer Spalte zurueckgeben */
+  /**
+   * Get Name of Column (TableHeader)
+   * @param col
+   * @return
+   */
   @Override
   public String getColumnName(int col) 
   {  
     return columnNames[col];
   }
   
-  /** Datentyp einer Spalte zurueckgeben */
+  /**
+   * Returns Datatype for specific Column
+   * @param c
+   * @return
+   */
   @Override
   public Class<?> getColumnClass(int c) 
   {
     return getValueAt(0, c).getClass();
   }
   
-  /** Anzahl der Spalten */
+  /**
+   * Returns size of Columns
+   * @return
+   */
   public int getColumnCount() 
   { 
     return columnNames.length;
   }
   
+  /**
+   * Initialize data for the table
+   * @param data
+   */
   public void setData(ArrayList<ArrayList<Object>> data)
   {
     this.data = data;
     fireTableDataChanged();
   }
   
-  /** Setzen eines speziellen Wertes */
+  /**
+   * Sets data of Column at (row, col)
+   * @param value
+   * @param row
+   * @param col
+   */
   @Override
   public void setValueAt(Object value, int row, int col)
   {
@@ -111,6 +147,12 @@ public class GameListTableModel extends AbstractTableModel
     fireTableCellUpdated(row, col);    
   }
   
+  /**
+   * Returns true if Cell is editable
+   * @param row
+   * @param col
+   * @return
+   */
   @Override
   public boolean isCellEditable(int row, int col) 
   {
@@ -118,7 +160,7 @@ public class GameListTableModel extends AbstractTableModel
   }
   
   /**
-   * Gibt alle Zeilen der Tabelle zurueck.
+   * Returns size of Rows
    * @return
    */
   public ArrayList getRows()
@@ -126,17 +168,21 @@ public class GameListTableModel extends AbstractTableModel
     return data; 
   }
   
-    /**
-   * Gibt an ob die angegebene Spalte sortiert ist oder nicht.
-   * @param col
-   * @return
-   */
+  /**
+  * Returns sortstate
+  * @param col
+  * @return
+  */
   public boolean getSortState(int col)
   {
     return sortColumnDesc[col];
   }
   
-    /** Sortiericon erstellen */
+  /**
+   * Sets Icon for sortState
+   * @param col
+   * @return
+   */
   private Icon createAscendingIcon(int col)
   {
     sortColumnDesc[col] = false;
@@ -163,7 +209,7 @@ public class GameListTableModel extends AbstractTableModel
   }
   
   /**
-   * Sortiericon erstellen.
+   * Creates Sort-Icon
    * @param col
    * @return
    */
@@ -188,7 +234,10 @@ public class GameListTableModel extends AbstractTableModel
     };
   } 
   
-  /** Sortieren */
+  /**
+   * Sort Table column
+   * @param col
+   */
   public void sortByColumn(final int col)
   {
     if(data.size() == 0)
@@ -204,8 +253,6 @@ public class GameListTableModel extends AbstractTableModel
         Comparable s1 = (Comparable<?>) v1.get(col);
         Comparable s2 = (Comparable<?>) v2.get(col);
         
-       
-        
         int cmp = s1.compareTo(s2);
         if (sortColumnDesc[col])
         {
@@ -215,8 +262,7 @@ public class GameListTableModel extends AbstractTableModel
         return cmp;
       }     
      });
-     sortColumnDesc[col] ^= true; 
-     
+     sortColumnDesc[col] ^= true;      
   }
 }
 

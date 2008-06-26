@@ -34,13 +34,13 @@ import java.util.Enumeration;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Shows the loginPanel when game has started
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class LoginPanel extends javax.swing.JPanel
 {
   
-  /** Creates new form LoginPanel */
   public LoginPanel() 
   {
     initComponents();
@@ -58,6 +58,12 @@ public class LoginPanel extends javax.swing.JPanel
     });
   }
   
+  /**
+   * TODO:
+   * Get the Client-IP
+   * @return
+   * @throws java.net.SocketException
+   */   
   private String getOwnIP() throws SocketException
   {
     Enumeration ifaces = NetworkInterface.getNetworkInterfaces();
@@ -193,6 +199,10 @@ public class LoginPanel extends javax.swing.JPanel
   private javax.swing.JPasswordField txtPassword;
   // End of variables declaration//GEN-END:variables
   
+  /**
+   * Paints the background
+   * @param g
+   */
   @Override
   public void paintComponent(Graphics g)
   {

@@ -77,6 +77,10 @@ public class MainFrame extends JFrame
     new AudioThread(Resource.getAsStream("resource/sfx/battle.mp3")).start();
   }
   
+  /**
+   * Sets the ContentPane of the mainframe
+   * @param cnt
+   */   
   @Override
   public void setContentPane(Container cnt)
   {
@@ -84,6 +88,11 @@ public class MainFrame extends JFrame
     repaint();
   }
 
+  /**
+   * One Instance of the LobbyPanel for the whole game
+   * 
+   * @return instance of LobbyPanel
+   */   
   public LobbyPanel getLobbyPanel() 
   {
     return lobbyPanel;

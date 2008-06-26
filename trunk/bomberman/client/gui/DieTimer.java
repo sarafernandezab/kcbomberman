@@ -9,7 +9,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- *
+ * Subclass from AnimationTimer
+ * Implements the die Animation
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class DieTimer extends AnimationTimer
@@ -21,6 +22,10 @@ public class DieTimer extends AnimationTimer
     super(painter, delay, period);
   }
   
+  /**
+   * Cancel Timer
+   * @return
+   */
   @Override
   public boolean cancel()
   {
@@ -28,6 +33,10 @@ public class DieTimer extends AnimationTimer
     return super.cancel();
   }
 
+
+  /**
+   * Run the Animation
+   */
   @Override
   public void run()
   {

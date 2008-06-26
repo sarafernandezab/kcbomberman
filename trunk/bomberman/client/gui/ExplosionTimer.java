@@ -23,7 +23,8 @@ import java.util.Timer;
 
 
 /**
- *
+ * Subclass from AnimationTimer
+ * Implements the Explosion Animation
  * @author Christian Lins (christian.lins@web.de)
  */
 class ExplosionTimer extends AnimationTimer
@@ -35,6 +36,10 @@ class ExplosionTimer extends AnimationTimer
     super(painter, delay, period);
   }
   
+   /**
+   * Cancel Timer
+   * @return
+   */
   @Override
   public boolean cancel()
   {
@@ -42,6 +47,9 @@ class ExplosionTimer extends AnimationTimer
     return super.cancel();
   }
 
+   /**
+   * Run the Animation
+   */
   @Override
   public void run()
   {
