@@ -103,7 +103,7 @@ public class LoginPanel extends javax.swing.JPanel
     lblNickname.setForeground(java.awt.Color.white);
     lblNickname.setText("Spielername:");
 
-    txtNickname.setText("<bitte wählen>");
+    txtNickname.setText("gast");
 
     btnLogin.setText("Login");
     btnLogin.addActionListener(new java.awt.event.ActionListener() {
