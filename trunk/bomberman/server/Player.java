@@ -60,18 +60,26 @@ public class Player extends Element implements Explodable
     this.nickname = nickname;
   }
   
-  // raise if collect BombDistance-Extra
+  /**
+   * rais if collect BombDistance-Extra
+   */
   public void raiseBombDistance()
   {
     this.bombDistance++;
   }
-  
-  // raise if collect BombCount
+
+  /**
+   * raise Bombcount 
+   */   
   public void raiseBombCount()
   {
     this.bombCount++;
   }
 
+  /**
+   * Returns Image filename for player
+   * @return filename
+   */   
   public String getImageFilename()
   {
     String imgPath  = "resource/gfx/player" + getID() + "/";
@@ -106,22 +114,39 @@ public class Player extends Element implements Explodable
     return imgPath;
   }
   
+  /**
+   * Nickname of the player
+   * @return
+   */
   public String getNickname()
   {
     return this.nickname;
   }
   
+  /**
+   * Nickname of the player while using toString()
+   * @return
+   */
   @Override
   public String toString()
   {
     return this.nickname;
   }
 
+  /**
+   * Returns ID of the player
+   * @return
+   */
   public int getID() 
   {
     return id;
   }
   
+  /**
+   * Moves player
+   * @param dx
+   * @param dy
+   */
   void move(int dx, int dy)
   {
     this.gridX += dx;
@@ -137,6 +162,9 @@ public class Player extends Element implements Explodable
       lastMoveDirection = MoveDirection.DOWN;
   }
 
+  /**
+   * place a Bomb
+   */
   void placeBomb()
   {
     if(bombs.size() >= this.bombCount)
@@ -149,11 +177,19 @@ public class Player extends Element implements Explodable
     this.game.getPlayground().setElement(gridX, gridY, 0, bomb);
   }
   
+  /**
+   * Set active game of the player
+   * @param game
+   */
   public void setGame(Game game)
   {
     this.game = game;
   }
   
+  /**
+   * Set Id of the player
+   * @param id
+   */
   public void setID(int id) 
   {
     this.id = id;

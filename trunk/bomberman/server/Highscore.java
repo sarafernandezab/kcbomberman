@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Stores the persistent Highscore data.
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class Highscore implements Serializable
@@ -34,6 +35,11 @@ public class Highscore implements Serializable
   /** Stores won and lost games per username */
   private HashMap<String, Pair<Integer, Integer>> data = new HashMap<String, Pair<Integer, Integer>>();
 
+  /**
+   * Get number of lost games
+   * @param username
+   * @return number of Lost Games
+   */
   public int getLostGames(String username)
   {
     Pair<Integer, Integer> p = data.get(username);
@@ -45,6 +51,11 @@ public class Highscore implements Serializable
       return 0;
   }
   
+   /**
+   * Get number of won games
+   * @param username
+   * @return number of won Games
+   */
   public int getWonGames(String username)
   {
     Pair<Integer, Integer> p = data.get(username);

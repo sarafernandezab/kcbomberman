@@ -28,7 +28,6 @@ import java.util.TimeZone;
 /**
  * Provides logging methods.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
  */
 public class Logger 
 {
@@ -49,7 +48,9 @@ public class Logger
   }
   
   /**
-   * Adds log message to file.
+   * Adds log message to server.log
+   * @param action
+   * @param ip
    */
   public void addLogMessage(String action, String ip)
   {
