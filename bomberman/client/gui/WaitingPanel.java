@@ -34,6 +34,7 @@ import javax.swing.plaf.basic.BasicTextAreaUI;
  * This panel shows information about the other players and the
  * game create has a button to start the game before four players
  * have joined.
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class WaitingPanel extends javax.swing.JPanel 
@@ -71,12 +72,11 @@ public class WaitingPanel extends javax.swing.JPanel
       }
     });
   }
-  
-  public JTextArea gettxtInfo()
-  {
-    return this.txtInfo;
-  }
-  
+   
+  /**
+   * Shows if a user joins Game
+   * @param text
+   */
   public void addInfoText(String text)
   {
     this.txtInfo.setText(txtInfo.getText() + "\n" + text);
@@ -148,7 +148,10 @@ public class WaitingPanel extends javax.swing.JPanel
     }    
   }    
   
-  
+  /**
+   * Shows the background of the Panel
+   * @param g
+   */
   @Override
   public void paintComponent(Graphics g)
   {

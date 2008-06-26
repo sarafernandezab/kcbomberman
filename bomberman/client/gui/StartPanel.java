@@ -28,7 +28,8 @@ import javax.swing.JPanel;
 
 /**
  * Shows the splash screen and the login window.
- * @author Christian Lins
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class StartPanel extends JPanel
 {
@@ -54,6 +55,10 @@ public class StartPanel extends JPanel
     });
   }
   
+  /**
+   * Shows the Background for the Panel
+   * @param g
+   */
   @Override
   public void paintComponent(Graphics g)
   {

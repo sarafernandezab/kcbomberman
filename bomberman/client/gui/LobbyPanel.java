@@ -39,9 +39,8 @@ import javax.swing.text.Document;
  */
 public class LobbyPanel extends javax.swing.JPanel 
 {
-  private int        activeCol = 0;
+  private int        activeCol = 0;   // last sorted Column
           
-  /** Creates new form LobbyPanel */
   public LobbyPanel() 
   {
     initComponents();
@@ -299,6 +298,10 @@ public class LobbyPanel extends javax.swing.JPanel
   private javax.swing.JTextField txtChatInput;
   // End of variables declaration//GEN-END:variables
   
+  /**
+   * Adds new Chat message to LobbyPanel textfield
+   * @param line
+   */
   public void addChatMessage(String line)
   {
     try
@@ -317,11 +320,19 @@ public class LobbyPanel extends javax.swing.JPanel
     }
   }
   
+  /**
+   * Sets the UserList in the LobbyPanel
+   * @param users
+   */   
   public void setUserList(List<String> users)
   {
     lstUser.setListData(new Vector<Object>(users));
   }
   
+  /**
+   * Adds new GameInfo for the game-table
+   * @param data
+   */
   public void addGameInfo(ArrayList<ArrayList<Object>> data)
   {
     ((GameListTableModel)tblGamelist.getModel()).setData(data);

@@ -35,8 +35,8 @@ import javax.swing.JPanel;
  * Panel that displays a game's playground. The client
  * receives changes from the server and displays this changes
  * on a PlaygroundPanel.
- * @author Kai Ritterbusch
- * @author Christian Lins
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class PlaygroundPanel 
         extends JPanel
@@ -81,12 +81,24 @@ public class PlaygroundPanel
     MainFrame.getInstance().repaint();
   }
   
+  /**
+   * Draws the die animation
+   * @param x
+   * @param y
+   * @param playerNumber
+   */
   public void drawDieAnimation(int x, int y, int playerNumber)
   {
     int explPeriod = 150;
     this.elementPainter[x][y].newDieAnimation(0, explPeriod, playerNumber);
   }
   
+  /**
+   * Draws explosion animation
+   * @param x
+   * @param y
+   * @param distance
+   */
   public void drawExplosion(int x, int y, int distance)
   {   
     int explPeriod = 150;
@@ -137,7 +149,7 @@ public class PlaygroundPanel
   {    
     try
     {
-      // do nothing if Spectator
+      // do nothing if the calling client is a Spectator
       if(spectatorStatus == true)
       {      
         if(event.getKeyCode() == KeyEvent.VK_ESCAPE)        
