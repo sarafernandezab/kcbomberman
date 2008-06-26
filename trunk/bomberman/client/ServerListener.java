@@ -156,6 +156,11 @@ public class ServerListener
     System.out.println("Game stopped: " + msg);
   }
   
+  /**
+   * is called when client joined a game
+   * @param gameName
+   * @throws java.rmi.RemoteException
+   */
   public void gameJoined(String gameName) throws RemoteException
   {
     System.out.println("Game joined");
@@ -164,9 +169,14 @@ public class ServerListener
     MainFrame.getInstance().setVisible(true);
   }
   
+  /**
+   * Notifies the Client that he can receive a chat message
+   * Shows the message in LobbyPanel
+   * @param message
+   * @throws java.rmi.RemoteException
+   */
   public void receiveChatMessage(String message) throws RemoteException
-  {
-    System.out.println(message);
+  {    
     if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
     {
       LobbyPanel lobby = (LobbyPanel)MainFrame.getInstance().getContentPane();
@@ -179,6 +189,12 @@ public class ServerListener
     }
   }
   
+  /**
+   * Set the session
+   * Switch the user gui to the LobbyPanel
+   * @param session
+   * @throws java.rmi.RemoteException
+   */
   public void loggedIn(Session session) throws RemoteException
   {
     bomberman.client.ClientThread.Session = session;
@@ -187,17 +203,31 @@ public class ServerListener
     MainFrame.getInstance().setVisible(true);
   }
   
+  /**
+   * Notifies the Client that he was logged out. Shows the StartPanel
+   * @throws java.rmi.RemoteException
+   */   
   public void loggedOut() throws RemoteException
   {    
     MainFrame.getInstance().setContentPane(new StartPanel());
     MainFrame.getInstance().setVisible(true);
   }
   
+  /**
+   * Clientside update of the playground
+   * @param playground
+   * @throws java.rmi.RemoteException
+   */
   public void playgroundUpdate(Playground playground) throws RemoteException
   {
     ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
   }
   
+  /**
+   * Updates the userlist(JList) in the LobbyPanel
+   * @param users
+   * @throws java.rmi.RemoteException
+   */
   public void userListUpdate(List<String> users) throws RemoteException
   {
     if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
@@ -223,7 +253,7 @@ public class ServerListener
     pp.drawDieAnimation(x, y, playerNumber);
   }
   
-    /**
+   /**
    * This method is called when players leaves game
    * @throws java.rmi.RemoteException
    */
@@ -232,6 +262,9 @@ public class ServerListener
     MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());   
   }
   
+  /**
+   * This Method ist called when Player died and therefore lost the game
+   */ 
   public void youDied()
   {
     SwingUtilities.invokeLater(new Runnable() 

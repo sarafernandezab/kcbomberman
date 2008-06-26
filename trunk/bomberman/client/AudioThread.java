@@ -53,6 +53,9 @@ public class AudioThread extends Thread
     this.in = in;
   }
   
+   /**
+   * Plays the sound
+   */
   @Override
   public void run()
   {

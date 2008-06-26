@@ -34,7 +34,11 @@ import java.awt.event.KeyListener;
 import java.rmi.ConnectException;
 import javax.swing.JOptionPane;
 
-/**/
+/**
+ * ClientThread starts a Thread for each Client
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
+ */
 public class ClientThread extends Thread
 {
   public static ServerInterface Server;
@@ -43,7 +47,6 @@ public class ClientThread extends Thread
   
   private String hostname;
   
-  // Konstruktor mit uebergabe von Argumenten
   public ClientThread(String hostname)
   {
     this.hostname = hostname;
