@@ -83,16 +83,30 @@ public class Playground implements Serializable
     }
   }
 
+  /**
+   * Width of the playground
+   * @return width of the playground in px
+   */   
   public int getWidth()
   {
     return cols;
   }
   
+  /**
+   * Height of the Playground
+   * @return height of the playground in px
+   */
   public int getHeight()
   {
     return rows;
   }
   
+  /**
+   * Get Element at x,y 
+   * @param x
+   * @param y
+   * @return Element[] at the specific position
+   */
   public Element[] getElement(int x, int y)
   {
     try
@@ -105,6 +119,13 @@ public class Playground implements Serializable
     }   
   }
   
+  /**
+   * Sets Element e at x,y on layer layer
+   * @param x
+   * @param y
+   * @param layer
+   * @param e
+   */
   public void setElement(int x, int y, int layer, Element e)
   {
     this.matrix[x][y][layer] = e;
