@@ -29,6 +29,7 @@ import java.util.Random;
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
  * path finding.
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 class AIPlayer extends Player
@@ -53,6 +54,11 @@ class AIPlayer extends Player
     thread.start();
   }
   
+  /**
+   * Search for explodable Elements in Element[]
+   * @param elements
+   * @return
+   */
   private int containsExplodable(Element[] elements)
   {
     int explodables = 0;
@@ -66,6 +72,12 @@ class AIPlayer extends Player
     return explodables;
   }
   
+  /**
+   * Check if Element[] contains another element
+   * @param elements
+   * @param c
+   * @return true if Element[] contains c
+   */   
   private boolean contains(Element[] elements, Element c)
   {
     for(Element e : elements)
@@ -75,11 +87,10 @@ class AIPlayer extends Player
     return false;
   }
   
-  private boolean contains(List<int[]> nodes, int[] node)
-  {
-    return false;
-  }
-  
+  /**
+   * Method is called when AIPlayer dies.
+   * Sets this.isDead to true and removes player from gamelist
+   */
   public void die()
   {
     this.isDead = true;
@@ -88,6 +99,10 @@ class AIPlayer extends Player
     this.game.removePlayer(this);
   }
   
+  /**
+   * Returns living status of the Player
+   * @return
+   */
   public boolean isDead()
   {
     return this.isDead;
@@ -135,7 +150,7 @@ class AIPlayer extends Player
     List<int[]> openNodes   = new ArrayList<int[]>(); // Noch nicht besuchte Nodes
     List<int[]> closedNodes = new ArrayList<int[]>(); // Schon abgearbeitete Punkte
 			
-    // Mit Startpunkt initialisieren (add = push = at end of list)
+    // Initialize with starting point (add = push = at end of list)
     openNodes.add(new int[] {gridX, gridY, 0, 0}); // Starting point (gridX, gridY) is the current player position
     while(openNodes.size() > 0)
     {
@@ -148,7 +163,6 @@ class AIPlayer extends Player
         while(closedNodes.size() > 0)
           path.add(0, closedNodes.remove(0));
 					
-        //trace("Target path length: " + path.length);
         return path;
       }
       else
@@ -196,7 +210,11 @@ class AIPlayer extends Player
     return null;
   }
 
-  // Funktion zum Berechnen eines Fluchtweges
+  /**
+   * Calculate escaperoute
+   * @param bomb
+   * @return
+   */  
   private List<int[]> calculateHidePath(Element bomb)
   {
     if(bomb == null)
@@ -205,29 +223,28 @@ class AIPlayer extends Player
     int x = bomb.getX();
     int y = bomb.getY();
 			
-    // Der A* Algorithmus			
+    // the A* Algorithmus			
     List<int[]> openNodes   = new ArrayList<int[]>();   // Noch nicht besuchte Nodes
     List<int[]> closedNodes = new ArrayList<int[]>(); // Schon  abgearbeitete Punkte
     
-    // Mit Startpunkt initialisieren
+    // Initialize with starting point
     openNodes.add(0, new int[] {x, y, 0, 0}); // Startpunkt (x, y) ist die Bombe
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0);
       if(node[0] != x && node[1] != y || closedNodes.size() > 15) // Ist der Punkt sicher?
       {
-        // Den Pfad zurückverfolgen
+        // check path
         List<int[]> path = new ArrayList<int[]>();
         path.add(0, node);
         while(closedNodes.size() > 0)
           path.add(0, closedNodes.remove(0));
 
-        //trace("Hide path length: " + path.length);
         return path;
       }
       else
       {
-        // Alle möglichen Nachbarn von node herausfinden
+        // Get all neighbours from node
         Element[] n1a = this.playground.getElement(node[0]+1, node[1]);
         Element n1 = n1a == null ? null : n1a[0];
         Element[] n2a = this.playground.getElement(node[0]-1, node[1]);
@@ -270,6 +287,11 @@ class AIPlayer extends Player
 		
   // Prüft ob eine Bombe in meiner Nähe liegt.
   // Gibt false zurück, wenn keine Bombe in der Nähe ist.
+  /**
+   * Checks if bomb is near the player
+   * @param bomb
+   * @return false if no Bomb exsits
+   */
   private Element checkForBomb(Point bomb)
   {
     int matrixX = this.gridX;
@@ -281,11 +303,11 @@ class AIPlayer extends Player
       matrixY = bomb.y;
     }
 
-    // Spieler steht auf der Bombe
+    // Player is on the bomb
     if(this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
       return this.playground.getElement(matrixX, matrixY)[0];
  
-    // Spieler steht in der Naehe der Bombe, i < bombdistance
+    // Player is near the bomb
     for(int i = 0; i < 4; i++)
     {
       if(this.playground.getElement(matrixX+i, matrixY) != null &&
@@ -307,11 +329,12 @@ class AIPlayer extends Player
     return null;
   }
 
-  private int randomDirection()
-  {
-    return Math.round(new Random().nextFloat() * 2) - 1;
-  }
-  
+  /**
+   * Moves Player
+   * @param dx
+   * @param dy
+   * @return true if playermoved
+   */
   private boolean wannaMove(int dx, int dy)
   {
     System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
@@ -327,25 +350,20 @@ class AIPlayer extends Player
   
   /**
    * A small step for AI...
+   * Moving of the Player
    */
   public void tick()
   {
     if(!this.game.isRunning())
       return;
-    
-    // In dieser Methode werden die Aktionen des KI-Spielers ausgeführt.
-    // Dabei ist zwischen verschiedenen Aktionen zu unterscheiden:
-    // - Stelle für Bombe suchen
-    // - Bombe plazieren
-    // - Deckung suchen und auf Bombe warten
 
-    if(currentPath.size() > 0) // Solange noch ein Pfad existiert, laufen wir
+    if(currentPath.size() > 0)                          // walk if path exists
     {
       int[] node = currentPath.remove(0);
-      if(!wannaMove(node[0] - gridX, node[1] - gridY)) // Move expects relative direction
-        currentPath = new ArrayList<int[]>();     // Delete path because it must be invalid
+      if(!wannaMove(node[0] - gridX, node[1] - gridY))  // Move expects relative direction
+        currentPath = new ArrayList<int[]>();           // Delete path because it must be invalid
     }
-    else if(bombs.size() < 1) // Es kann noch ne Bombe gelegt werden
+    else if(bombs.size() < 1)                           // You can put a bomb
     {
       if(isTargetZone(new Point(gridX, gridY)))
       {

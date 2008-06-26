@@ -263,7 +263,7 @@ public class ServerListener
   }
   
   /**
-   * This Method ist called when Player died and therefore lost the game
+   * This Method is called when Player died and therefore lost the game
    */ 
   public void youDied()
   {
