@@ -26,10 +26,17 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import javax.swing.JOptionPane;
 
+/**
+ * This thread starts a RMI registry and the @see{Server} and then
+ * waits for the server to exit.
+ * @author Christian Lins (christian.lins@web.de)
+ */
 public class ServerThread extends Thread
 {
+  /** The RMI registry instance */
   private static Registry Registry = null;
   
+  /** Reference to the started server */
   private Server server;
   
   public ServerThread(boolean daemon)
@@ -41,11 +48,18 @@ public class ServerThread extends Thread
     this.server = new Server();
   }
   
+  /**
+   * @return The associated RMI server instance.
+   */
   public Server getServer()
   {
     return this.server;
   }
   
+  /**
+   * Run method of this thread. Creates a RMI registry and a new server
+   * and waits for the server to exit.
+   */
   @Override
   public void run()
   {
@@ -73,6 +87,7 @@ public class ServerThread extends Thread
       
       System.out.println("Bombermanserver bereit ...");
 
+      // Wait for the server
       synchronized(this)
       {
         notifyAll();
@@ -107,6 +122,11 @@ public class ServerThread extends Thread
     }
   }
   
+  /**
+   * Stops and exits this thread. Hopefully, this method is threaf-safe
+   * otherwise we could have used the Thread.stop() method which is
+   * deprecated for this reason.
+   */
   public synchronized void stopThread()
   {
     try

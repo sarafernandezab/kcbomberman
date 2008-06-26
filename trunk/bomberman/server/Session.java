@@ -42,12 +42,19 @@ public class Session implements Serializable
     this.hashCode = rn.nextInt();
   }
 
+  /**
+   * It is necessary to override this method that instance recognition
+   * works over VM borders.
+   */
   @Override
   public boolean equals(Object obj)
   {
     return hashCode() == obj.hashCode();
   }
   
+  /**
+   * @return The Session ID.
+   */
   public int getID()
   {
     return this.sessionID;
@@ -63,5 +70,4 @@ public class Session implements Serializable
   {
     return this.hashCode; 
   }
-
 }

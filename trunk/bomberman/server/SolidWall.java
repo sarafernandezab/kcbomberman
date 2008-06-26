@@ -32,6 +32,10 @@ class SolidWall extends Wall
     super(x, y);
   }
   
+  /**
+   * @return Returns the filename that is used on client side to
+   * paint this wall.
+   */
   public String getImageFilename()
   {
     return IMAGE_FILENAME;

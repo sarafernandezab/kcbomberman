@@ -20,12 +20,6 @@
 package bomberman.server;
 
 import bomberman.util.CHAP;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.api.GameInfo;
 import bomberman.server.api.InvalidSessionException;
@@ -34,16 +28,23 @@ import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.UserListTableModel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import java.io.FileInputStream;
-import java.rmi.server.ServerNotActiveException;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * TODO: Shared resources of this class have to be synchronized
- * @author chris
+ * Main KC Bomberman Server class.
+ * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class Server extends UnicastRemoteObject implements ServerInterface  
 {
@@ -51,18 +52,53 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   private static Server instance;
   
+  /**
+   * @return Current instance of Server.
+   */
   static Server getInstance()
   {
     return instance;
   }
   
-  private CHAP                     chap         = new CHAP();
-  private HashMap<Session,Player>  players      = new HashMap<Session,Player>(); 
-  private HashMap<Session,ServerListenerInterface>  clients = new HashMap<Session,ServerListenerInterface>(); 
-  private HashMap<String, Game>    games        = new HashMap<String, Game>();
-  private HashMap<Session, Game>   playerToGame = new HashMap<Session, Game>();
-  private HashMap<Session, String> playerToIP   = new HashMap<Session, String>();
-  private Queue<List<Object>>      explosions   = new ArrayBlockingQueue<List<Object>>(25);
+  private CHAP                 chap         = new CHAP();
+  
+  /**
+   * Stores the Session => Player relation.
+   * This Map is instance of ConcurrentHashMap and therefor thread-safe.
+   */
+  private Map<Session,Player>  players      = new ConcurrentHashMap<Session, Player>(); 
+  
+  /**
+   * Stores the Session => ServerListenerInterface relation.
+   * This Map is instance of ConcurrentHashMap and therefor thread-safe.
+   */
+  private Map<Session,ServerListenerInterface>  clients = new ConcurrentHashMap<Session,ServerListenerInterface>();
+  
+  /**
+   * Stores the Game name => Game instance relation.
+   * This Map is instance of ConcurrentHashMap and therefor thread-safe.
+   */
+  private Map<String, Game>    games        = new ConcurrentHashMap<String, Game>();
+  
+  /**
+   * Stores the Session => Game relation.
+   * This Map is instance of ConcurrentHashMap and therefor thread-safe.
+   * TODO: Is this necessary as we store the Sessions in the Game instances as well?
+   */
+  private Map<Session, Game>   playerToGame = new ConcurrentHashMap<Session, Game>();
+  
+  /**
+   * Stores the Session => IP-Address relation.
+   * This Map is instance of ConcurrentHashMap and therefor thread-safe.
+   * TODO: Is that still necessary?
+   */
+  private Map<Session, String> playerToIP   = new ConcurrentHashMap<Session, String>();
+  
+  /** 
+   * Queue that stores the explosion events for processing.
+   * This queue is automatically synchronized and therefor thread-safe.
+   */
+  private Queue<List<Object>>  explosions   = new ArrayBlockingQueue<List<Object>>(25);
   private Logger logger = new Logger();
   private Database  database  = null;
   private Highscore highscore = null;
@@ -111,31 +147,53 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       throw new InvalidSessionException();
   }
   
-  HashMap<Session,ServerListenerInterface> getClients()
+  /**
+   * @return Map storing the Session to ServerListenerInterface relation.
+   */
+  Map<Session, ServerListenerInterface> getClients()
   {
     return this.clients;
   }
   
+  /**
+   * @return Queue storing the explosion events.
+   */
   Queue<List<Object>> getExplosions()
   {
     return this.explosions;
   }
   
-  HashMap<String, Game> getGames()
+  /**
+   * @return Map containing the Game name to Game instance relation.
+   */
+  Map<String, Game> getGames()
   {
     return this.games;
   }
   
-  HashMap<Session, Player> getPlayers()
+  /**
+   * @return Map containing the Session to Player relation.
+   */
+  Map<Session, Player> getPlayers()
   {
     return this.players;
   }
   
-  HashMap<Session, Game> getPlayerToGame()
+  /**
+   * @return Map containing the Session to Game relation.
+   */
+  Map<Session, Game> getPlayerToGame()
   {
     return this.playerToGame;
   }
   
+  /**
+   * Adds a new explosion to the explosion event queue.
+   * @param game
+   * @param x
+   * @param y
+   * @param distance
+   */
   void notifyExplosion(Game game, int x, int y, int distance)
   {
     List<Object> data = new ArrayList<Object>();
@@ -182,7 +240,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }
 
   /**
-   * Logout with username
+   * Logout with username. This method is used by the Server GUI.
    */ 
   public void logout(String userName) throws RemoteException
   {
@@ -343,6 +401,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       return false;
   }
   
+  /**
+   * A client player wants to place a bomb at his current position.
+   * @param session
+   * @return
+   * @throws java.rmi.RemoteException
+   */
   public boolean placeBomb(Session session) 
           throws RemoteException
   {
@@ -358,6 +422,12 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       return false;
   }
   
+  /**
+   * Client wants to send a chat message to a public channel.
+   * @param session
+   * @param message
+   * @throws java.rmi.RemoteException
+   */
   public void sendChatMessage(Session session, String message) 
           throws RemoteException
   {
@@ -543,7 +613,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     logger.addLogMessage("joinViewGame", playerToIP.get(session));
     
     Game game = games.get(gameName);    
-    Player player = players.get(session);  
     game.getSpectatorSessions().add(session);
      // Notify the client that it has joined the game
     this.clients.get(session).gameJoined(gameName);
@@ -558,7 +627,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }
   
   /**
-   * 
+   * Client wants to join a game.
    * @param session
    * @param gameName
    * @return
@@ -649,7 +718,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }    
 
   /**
-   * 
+   * The creator of a Game wants to start it.
    * @param session
    * @param gameName
    * @return
@@ -716,11 +785,17 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
   }
 
+  /**
+   * @return Associated Database instance.
+   */ 
   public Database getDatabase()
   {
     return database;
   }
 
+  /**
+   * @return Associated Highscore instance.
+   */
   public Highscore getHighscore()
   {
     return highscore;
