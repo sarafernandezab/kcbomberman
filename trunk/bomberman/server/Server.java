@@ -209,7 +209,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * Removes Player from Playground, e.g. when he presses the 
    * Escape-Key
    */  
-  public void removePlayerFromPlayground(Session session) throws RemoteException
+  public void leaveGame(Session session) throws RemoteException
   {
     Game game = playerToGame.get(session);
     

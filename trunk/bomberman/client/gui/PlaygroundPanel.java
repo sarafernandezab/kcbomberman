@@ -22,7 +22,6 @@ package bomberman.client.gui;
 import bomberman.client.ClientThread;
 import bomberman.server.Playground;
 
-import bomberman.server.api.Explodable;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -178,7 +177,7 @@ public class PlaygroundPanel
         }
         case KeyEvent.VK_ESCAPE:
         {
-          ClientThread.Server.removePlayerFromPlayground(ClientThread.Session);          
+          ClientThread.Server.leaveGame(ClientThread.Session);          
           ClientThread.ServerListener.playerLeftGame();
           break;
         }
