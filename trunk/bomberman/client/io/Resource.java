@@ -30,8 +30,9 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
- * Stellt statische Methoden zum Laden von
- * einzelnen Resourcen zur Verfuegung.
+ * Static methods for loading Ressources
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de) 
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class Resource
 {
@@ -54,10 +55,9 @@ public class Resource
   }
   
   /**
-   * Laedt eine Bilddatei von einer lokalen Resource.
+   * Loads Image
    * @param name
-   * @return Gibt null zurueck, falls das Bild nicht
-   * gefunden oder geladen werden konnte.
+   * @return null if loading Image failes
    */
   public static ImageIcon getImage(String name)
   {
@@ -74,8 +74,7 @@ public class Resource
   }
   
   /**
-   * Laedt eine Resource und gibt einen Verweis auf sie als
-   * URL zurueck.
+   * Loads Ressource an creates reference
    * @return
    */
   public static URL getAsURL(String name)
@@ -84,8 +83,7 @@ public class Resource
   }
   
   /**
-   * Laedt eine Resource und gibt einen InputStream darauf
-   * zurueck.
+   * Loads Ressource and creates Inputstream
    * @param name
    * @return
    */
