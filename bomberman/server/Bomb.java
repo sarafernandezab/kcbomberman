@@ -25,7 +25,8 @@ import java.io.Serializable;
 
 /**
  * The BOMB!
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de))
  */
 class Bomb extends Element implements Explodable, Serializable
 {
@@ -44,6 +45,9 @@ class Bomb extends Element implements Explodable, Serializable
     timer = new BombTimer(this);
   }
   
+  /**
+   * Bomb explode
+   */
   void explode()
   {
     System.out.println(this + " explodiert!");
@@ -54,12 +58,20 @@ class Bomb extends Element implements Explodable, Serializable
     timer.cancel();
   }
   
+  /**
+   * Gets filename of the Image
+   * @return
+   */
   @Override
   public String getImageFilename()
   {
     return "resource/gfx/bomb/bomb" + stage + ".png";
   }
   
+  /**
+   * Updates Playground
+   * @return
+   */
   int tick()
   {
     player.game.forcePlaygroundUpdate();

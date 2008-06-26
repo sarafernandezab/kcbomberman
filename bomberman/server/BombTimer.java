@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 /**
  * Timer controlling exploding bombs.
+ * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 class BombTimer extends TimerTask
@@ -39,7 +40,10 @@ class BombTimer extends TimerTask
     timer.schedule(this, BOMB_TIME / 6, BOMB_TIME / 6);
   }
     
-  @Override
+  /**
+   * Is called when bomb has reached last Image status
+   */   
+  @Override  
   public void run()
   {
     if(bomb.tick() >= 6)
