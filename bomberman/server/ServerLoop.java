@@ -27,8 +27,10 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 /**
- * The Server loop.
+ * The Server loop. This thread is running in a loop while the
+ * RMI @see{Server} is running.
  * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
 public class ServerLoop extends Thread
 {
@@ -111,7 +113,9 @@ public class ServerLoop extends Thread
 
         try
         {
+          // Store the game result in the highscore
           this.server.getHighscore().hasLostGame(((Player)e).getNickname());
+          // And update the game and user list on client side
           this.server.refresh();
         }
         catch(RemoteException ex)
@@ -137,14 +141,18 @@ public class ServerLoop extends Thread
         return false;
       }  
       else if(e instanceof SolidWall)
-      {       
+      {
+        // Stop bombing blast
         return true;
       }
     }
-
+    // Default: continue with bombing blast.
     return false;
   }
 
+  /**
+   * This method runs in a loop while the associated @see{Server} is running.
+   */
   @Override
   public void run()
   {
@@ -256,6 +264,7 @@ public class ServerLoop extends Thread
           }
         }
 
+        // To reduce server load, sleep for 100 milliseconds.
         Thread.sleep(100);
       }
       catch (Exception ex)

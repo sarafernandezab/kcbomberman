@@ -24,7 +24,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileOutputStream;
 
 /**
- * Stores the persistent data of the Server
+ * Stores the persistent data of the Server. This thread is executed
+ * when the VM stops. Due to security restrictions this is not done
+ * on the Java WebStart edition of KC Bomberman.
  * @author Christian Lins (christian.lins@web.de)
  */
 class ShutdownThread extends Thread
@@ -41,6 +43,9 @@ class ShutdownThread extends Thread
     this.highscore  = highscore;
   }
   
+  /**
+   * Serializes the Database and the Highscore.
+   */
   @Override
   public void run()
   {
