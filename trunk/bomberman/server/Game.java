@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Represents a game that can be created and started by the users.
- * @author Kai Ritterbusch
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class Game implements Serializable

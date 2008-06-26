@@ -31,7 +31,7 @@ import javax.swing.ImageIcon;
 
 /**
  * Static methods for loading Ressources
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de) 
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de) 
  * @author Christian Lins (christian.lins@web.de)
  */
 public class Resource

@@ -29,7 +29,7 @@ import java.util.Random;
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
  * path finding.
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 class AIPlayer extends Player
