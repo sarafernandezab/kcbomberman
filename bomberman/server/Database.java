@@ -32,6 +32,14 @@ public class Database implements Serializable
 {
   private HashMap<String, String> data = new HashMap<String, String>();
   
+  /*
+   *  in order to start a WebStart game a standarduser is important
+   */
+  public Database()
+  {
+    addUser("gast", "");
+  }
+  
   /**
    * Adds a new user to the Database. If the username already exists, it
    * will be overwritten with the new values.
