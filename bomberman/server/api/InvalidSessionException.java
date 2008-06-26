@@ -25,7 +25,7 @@ import java.rmi.RemoteException;
  * This exception is thrown when the client submits an
  * invalid session. A valid client program must show the
  * login screen as a result to this exception.
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class InvalidSessionException extends RemoteException
 {

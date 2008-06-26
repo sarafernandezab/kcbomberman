@@ -29,5 +29,4 @@ package bomberman.server.api;
  */
 public interface Explodable 
 {
-
 }

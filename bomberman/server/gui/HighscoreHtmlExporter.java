@@ -31,6 +31,10 @@ import java.util.List;
  */
 class HighscoreHtmlExporter 
 {
+  /**
+   * Writes a HTML head.
+   * @param out
+   */
   static void writeHtmlHead(PrintWriter out)
   {
     out.println("<html>");
@@ -39,11 +43,22 @@ class HighscoreHtmlExporter
     out.println("<h1>KC Bomberman Highscore</h1>");
   }
   
+  /**
+   * Writes a HTML tail to the given writer.
+   * @param out
+   */
   static void writeHtmlTail(PrintWriter out)
   {
     out.println("</body></html>");
   }
   
+  /**
+   * Exports the given @see{Highscore} to the given OutputStream.
+   * The output is formatted in HTML.
+   * @param highscore
+   * @param out
+   * @throws java.io.IOException
+   */
   static void export(Highscore highscore, OutputStream out)
     throws IOException
   {
