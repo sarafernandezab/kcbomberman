@@ -33,7 +33,7 @@ public class Main
   public static void main(String[] args)
     throws Exception
   {
-    /** Should we omit the Server GUI? */
+    /** Should we show the Server GUI? */
     boolean headlessServer = false;
     
     /** Should we start a Server? */
