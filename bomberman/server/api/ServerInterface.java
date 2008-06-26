@@ -157,6 +157,6 @@ public interface ServerInterface extends Remote
    * @return
    * @throws java.rmi.RemoteException
    */
-  void removePlayerFromPlayground(Session session) 
+  void leaveGame(Session session) 
     throws RemoteException;
 }
