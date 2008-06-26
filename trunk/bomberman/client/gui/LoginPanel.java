@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Shows the loginPanel when game has started
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class LoginPanel extends javax.swing.JPanel

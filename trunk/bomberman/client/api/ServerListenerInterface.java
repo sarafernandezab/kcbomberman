@@ -28,8 +28,8 @@ import java.util.List;
 
 /**
  * Callback interface for the clients.
- * @author Kai Ritterbusch
- * @author Christian Lins
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public interface ServerListenerInterface extends Remote 
 {

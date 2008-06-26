@@ -31,8 +31,8 @@ import javax.swing.JFrame;
 
 /**
  * The Main application window.
- * @author Christian Lins
- * @author Kai Ritterbusch
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class MainFrame extends JFrame
 {

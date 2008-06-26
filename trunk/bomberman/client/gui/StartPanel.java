@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 
 /**
  * Shows the splash screen and the login window.
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class StartPanel extends JPanel

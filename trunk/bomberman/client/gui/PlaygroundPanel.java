@@ -35,7 +35,7 @@ import javax.swing.JPanel;
  * Panel that displays a game's playground. The client
  * receives changes from the server and displays this changes
  * on a PlaygroundPanel.
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
 public class PlaygroundPanel 

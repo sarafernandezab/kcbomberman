@@ -34,8 +34,9 @@ import javax.swing.JOptionPane;
 import javax.swing.text.Document;
 
 /**
+ * Lobby for all player where you can start games and chat
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins
+ * @author Christian Lins (christian.lins@web.de)
  */
 public class LobbyPanel extends javax.swing.JPanel 
 {
