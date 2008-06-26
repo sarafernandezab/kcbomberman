@@ -25,8 +25,8 @@ import java.io.Serializable;
 
 /**
  * The BOMB!
- * @author Christian Lins (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de))
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Christian Lins (christian.lins@web.de)
  */
 class Bomb extends Element implements Explodable, Serializable
 {

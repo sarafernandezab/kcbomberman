@@ -34,6 +34,10 @@ class ExplodableWall extends Wall implements Explodable
     super(x, y);
   }
   
+  /**
+   * Gets the filename of an Image
+   * @return Filename
+   */
   public String getImageFilename()
   {
     return IMAGE_FILENAME;
