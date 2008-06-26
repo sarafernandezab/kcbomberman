@@ -100,13 +100,26 @@ public interface ServerListenerInterface extends Remote
    */
   public void gameStarted(boolean specStatus)
     throws RemoteException;
-  
+ 
+  /**
+   * Updates the userlist(JList) in the LobbyPanel
+   * @param users
+   * @throws java.rmi.RemoteException
+   */
   public void userListUpdate(List<String> users)
     throws RemoteException;
   
+  /**
+   * This method is called when players leaves game
+   * @throws java.rmi.RemoteException
+   */   
   public void playerLeftGame() 
     throws RemoteException;
   
+  /**
+   * This Method is called when Player died and therefore lost the game
+   * @throws java.rmi.RemoteException
+   */
   public void youDied()
     throws RemoteException;
 }
