@@ -35,6 +35,7 @@ import bomberman.server.gui.UserListTableModel;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileInputStream;
+import java.rmi.server.ServerNotActiveException;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
@@ -399,7 +400,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    * @throws java.rmi.RemoteException
    */
-  public boolean login2(String username, long hash, ServerListenerInterface sli, String ip)
+  public boolean login2(String username, long hash, ServerListenerInterface sli)
     throws RemoteException
   {
     if(this.chap.isValid(username)) // Has this username performed a login1?
@@ -410,10 +411,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       else
       {
         long challenge = this.chap.getChallenge(username);
-        long myHash    = this.chap.createChecksum(challenge, pw);
+        long myHash    = CHAP.createChecksum(challenge, pw);
         
         if(myHash == hash)
-          return login(username, pw, sli, ip);
+          return login(username, pw, sli);
         else
           return false;
       }
@@ -431,60 +432,68 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    * @throws java.rmi.RemoteException
    */
-  private boolean login(String nickname, String password, ServerListenerInterface sli, String ip) 
+  private boolean login(String nickname, String password, ServerListenerInterface sli) 
     throws RemoteException
   {
-    Session session = new Session();
-    
-    System.out.println(nickname + " hat sich eingeloggt");
-    
-    // Checks if user is allowed to login
-    if(database.getPassword(nickname) == null)
-      return false;
-    else if(!database.getPassword(nickname).equals(password))
-      return false;
-    
-    // register in Playerlist
-    Player player = new Player(null, nickname);
-    players.put(session, player);
-    
-    // register in IPlist
-    playerToIP.put(session, ip);
-    
-    // Logger
-    logger.addLogMessage("login", ip);    
-    
-    // Userlist update
-    if(ServerControlPanel.getInstance() != null)
+    try
     {
-      ((UserListTableModel)ServerControlPanel.getInstance().getTblUserList().getModel()).setDataForUsername(nickname, "online");      
+      Session session = new Session();
+
+      System.out.println(nickname + " hat sich eingeloggt: " + getClientHost());
+
+      // Checks if user is allowed to login
+      if(database.getPassword(nickname) == null)
+        return false;
+      else if(!database.getPassword(nickname).equals(password))
+        return false;
+
+      // register in Playerlist
+      Player player = new Player(null, nickname);
+      players.put(session, player);
+
+      // register in IPlist
+      playerToIP.put(session, getClientHost());
+
+      // Logger
+      logger.addLogMessage("login", getClientHost());    
+
+      // Userlist update
+      if(ServerControlPanel.getInstance() != null)
+      {
+        ((UserListTableModel)ServerControlPanel.getInstance().getTblUserList().getModel()).setDataForUsername(nickname, "online");      
+      }
+
+      // Log-Message
+      if(ServerControlPanel.getInstance() != null)
+      {
+        ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
+      }
+
+      // register in Clientlist
+      clients.put(session, sli);
+
+      // loggedin action
+      sli.loggedIn(session);
+
+      // Build list of usernames
+      ArrayList<String> nicknames = new ArrayList<String>();
+      for(Session sess : players.keySet())    
+        nicknames.add(players.get(sess).getNickname());
+
+      // Notify all users of the new user 
+      for(Session sess : clients.keySet())    
+        clients.get(sess).userListUpdate(nicknames);
+
+      // Updates GameList
+      gameListUpdate();
+
+      return true;
     }
-    
-    // Log-Message
-    if(ServerControlPanel.getInstance() != null)
+    catch(Exception ex)
     {
-      ServerControlPanel.getInstance().addLogMessages(nickname + " hat sich eingeloggt");
+      ex.printStackTrace();
+      return false;
     }
-    
-    // register in Clientlist
-    clients.put(session, sli);
-    
-    // loggedin action
-    sli.loggedIn(session);
-    
-    // Build list of usernames
-    ArrayList<String> nicknames = new ArrayList<String>();
-    for(Session sess : players.keySet())    
-      nicknames.add(players.get(sess).getNickname());
-    
-    // Notify all users of the new user 
-    for(Session sess : clients.keySet())    
-      clients.get(sess).userListUpdate(nicknames);
-    
-    // Updates GameList
-    gameListUpdate();
-    
-    return true;
   }
   
   /**
