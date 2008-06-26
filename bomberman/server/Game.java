@@ -57,16 +57,19 @@ public class Game implements Serializable
   }
   
   /**
-   * Adds a spectator to the playground.
-   */ 
+   * Adds a spectator to the playground
+   * @param session
+   */
   public void addSpectator(Session session)
   {
     spectSessions.add(session);
   }
   
   /**
-   * Adds a player to the playground.
-   */ 
+   * Adds a player to the playground
+   * @param player
+   * @return
+   */
   public boolean addPlayer(Player player)
   {
     player.setID(players.size() + 1);
@@ -106,23 +109,36 @@ public class Game implements Serializable
     return true;
   }
   
+  /**
+   * Returns session of the creator of the Game
+   * @return Creator
+   */
   public Session getCreator()
   {
     return this.creator;
   }
   
+  /**
+   * Returns the list of sessions of all players in the game
+   * @return player sessions
+   */
   public List<Session> getPlayerSessions()
   {
     return this.playerSessions;
   }
   
+  /**
+   * Returns a list of the sessions of all spectators
+   * @return list of all spectator sessions
+   */
   public List<Session> getSpectatorSessions()
   {
     return this.spectSessions;
   }
   
   /**
-   * @return Number of players in this game (incl. AIPlayers).
+   * Returns number of players in this game (incl. AIPlayers).
+   * @return int
    */
   public int getPlayerCount()
   {
@@ -137,16 +153,28 @@ public class Game implements Serializable
     this.playgroundUpdateRequired = true;
   }
   
+  /**
+   * Return the playground
+   * @return playground
+   */
   public Playground getPlayground()
   {
     return this.playground;
   }
   
+  /**
+   * Returns list of all players
+   * @return list of players
+   */
   public List<Player> getPlayers()
   {
     return this.players;
   }
   
+  /**
+   * Check if Update of the Playground is required
+   * @return true if update is required
+   */
   public boolean isPlaygroundUpdateRequired()
   {
     boolean update = this.playgroundUpdateRequired;
@@ -155,18 +183,31 @@ public class Game implements Serializable
     return update;
   }
   
-  // Removes a player from the playground
+  /**
+   * Removes player from the playground
+   * @param x
+   * @param y
+   * @param player
+   */ 
   public void removePlayer(int x, int y, Player player)
   {  
     if(this.playground.getElement(x, y).equals(player))   // Removes only the selected player 
       this.playground.setElement(x, y, player.getID(), null);
   }
   
+  /**
+   * Removes player from playerSession list
+   * @param session
+   */
   public void removePlayer(Session session)
   {
     this.playerSessions.remove(session);
   }
   
+  /**
+   * Removes player from playerlist
+   * @param player
+   */
   public void removePlayer(Player player)
   {
     this.players.remove(player);
@@ -222,22 +263,37 @@ public class Game implements Serializable
       return false;
   }
   
+  /**
+   * String with gamename
+   * @return String with gamename
+   */
   @Override
   public String toString()
   {
     return this.gameName;
   }
 
+  /**
+   * Set the Playground
+   * @param playground
+   */
   public void setPlayground(Playground playground) 
   {
     this.playground = playground;
   }
 
+  /**
+   * Checks if game is Running
+   * @return true if is running
+   */
   public boolean isRunning() 
   {
     return running;
   }
-
+  /**
+   * Sets game status
+   * @param running
+   */
   public void setRunning(boolean running) 
   {
     this.running = running;

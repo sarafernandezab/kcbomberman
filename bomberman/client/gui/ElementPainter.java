@@ -34,8 +34,8 @@ import javax.swing.JComponent;
 
 /**
  * Paints an Element on a PlaygroundPanel.
+ * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
- * @author Kai Ritterbusch (kai.ritterbusch@googlemail.com)
  */
 public class ElementPainter extends JComponent
 {
