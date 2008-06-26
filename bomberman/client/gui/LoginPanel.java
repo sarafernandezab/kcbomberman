@@ -21,16 +21,11 @@ package bomberman.client.gui;
 
 import bomberman.client.ClientThread;
 import bomberman.util.CHAP;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.Enumeration;
 import javax.swing.JOptionPane;
 
 /**
@@ -57,37 +52,6 @@ public class LoginPanel extends javax.swing.JPanel
       }
     });
   }
-  
-  /**
-   * TODO:
-   * Get the Client-IP
-   * @return
-   * @throws java.net.SocketException
-   */   
-  private String getOwnIP() throws SocketException
-  {
-    Enumeration ifaces = NetworkInterface.getNetworkInterfaces();
-  
-    while (ifaces.hasMoreElements()) 
-    {
-      NetworkInterface ni = (NetworkInterface)ifaces.nextElement();
-      /*if(ni.isLoopback())
-        break;*/
-      
-      Enumeration addrs = ni.getInetAddresses();
-      while (addrs.hasMoreElements()) 
-      {        
-        InetAddress ia = (InetAddress)addrs.nextElement();
-        System.out.println(ia.getHostAddress());
-        /*if(!ia.isLoopbackAddress())
-        {
-          if(ia instanceof Inet4Address)          
-            return ia.getHostAddress();          
-        }*/
-      }
-    }
-    return "";
-   }
   
   /** This method is called from within the constructor to
    * initialize the form.
@@ -180,7 +144,7 @@ public class LoginPanel extends javax.swing.JPanel
       long hash      = CHAP.createChecksum(challenge, password);
       
       // The Client request a login
-      if(!ClientThread.Server.login2(nickname, hash, ClientThread.ServerListener, getOwnIP()))
+      if(!ClientThread.Server.login2(nickname, hash, ClientThread.ServerListener))
          JOptionPane.showMessageDialog( this, "Login fehlgeschlagen", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)
