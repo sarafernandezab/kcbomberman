@@ -32,7 +32,7 @@ public class Database implements Serializable
 {
   private HashMap<String, String> data = new HashMap<String, String>();
   
-  /*
+  /**
    *  in order to start a WebStart game a standarduser is important
    */
   public Database()
@@ -48,7 +48,7 @@ public class Database implements Serializable
    */
   public void addUser(String username, String password)
   {
-    this.getData().put(username, password);
+    this.data.put(username, password);
   }
   
   /**
@@ -56,7 +56,7 @@ public class Database implements Serializable
    */
   public List<String> getUsers()
   {
-    return new ArrayList<String>(getData().keySet());
+    return new ArrayList<String>(data.keySet());
   }
   
   /**
@@ -77,10 +77,5 @@ public class Database implements Serializable
   public void removeUser(String username)
   {
     this.data.remove(username);
-  }
-
-  public HashMap<String, String> getData() 
-  {
-    return data;
   }
 }
