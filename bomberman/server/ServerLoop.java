@@ -161,7 +161,7 @@ public class ServerLoop extends Thread
           // spectators left for gaming
           if (game.isRunning() &&
                   (game.getPlayerCount() == 1 ||
-                  game.getPlayerSessions().size() == 0))
+                  (game.getPlayerSessions().size() == 0 && game.getSpectatorSessions().size() == 0)))
           {
             game.setRunning(false);
 
