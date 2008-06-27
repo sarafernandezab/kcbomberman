@@ -334,7 +334,7 @@ public class LobbyPanel extends javax.swing.JPanel
    * Adds new GameInfo for the game-table
    * @param data
    */
-  public void addGameInfo(ArrayList<ArrayList<Object>> data)
+  public void setGameInfo(ArrayList<ArrayList<Object>> data)
   {
     ((GameListTableModel)tblGamelist.getModel()).setData(data);
   }

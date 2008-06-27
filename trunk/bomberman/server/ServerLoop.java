@@ -164,7 +164,6 @@ public class ServerLoop extends Thread
         {
           Game game = entry.getValue();
 
-          //System.out.println(game.isRunning() + " " + game.getPlayerCount());
           // Check if there are enough real players or any
           // spectators left for gaming
           if (game.isRunning() &&

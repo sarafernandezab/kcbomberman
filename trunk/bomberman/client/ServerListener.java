@@ -30,7 +30,6 @@ import bomberman.server.Playground;
 import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
 
-import java.awt.Container;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -77,25 +76,23 @@ public class ServerListener
    * @throws java.rmi.RemoteException
    */
   public void gameListUpdate(List<GameInfo> gameInfo)
-          throws RemoteException
+    throws RemoteException
   {
-    Container cnt = MainFrame.getInstance().getContentPane();
-    if(cnt instanceof LobbyPanel)
+    LobbyPanel lp = MainFrame.getInstance().getLobbyPanel();
+
+    ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+
+    for (GameInfo ginfo : gameInfo)
     {
-      ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
-      
-      for(GameInfo ginfo : gameInfo)
-      {
-        ArrayList<Object> row = new ArrayList<Object>();
-        row.add(ginfo.getName());
-        row.add(ginfo.getCreator());
-        row.add(ginfo.getPlayerCount());
-        row.add(ginfo.getStatus());
-        
-        data.add(row);
-      }
-      ((LobbyPanel)cnt).addGameInfo(data);
+      ArrayList<Object> row = new ArrayList<Object>();
+      row.add(ginfo.getName());
+      row.add(ginfo.getCreator());
+      row.add(ginfo.getPlayerCount());
+      row.add(ginfo.getStatus());
+
+      data.add(row);
     }
+    lp.setGameInfo(data);
   }
   
   /**
@@ -105,7 +102,9 @@ public class ServerListener
    */
   public void gameStarted(boolean spectStatus) throws RemoteException
   {
-    MainFrame.getInstance().setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, spectStatus));
+    // Create a new playground
+    MainFrame.getInstance()
+      .setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, spectStatus));
     MainFrame.getInstance().setVisible(true);
     MainFrame.getInstance().repaint();
     System.out.println("Game start");
@@ -138,6 +137,8 @@ public class ServerListener
         this.gameStoppedMessage = "Hurra! Du hast gewonnen!";
         break;
       }
+      default:
+        this.gameStoppedMessage = null;
     }
     
     // Change Window 
@@ -145,7 +146,8 @@ public class ServerListener
     {
       public void run() 
       {
-        JOptionPane.showMessageDialog(MainFrame.getInstance(), gameStoppedMessage);
+        if(gameStoppedMessage != null)
+          JOptionPane.showMessageDialog(MainFrame.getInstance(), gameStoppedMessage);
         MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
         MainFrame.getInstance().resetSize(); 
       }
@@ -220,17 +222,14 @@ public class ServerListener
   }
   
   /**
-   * Updates the userlist(JList) in the LobbyPanel
+   * Updates the user list in the LobbyPanel.
    * @param users
    * @throws java.rmi.RemoteException
    */
   public void userListUpdate(List<String> users) throws RemoteException
   {
-    if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
-    {
-      LobbyPanel lobby = (LobbyPanel)MainFrame.getInstance().getContentPane();
-      lobby.setUserList(users);
-    }
+    LobbyPanel lobby = MainFrame.getInstance().getLobbyPanel();
+    lobby.setUserList(users);
   }
   
   /**
@@ -250,7 +249,7 @@ public class ServerListener
   }
   
    /**
-   * This method is called when players leaves game
+   * This method is called when players leaves game.
    * @throws java.rmi.RemoteException
    */
   public void playerLeftGame() throws RemoteException
