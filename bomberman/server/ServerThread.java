@@ -44,8 +44,6 @@ public class ServerThread extends Thread
   {
     super("ServerThread");
     setDaemon(daemon);
-    
-    this.server = new Server();
   }
   
   /**
@@ -67,9 +65,13 @@ public class ServerThread extends Thread
     {      
       // Create local registry
       if(Registry == null)
+      {
         Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+       // Registry = Registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
+      }
       
       // Bind server to name
+      this.server = new Server();
       Registry.rebind("KCBombermanServer", server);      
       
       try

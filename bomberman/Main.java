@@ -69,6 +69,11 @@ public class Main
       ServerThread serverThread = new ServerThread(!headlessServer);
       serverThread.start();
       
+      synchronized(serverThread)
+      {
+        serverThread.wait();
+      }
+      
       if(!headlessServer)
       {
         new ServerFrame(serverThread).setVisible(true);
