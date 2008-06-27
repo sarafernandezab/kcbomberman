@@ -182,6 +182,16 @@ public class ServerLoop extends Thread
               // We have to store the game result in the Highscore list
               this.server.getHighscore().hasWonGame(game.getPlayers().get(0).getNickname());
             }
+            
+            // Send gameStopped message to spectators if existing
+            if(game.getSpectatorSessions().size() > 0)
+            {
+              for(Session sess : game.getSpectatorSessions())
+              {
+                this.server.getClients().get(sess).gameStopped(0);
+              }
+            }
+            
             this.server.getGames().remove(game);
             break; // Stop the for-loop
           }

@@ -52,12 +52,26 @@ public interface ServerListenerInterface extends Remote
   public void playerDied(int x, int y, int playerNumber)
     throws RemoteException;
   
+  /**
+   * The Client receives a chat message.
+   * @param message
+   * @throws java.rmi.RemoteException
+   */
   public void receiveChatMessage(String message)
     throws RemoteException;
   
+  /**
+   * The Client was successfully logged in.
+   * @param session
+   * @throws java.rmi.RemoteException
+   */
   public void loggedIn(Session session)
     throws RemoteException;
   
+  /**
+   * The Client was logged out.
+   * @throws java.rmi.RemoteException
+   */
   public void loggedOut()
     throws RemoteException;
   
@@ -69,6 +83,11 @@ public interface ServerListenerInterface extends Remote
   public void playgroundUpdate(Playground playground)
     throws RemoteException;
   
+  /**
+   * The server sends an update of the game list.
+   * @param gameList
+   * @throws java.rmi.RemoteException
+   */
   public void gameListUpdate(List<GameInfo> gameList)
     throws RemoteException;
   
@@ -102,7 +121,7 @@ public interface ServerListenerInterface extends Remote
     throws RemoteException;
  
   /**
-   * Updates the userlist(JList) in the LobbyPanel
+   * Updates the user list in the LobbyPanel.
    * @param users
    * @throws java.rmi.RemoteException
    */
@@ -110,14 +129,14 @@ public interface ServerListenerInterface extends Remote
     throws RemoteException;
   
   /**
-   * This method is called when players leaves game
+   * This method is called when players leaves game.
    * @throws java.rmi.RemoteException
    */   
   public void playerLeftGame() 
     throws RemoteException;
   
   /**
-   * This Method is called when Player died and therefore lost the game
+   * This Method is called when Player died and therefore lost the game.
    * @throws java.rmi.RemoteException
    */
   public void youDied()
