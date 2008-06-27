@@ -193,6 +193,7 @@ public class ServerLoop extends Thread
             }
             
             this.server.getGames().remove(game);
+            this.server.refresh();
             break; // Stop the for-loop
           }
 
