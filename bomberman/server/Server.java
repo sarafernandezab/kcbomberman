@@ -26,6 +26,8 @@ import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.UserListTableModel;
+import bomberman.server.rmi.RMIClientSocketFactoryImpl;
+import bomberman.server.rmi.RMIServerSocketFactoryImpl;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -105,6 +107,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   public Server() throws RemoteException
   {
+    super(0, new RMIClientSocketFactoryImpl(), new RMIServerSocketFactoryImpl());
     instance = this;
     
     setLog(System.out);
