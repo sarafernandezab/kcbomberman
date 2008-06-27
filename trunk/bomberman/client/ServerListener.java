@@ -47,6 +47,8 @@ public class ServerListener
         extends UnicastRemoteObject 
         implements ServerListenerInterface
 {
+  private String gameStoppedMessage;
+  
   public ServerListener() throws RemoteException
   {
   }
@@ -122,23 +124,18 @@ public class ServerListener
    */
   public void gameStopped(int condition) throws RemoteException
   {
-    String msg = "Unknown gameStopped condition!";
+    this.gameStoppedMessage = null;
     
     switch(condition)
     {
-      case 0:
-      {
-        msg = "Spiel wurde aus unbekanntem Grund beendet!";
-        break;
-      }
       case 1:
       {
-        msg = "Spiel wurde vom Admin beendet!";
+        this.gameStoppedMessage = "Spiel wurde vom Admin beendet!";
         break;
       }
       case 2:
       {
-        msg = "Hurra! Du hast gewonnen!";
+        this.gameStoppedMessage = "Hurra! Du hast gewonnen!";
         break;
       }
     }
@@ -148,12 +145,11 @@ public class ServerListener
     {
       public void run() 
       {
-        JOptionPane.showMessageDialog(null, "TODO: Endnachricht!");
+        JOptionPane.showMessageDialog(MainFrame.getInstance(), gameStoppedMessage);
         MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
-        MainFrame.getInstance().setVisible(true);        
+        MainFrame.getInstance().resetSize(); 
       }
     });
-    System.out.println("Game stopped: " + msg);
   }
   
   /**
@@ -259,7 +255,8 @@ public class ServerListener
    */
   public void playerLeftGame() throws RemoteException
   {
-    MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());   
+    MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
+    MainFrame.getInstance().resetSize();
   }
   
   /**
@@ -273,7 +270,7 @@ public class ServerListener
       {
         JOptionPane.showMessageDialog(MainFrame.getInstance(), "Leider verloren!", "Game over", JOptionPane.INFORMATION_MESSAGE);
         MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
-        MainFrame.getInstance().setSize(640, 500);
+        MainFrame.getInstance().resetSize();
       }
     });
   }

@@ -49,7 +49,7 @@ public class MainFrame extends JFrame
   {
     instance = this;
     setTitle("Bomberman - von Kai Ritterbusch und Christian Lins");
-    setSize(640, 500);
+    resetSize();
     setContentPane(new StartPanel());
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     
@@ -75,6 +75,11 @@ public class MainFrame extends JFrame
     this.addWindowListener(listener);
     
     new AudioThread(Resource.getAsStream("resource/sfx/battle.mp3")).start();
+  }
+  
+  public void resetSize()
+  {
+    setSize(640, 500);
   }
   
   /**
