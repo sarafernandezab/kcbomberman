@@ -25,6 +25,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import bomberman.server.api.ServerInterface;
+import bomberman.server.rmi.RMIClientSocketFactoryImpl;
 import java.awt.AWTEvent;
 import java.awt.Container;
 import java.awt.EventQueue;
@@ -32,7 +33,6 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.rmi.ConnectException;
-import javax.swing.JOptionPane;
 
 /**
  * ClientThread starts a Thread for each Client
@@ -87,6 +87,7 @@ public class ClientThread extends Thread
             registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
           else
           {
+            RMIClientSocketFactoryImpl.ServerHost = this.hostname;
             System.out.println("Search registry on host " + hostname + "...");
             registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
           }
