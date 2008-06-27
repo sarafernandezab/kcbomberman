@@ -107,6 +107,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     instance = this;
     
+    setLog(System.out);
+    
     // Load database and highscore
     try
     {
