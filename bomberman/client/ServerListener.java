@@ -208,10 +208,11 @@ public class ServerListener
    */   
   public void loggedOut() throws RemoteException
   {    
-    MainFrame.getInstance().setContentPane(new StartPanel());
     MainFrame.getInstance().setVisible(false);
+    
     bomberman.client.ClientThread.Session = null;
     bomberman.client.ClientThread.Server  = null;
+    
     new ClientThread(RMIClientSocketFactoryImpl.ServerHost).start();
   }
   

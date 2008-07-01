@@ -807,14 +807,23 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   }
   
   /**
-   * When stopping server logout all users
+   * When stopping server logout all users.
    */
   public void logoutAll() throws RemoteException
   {    
     // Send gameStopped() message to all players
     for(Session sess : clients.keySet())
     {
-      clients.get(sess).loggedOut();
-    }     
+      try
+      {
+        clients.get(sess).loggedOut();
+      }
+      catch(Exception ex)
+      {
+        System.err.println(ex.getLocalizedMessage());
+      }
+    }
+    
+    clients.clear();
   }
 }
