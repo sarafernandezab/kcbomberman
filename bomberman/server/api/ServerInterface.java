@@ -159,4 +159,12 @@ public interface ServerInterface extends Remote
    */
   void leaveGame(Session session) 
     throws RemoteException;
+  
+  /**
+   * is called when server stops
+   * @throws java.rmi.RemoteException
+   */
+  void logoutAll()
+    throws RemoteException;
+          
 }

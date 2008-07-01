@@ -805,4 +805,16 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   {
     return highscore;
   }
+  
+  /**
+   * When stopping server logout all users
+   */
+  public void logoutAll() throws RemoteException
+  {    
+    // Send gameStopped() message to all players
+    for(Session sess : clients.keySet())
+    {
+      clients.get(sess).loggedOut();
+    }     
+  }
 }
