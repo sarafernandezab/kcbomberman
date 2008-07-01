@@ -30,7 +30,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 
 /**
- * The Main application window.
+ * The main application window.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  * @author Christian Lins (christian.lins@web.de)
  */
