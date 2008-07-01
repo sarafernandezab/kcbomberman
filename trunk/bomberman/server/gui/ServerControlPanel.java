@@ -364,11 +364,19 @@ public class ServerControlPanel extends javax.swing.JPanel
    * @param evt
    */
   private void btnStopServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopServerActionPerformed
-    if(this.getServerThread() != null)
+    try
     {
-      this.serverThread.stopThread();
-      setThread(null);
-      ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
+      if(this.getServerThread() != null)
+      {
+        serverThread.getServer().logoutAll();
+        this.serverThread.stopThread();      
+        setThread(null);     
+        ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
+      }
+    }
+    catch(RemoteException e)
+    {
+      e.printStackTrace();
     }
   }//GEN-LAST:event_btnStopServerActionPerformed
 

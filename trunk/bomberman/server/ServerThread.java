@@ -95,7 +95,7 @@ public class ServerThread extends Thread
         notifyAll();
         wait();
       }
-      
+      this.server.logoutAll();
       System.out.println("Server gestoppt!");
     }
     catch(ExportException ex)

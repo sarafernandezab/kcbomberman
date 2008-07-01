@@ -209,6 +209,8 @@ public class ServerListener
   {    
     MainFrame.getInstance().setContentPane(new StartPanel());
     MainFrame.getInstance().setVisible(true);
+    bomberman.client.ClientThread.Session = null;
+    bomberman.client.ClientThread.Server  = null;
   }
   
   /**
