@@ -30,6 +30,8 @@ import bomberman.server.gui.ServerFrame;
  */
 public class Main 
 {
+  public static boolean Debugging = false;
+  
   public static void main(String[] args)
     throws Exception
   {
@@ -49,6 +51,10 @@ public class Main
       if(args[n].equals("--client"))
       {
         startClient = true;
+      }
+      else if(args[n].equals("-d"))
+      {
+        Debugging = true;
       }
       else if(args[n].equals("--headless"))
       {

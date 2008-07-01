@@ -530,7 +530,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       playerToIP.put(session, getClientHost());
 
       // Logger
-      logger.addLogMessage("login", getClientHost());    
+      logger.log("login", getClientHost());    
 
       // Userlist update
       if(ServerControlPanel.getInstance() != null)
@@ -615,7 +615,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     checkSession(session);
     
     // Logger
-    logger.addLogMessage("joinViewGame", playerToIP.get(session));
+    logger.log("joinViewGame", playerToIP.get(session));
     
     Game game = games.get(gameName);    
     game.getSpectatorSessions().add(session);
@@ -653,7 +653,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     
     playerToGame.put(session, game);
     // Logger
-    logger.addLogMessage("joinGame", playerToIP.get(session));
+    logger.log("joinGame", playerToIP.get(session));
     
     // Add the client as player
     game.getPlayerSessions().add(session);
@@ -698,7 +698,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     checkSession(session);
     
     // Logger
-    logger.addLogMessage("createGame", playerToIP.get(session));
+    logger.log("createGame", playerToIP.get(session));
     
     if(games.containsKey(gameName)) // There is a game with this name
       return false;
@@ -735,7 +735,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     checkSession(session);
     
     // Logger
-    logger.addLogMessage("login", playerToIP.get(session));
+    logger.log("login", playerToIP.get(session));
     
     System.out.println("Session ok");
     if(!games.containsKey(gameName)) // No such game
