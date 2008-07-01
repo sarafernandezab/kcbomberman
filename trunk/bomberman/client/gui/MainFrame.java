@@ -102,4 +102,12 @@ public class MainFrame extends JFrame
   {
     return lobbyPanel;
   }
+  
+  @Override
+  public void setVisible(boolean state)
+  {
+    if(!state)
+      instance = null;
+    super.setVisible(state);
+  }
 }
