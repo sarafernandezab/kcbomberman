@@ -145,11 +145,12 @@ public class LoginPanel extends javax.swing.JPanel
       
       // The Client request a login
       if(!ClientThread.Server.login2(nickname, hash, ClientThread.ServerListener))
-         JOptionPane.showMessageDialog( this, "Login fehlgeschlagen", "Fehler" ,JOptionPane.ERROR_MESSAGE );
+         JOptionPane.showMessageDialog( this, "Login fehlgeschlagen (PW oder Username falsch?)", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)
     {
-      ex.printStackTrace();
+      JOptionPane.showMessageDialog( this, "Login fehlgeschlagen (Server laeuft nicht?)", "Fehler" ,JOptionPane.ERROR_MESSAGE );
+      //ex.printStackTrace();
     }
   }//GEN-LAST:event_btnLoginActionPerformed
   
