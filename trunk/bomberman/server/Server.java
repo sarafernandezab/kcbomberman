@@ -298,6 +298,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   public void logout(Session session)  
     throws RemoteException          
   {
+    checkSession(session);
+    
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
     {
