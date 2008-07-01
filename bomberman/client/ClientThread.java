@@ -33,6 +33,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.rmi.ConnectException;
+import java.rmi.NotBoundException;
 
 /**
  * ClientThread starts a Thread for each Client
@@ -96,6 +97,11 @@ public class ClientThread extends Thread
           retry = false;
         }
         catch(ConnectException ex)
+        {
+          System.out.println("Server läuft nicht. Warte...");
+          Thread.sleep(1000);
+        }
+        catch(NotBoundException ne)
         {
           System.out.println("Server läuft nicht. Warte...");
           Thread.sleep(1000);

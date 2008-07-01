@@ -30,6 +30,7 @@ import bomberman.server.Playground;
 import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
 
+import bomberman.server.rmi.RMIClientSocketFactoryImpl;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -208,9 +209,10 @@ public class ServerListener
   public void loggedOut() throws RemoteException
   {    
     MainFrame.getInstance().setContentPane(new StartPanel());
-    MainFrame.getInstance().setVisible(true);
+    MainFrame.getInstance().setVisible(false);
     bomberman.client.ClientThread.Session = null;
     bomberman.client.ClientThread.Server  = null;
+    new ClientThread(RMIClientSocketFactoryImpl.ServerHost).start();
   }
   
   /**
