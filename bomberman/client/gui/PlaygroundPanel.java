@@ -160,25 +160,21 @@ public class PlaygroundPanel
       {
         case KeyEvent.VK_UP:
         {
-          System.out.println("UP");
           ClientThread.Server.move(ClientThread.Session, 0, -1);
           break;
         }
         case KeyEvent.VK_DOWN:
         {
-          System.out.println("DOWN");
           ClientThread.Server.move(ClientThread.Session, 0, +1);
           break;
         }
         case KeyEvent.VK_LEFT:
         {
-          System.out.println("<=");
           ClientThread.Server.move(ClientThread.Session, -1, 0);
           break;
         }
         case KeyEvent.VK_RIGHT:
         {
-          System.out.println("=>");
           ClientThread.Server.move(ClientThread.Session, +1, 0);
           break;
         }

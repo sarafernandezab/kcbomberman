@@ -19,12 +19,12 @@
 
 package bomberman.server;
 
+import bomberman.Main;
 import bomberman.server.api.Explodable;
 import bomberman.server.api.Element;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
@@ -337,7 +337,9 @@ class AIPlayer extends Player
    */
   private boolean wannaMove(int dx, int dy)
   {
-    System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
+    if(Main.Debugging)
+      System.out.println(this.nickname + " laeuft in Richtung " + dx + "/" + dy);
+    
     boolean moved = this.game.movePlayer(this, dx, dy);
     
     if(moved)

@@ -52,7 +52,7 @@ public class Logger
    * @param action
    * @param ip
    */
-  public void addLogMessage(String action, String ip)
+  public void log(String action, String ip)
   {
     // Creates actual Date
     Calendar cal = new GregorianCalendar( TimeZone.getTimeZone("ECT") );
