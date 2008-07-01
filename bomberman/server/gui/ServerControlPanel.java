@@ -370,7 +370,15 @@ public class ServerControlPanel extends javax.swing.JPanel
       {
         serverThread.getServer().logoutAll();
         this.serverThread.stopThread();      
-        setThread(null);     
+        setThread(null);    
+        
+        // Userlist update
+        for(int i = 0; i < ((UserListTableModel)tblUserList.getModel()).getRowCount(); i++)
+          ((UserListTableModel)tblUserList.getModel()).setValueAt("offline", i, 1);
+        
+        // Clear Game list
+        ((DefaultListModel)liGames.getModel()).clear();
+        
         ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
       }
     }
