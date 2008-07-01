@@ -177,7 +177,7 @@ public class ServerLoop extends Thread
             if (game.getPlayerSessions().size() > 0)
             {
               this.server.getClients().get(game.getPlayerSessions().get(0)).gameStopped(2);
-
+              
               // We have to store the game result in the Highscore list
               this.server.getHighscore().hasWonGame(game.getPlayers().get(0).getNickname());
             }
@@ -189,9 +189,13 @@ public class ServerLoop extends Thread
               {
                 this.server.getClients().get(sess).gameStopped(0);
               }
-            }
+            }            
+            System.out.println("remove Game ----------");
             
-            this.server.getGames().remove(game);
+            for(Session sess : game.getPlayerSessions())
+              this.server.getPlayerToGame().remove(sess);
+            
+            this.server.getGames().remove(game.toString());
             this.server.refresh();
             break; // Stop the for-loop
           }
