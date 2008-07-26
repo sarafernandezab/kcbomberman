@@ -107,7 +107,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   public Server() throws RemoteException
   {
-    super(0, new RMIClientSocketFactoryImpl(), new RMIServerSocketFactoryImpl());
+    super(1098, new RMIClientSocketFactoryImpl(), new RMIServerSocketFactoryImpl());
     instance = this;
     
     setLog(System.out);

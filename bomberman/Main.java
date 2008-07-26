@@ -30,7 +30,7 @@ import bomberman.server.gui.ServerFrame;
  */
 public class Main 
 {
-  public static boolean Debugging = false;
+  public static boolean Debugging = true;
   
   public static void main(String[] args)
     throws Exception
