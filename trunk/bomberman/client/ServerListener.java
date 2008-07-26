@@ -23,7 +23,6 @@ import bomberman.client.api.ServerListenerInterface;
 import bomberman.client.gui.LobbyPanel;
 import bomberman.client.gui.MainFrame;
 import bomberman.client.gui.PlaygroundPanel;
-import bomberman.client.gui.StartPanel;
 import bomberman.client.gui.WaitingPanel;
 import bomberman.client.io.Resource;
 import bomberman.server.Playground;
@@ -51,6 +50,7 @@ public class ServerListener
   
   public ServerListener() throws RemoteException
   {
+    super(1097);
   }
   
   /**
