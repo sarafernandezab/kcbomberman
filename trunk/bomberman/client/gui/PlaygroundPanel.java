@@ -20,6 +20,7 @@
 package bomberman.client.gui;
 
 import bomberman.client.ClientThread;
+import bomberman.net.Event;
 import bomberman.server.Playground;
 
 import java.awt.Color;
@@ -34,12 +35,12 @@ import javax.swing.JPanel;
  * Panel that displays a game's playground. The client
  * receives changes from the server and displays this changes
  * on a PlaygroundPanel.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (cli@openoffice.org)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class PlaygroundPanel 
-        extends JPanel
-        implements KeyListener
+  extends JPanel
+  implements KeyListener
 {
   private ElementPainter[][] elementPainter;
   private boolean spectatorStatus = false;
@@ -159,32 +160,38 @@ public class PlaygroundPanel
       {
         case KeyEvent.VK_UP:
         {
-          ClientThread.Server.move(ClientThread.Session, 0, -1);
+          ClientThread.Server.move(
+                  new Event(new Object[]{ClientThread.Session, 0, -1}));
           break;
         }
         case KeyEvent.VK_DOWN:
         {
-          ClientThread.Server.move(ClientThread.Session, 0, +1);
+          ClientThread.Server.move(
+                  new Event(new Object[]{ClientThread.Session, 0, +1}));
           break;
         }
         case KeyEvent.VK_LEFT:
         {
-          ClientThread.Server.move(ClientThread.Session, -1, 0);
+          ClientThread.Server.move(
+                  new Event(new Object[]{ClientThread.Session, -1, 0}));
           break;
         }
         case KeyEvent.VK_RIGHT:
         {
-          ClientThread.Server.move(ClientThread.Session, +1, 0);
+          ClientThread.Server.move(
+                  new Event(new Object[]{ClientThread.Session, +1, 0}));
           break;
         }
         case KeyEvent.VK_SPACE:
         {
-          ClientThread.Server.placeBomb(ClientThread.Session);
+          ClientThread.Server.placeBomb(
+                  new Event(new Object[]{ClientThread.Session}));
           break;
         }
         case KeyEvent.VK_ESCAPE:
         {
-          ClientThread.Server.leaveGame(ClientThread.Session);          
+          ClientThread.Server.leaveGame(
+                  new Event(new Object[]{ClientThread.Session}));          
           ClientThread.ServerListener.playerLeftGame();
           break;
         }

@@ -21,16 +21,18 @@ package bomberman.client.api;
 
 import bomberman.server.Playground;
 import bomberman.server.Session;
+import bomberman.net.Event;
 import bomberman.server.api.GameInfo;
 import java.util.List;
 
 /**
  * Callback interface for the clients.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (cli@openoffice.org)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public interface ServerListenerInterface
 {
+
   /**
    * On the playground the Client is currently playing,
    * an explosion has occurred.
@@ -52,6 +54,8 @@ public interface ServerListenerInterface
    * @param message
    */
   public void receiveChatMessage(String message);
+  
+  void continueLogin(Event event);
   
   /**
    * The Client was successfully logged in.

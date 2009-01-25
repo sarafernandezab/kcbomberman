@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <christian.lins@web.de>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,12 +19,13 @@
 
 package bomberman.server.gui;
 
+import bomberman.server.Server;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
  * Frame that allows the creation of a new user.
- * @author  Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author  Kai Ritterbusch
  */
 public class UserFrame extends javax.swing.JFrame 
 {
@@ -154,7 +155,7 @@ public class UserFrame extends javax.swing.JFrame
       ArrayList<Object> user = new ArrayList<Object>();
       user.add(txtUsername.getText());
       user.add("offline");
-      parent.getServerThread().getServer().getDatabase().addUser(txtUsername.getText(), txtPw1.getText());
+      Server.getInstance().getDatabase().addUser(txtUsername.getText(), txtPw1.getText());
       ((UserListTableModel)this.parent.getTblUserList().getModel()).addRow(user);
       
       this.setVisible(false);

@@ -25,6 +25,8 @@ import bomberman.client.gui.MainFrame;
 import bomberman.client.gui.PlaygroundPanel;
 import bomberman.client.gui.WaitingPanel;
 import bomberman.client.io.Resource;
+import bomberman.net.Event;
+import bomberman.net.EventReceiverBase;
 import bomberman.server.Playground;
 import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
@@ -37,17 +39,21 @@ import javax.swing.SwingUtilities;
 
 /**
  * Callback class for the Server to Client connection.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (cli@openoffice.org)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
-public class ClientInput implements ServerListenerInterface
+public class ClientInput extends EventReceiverBase implements ServerListenerInterface
 {
   private String      gameStoppedMessage;
-  private InputStream in;
   
   public ClientInput(InputStream in)
   {
-    this.in = in;
+    super(in);
+  }
+  
+  public void continueLogin(Event event)
+  {
+    
   }
   
   /**

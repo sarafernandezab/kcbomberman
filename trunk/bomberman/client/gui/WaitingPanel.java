@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.client.ClientThread;
 import bomberman.client.io.Resource;
 
+import bomberman.net.Event;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
@@ -32,11 +33,12 @@ import javax.swing.plaf.basic.BasicTextAreaUI;
  * This panel shows information about the other players and the
  * game create has a button to start the game before four players
  * have joined.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (cli@openoffice.org)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class WaitingPanel extends javax.swing.JPanel 
 {
+
   private Image background = null;
   private String gameName;
   
@@ -138,7 +140,8 @@ public class WaitingPanel extends javax.swing.JPanel
   {     
     try
     {
-      ClientThread.Server.startGame(bomberman.client.ClientThread.Session, this.gameName);     
+      ClientThread.Server.startGame(
+              new Event(new Object[]{bomberman.client.ClientThread.Session, this.gameName}));     
     }
     catch(Exception rexc)
     {

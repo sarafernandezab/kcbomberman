@@ -19,6 +19,7 @@
 
 package bomberman.client.gui;
 
+import bomberman.net.Event;
 import bomberman.server.Session;
 
 import java.awt.Rectangle;
@@ -34,8 +35,8 @@ import javax.swing.text.Document;
 
 /**
  * Lobby for all player where you can start games and chat
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (cli@openoffice.org)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class LobbyPanel extends javax.swing.JPanel 
 {
@@ -212,7 +213,8 @@ public class LobbyPanel extends javax.swing.JPanel
     String text = this.txtChatInput.getText();
     try
     {
-      bomberman.client.ClientThread.Server.sendChatMessage(bomberman.client.ClientThread.Session, text);
+      bomberman.client.ClientThread.Server.sendChatMessage(
+              new Event(new Object[]{bomberman.client.ClientThread.Session, text}));
       this.txtChatInput.setText("");
     }
     catch(Exception ex)
@@ -229,7 +231,8 @@ public class LobbyPanel extends javax.swing.JPanel
       if(gameName != null)
       {
         Session session = bomberman.client.ClientThread.Session;
-        bomberman.client.ClientThread.Server.createGame(session, gameName);
+        bomberman.client.ClientThread.Server.createGame(
+                new Event(new Object[]{session, gameName}));
       }
     }   
     catch(Exception ex)
@@ -245,7 +248,8 @@ public class LobbyPanel extends javax.swing.JPanel
       if(row >= 0)
       {
         String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-        bomberman.client.ClientThread.Server.joinGame(bomberman.client.ClientThread.Session, name);
+        bomberman.client.ClientThread.Server.joinGame(
+                new Event(new Object[] {bomberman.client.ClientThread.Session, name}));
       }
       else
       {
@@ -265,7 +269,8 @@ public class LobbyPanel extends javax.swing.JPanel
       if(row >= 0)
       {
         String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-        bomberman.client.ClientThread.Server.joinViewGame(bomberman.client.ClientThread.Session, name);
+        bomberman.client.ClientThread.Server.joinViewGame(
+                new Event(new Object[]{bomberman.client.ClientThread.Session, name}));
       }
       else
       {

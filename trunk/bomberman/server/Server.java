@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ package bomberman.server;
 import bomberman.util.CHAP;
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.api.GameInfo;
-import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.UserListTableModel;
 import com.thoughtworks.xstream.XStream;
@@ -39,20 +38,25 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Main KC Bomberman Server class.
- * @author Christian Lins (christian.lins@web.de)
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * Main KC Bomberman Server class. This huge singleton class contains most
+ * of the server's logic.
+ * @author Christian Lins
+ * @author Kai Ritterbusch
  */
-public class Server implements ServerInterface  
+public class Server  
 {
   
-  private static Server instance;
+  private static Server instance = null;
   
   /**
    * @return Current instance of Server.
    */
-  static Server getInstance()
+  public static synchronized Server getInstance()
   {
+    if(instance == null)
+    {
+      instance = new Server();
+    }
     return instance;
   }
   
@@ -99,10 +103,8 @@ public class Server implements ServerInterface
   private Database  database  = null;
   private Highscore highscore = null;
   
-  public Server()
-  {
-    instance = this;
-    
+  private Server()
+  {  
     // Load database and highscore
     try
     {
