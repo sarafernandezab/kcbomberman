@@ -1,7 +1,7 @@
 #summary Eine kurze Beschreibung von KC Bomberman
 #labels deutsch,beschreibung
 
-Das Spiel ist die Implementierung des bekannten Bomberman-Spielprinzips in Java (mit Java-RMI). Ziel des Spiels ist es, alle Gegner und Hindernisse in einem labyrinthartigen Spielfeld durch geschicktes taktisches Platzieren von Bomben zu zerstören. Daher auch der Name Bomberman.
+Das Spiel ist die Implementierung des bekannten Bomberman-Spielprinzips in Java. Ziel des Spiels ist es, alle Gegner und Hindernisse in einem labyrinthartigen Spielfeld durch geschicktes taktisches Platzieren von Bomben zu zerstören. Daher auch der Name Bomberman.
 
 Das Spielfeld besteht aus zweidimensionalen Matrix von zerstörbaren und unzerstörbaren Wänden.
 
