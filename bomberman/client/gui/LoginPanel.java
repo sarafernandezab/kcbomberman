@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ import javax.swing.JOptionPane;
 
 /**
  * Shows the loginPanel when game has started
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class LoginPanel extends javax.swing.JPanel
 {
@@ -144,13 +144,13 @@ public class LoginPanel extends javax.swing.JPanel
       long hash      = CHAP.createChecksum(challenge, password);
       
       // The Client request a login
-      if(!ClientThread.Server.login2(nickname, hash, ClientThread.ServerListener))
+      if(!ClientThread.Server.login2(nickname, hash))
          JOptionPane.showMessageDialog( this, "Login fehlgeschlagen (PW oder Username falsch?)", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)
     {
       JOptionPane.showMessageDialog( this, "Login fehlgeschlagen (Server laeuft nicht?)", "Fehler" ,JOptionPane.ERROR_MESSAGE );
-      //ex.printStackTrace();
+      ex.printStackTrace();
     }
   }//GEN-LAST:event_btnLoginActionPerformed
   

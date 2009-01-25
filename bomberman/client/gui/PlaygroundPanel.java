@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.rmi.RemoteException;
 import javax.swing.JPanel;
 
 /**
@@ -36,7 +35,7 @@ import javax.swing.JPanel;
  * receives changes from the server and displays this changes
  * on a PlaygroundPanel.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  */
 public class PlaygroundPanel 
         extends JPanel
@@ -191,7 +190,7 @@ public class PlaygroundPanel
         }
       }
     }
-    catch(RemoteException ex)
+    catch(Exception ex)
     {
       ex.printStackTrace();
     }

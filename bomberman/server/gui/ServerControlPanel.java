@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@ import bomberman.server.Highscore;
 import bomberman.server.ServerThread;
 import bomberman.server.gui.UserListTableModel;
 
-import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -38,7 +37,7 @@ import javax.swing.JFileChooser;
 
 /**
  * Main control panel of the Server.
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins
  * @author Kai Ritterbusch
  */
 public class ServerControlPanel extends javax.swing.JPanel 
@@ -382,7 +381,7 @@ public class ServerControlPanel extends javax.swing.JPanel
         ServerControlPanel.getInstance().addLogMessages("Bombermanserver gestoppt ...");
       }
     }
-    catch(RemoteException e)
+    catch(Exception e)
     {
       e.printStackTrace();
     }
@@ -420,7 +419,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       getServerThread().getServer().stopGame(liGames.getSelectedValue().toString());
     ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());    
    }
-   catch(RemoteException e)
+   catch(Exception e)
    {
     e.printStackTrace(); 
    }

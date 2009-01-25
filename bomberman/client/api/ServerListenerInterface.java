@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,14 @@ package bomberman.client.api;
 import bomberman.server.Playground;
 import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.List;
 
 /**
  * Callback interface for the clients.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  */
-public interface ServerListenerInterface extends Remote 
+public interface ServerListenerInterface
 {
   /**
    * On the playground the Client is currently playing,
@@ -40,64 +38,49 @@ public interface ServerListenerInterface extends Remote
    * @param x
    * @param y
    * @param distance
-   * @throws java.rmi.RemoteException
    */
-  public void explosion(int x, int y, int distance)
-    throws RemoteException;
+  public void explosion(int x, int y, int distance);
   
   /**
    * The server notifies the client player that a player has died.
    * @throws java.rmi.RemoteException
    */
-  public void playerDied(int x, int y, int playerNumber)
-    throws RemoteException;
+  public void playerDied(int x, int y, int playerNumber);
   
   /**
    * The Client receives a chat message.
    * @param message
-   * @throws java.rmi.RemoteException
    */
-  public void receiveChatMessage(String message)
-    throws RemoteException;
+  public void receiveChatMessage(String message);
   
   /**
    * The Client was successfully logged in.
    * @param session
-   * @throws java.rmi.RemoteException
    */
-  public void loggedIn(Session session)
-    throws RemoteException;
+  public void loggedIn(Session session);
   
   /**
    * The Client was logged out.
-   * @throws java.rmi.RemoteException
    */
-  public void loggedOut()
-    throws RemoteException;
+  public void loggedOut();
   
   /**
    * Transmittes an updated playground to the client.
    * The Playground is complete, so that no inconsistencies can occur.
-   * @throws java.rmi.RemoteException
    */
-  public void playgroundUpdate(Playground playground)
-    throws RemoteException;
+  public void playgroundUpdate(Playground playground);
   
   /**
    * The server sends an update of the game list.
    * @param gameList
-   * @throws java.rmi.RemoteException
    */
-  public void gameListUpdate(List<GameInfo> gameList)
-    throws RemoteException;
+  public void gameListUpdate(List<GameInfo> gameList);
   
   /**
    * Notifies the client that is has joined the game.
    * @param gameName
-   * @throws java.rmi.RemoteException
    */
-  public void gameJoined(String gameName)
-    throws RemoteException;
+  public void gameJoined(String gameName);
   
   /**
    * Notifies the Client that the game it was playing in was
@@ -108,37 +91,30 @@ public interface ServerListenerInterface extends Remote
    *  <li>1: Game was stopped by admin</li>
    *  <li>2: You won the game</li>
    * </ul>
-   * @throws java.rmi.RemoteException
    */
-  public void gameStopped(int condition) 
-    throws RemoteException;
+  public void gameStopped(int condition);
   
   /**
    * Is called if the server starts the game this client has joined.
-   * @throws java.rmi.RemoteException
    */
-  public void gameStarted(boolean specStatus)
-    throws RemoteException;
+  public void gameStarted(boolean specStatus);
  
   /**
    * Updates the user list in the LobbyPanel.
    * @param users
    * @throws java.rmi.RemoteException
    */
-  public void userListUpdate(List<String> users)
-    throws RemoteException;
+  public void userListUpdate(List<String> users);
   
   /**
    * This method is called when players leaves game.
    * @throws java.rmi.RemoteException
    */   
-  public void playerLeftGame() 
-    throws RemoteException;
+  public void playerLeftGame();
   
   /**
    * This Method is called when Player died and therefore lost the game.
    * @throws java.rmi.RemoteException
    */
-  public void youDied()
-    throws RemoteException;
+  public void youDied();
 }
