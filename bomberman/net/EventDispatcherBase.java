@@ -44,13 +44,14 @@ public class EventDispatcherBase
     this.out = out;
   }
   
-  protected void sendEvent(Event event)
+  protected void dispatchEvent(Event event)
   {
     try
     {
       this.xstream.toXML(event, this.out);
       this.out.write(XML_END.getBytes());
       this.out.flush();
+      System.out.println(this + " Event dispatched: " + event.getMethodName());
     }
     catch(IOException ex)
     {

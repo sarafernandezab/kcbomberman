@@ -21,9 +21,6 @@ package bomberman.client;
 
 import bomberman.client.gui.MainFrame;
 import bomberman.server.Session;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
 import bomberman.server.api.ServerInterface;
 import java.awt.AWTEvent;
 import java.awt.Container;
@@ -33,17 +30,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.Socket;
 import java.rmi.ConnectException;
-import java.rmi.NotBoundException;
 
 /**
  * ClientThread starts a Thread for each Client
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class ClientThread extends Thread
 {
   public static ServerInterface Server;
-  public static ClientInput  ServerListener;
+  public static ClientInput     ServerListener;
   public static Session         Session;
   
   private String hostname;
@@ -87,6 +83,7 @@ public class ClientThread extends Thread
           Socket socket  = new Socket("localhost", 4242);
           Server         = new ClientOutput(socket.getOutputStream());
           ServerListener = new ClientInput(socket.getInputStream());
+          ServerListener.run();
           retry = false;
         }
         catch(ConnectException ex)

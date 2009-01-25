@@ -20,7 +20,6 @@
 package bomberman.server.api;
 
 import bomberman.net.Event;
-import bomberman.server.Session;
 
 /**
  * Main interface for the game server. For easier reflection, every method

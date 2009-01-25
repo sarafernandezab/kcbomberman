@@ -37,8 +37,16 @@ import javax.swing.JOptionPane;
 public class LoginPanel extends javax.swing.JPanel
 {
   
+  private static volatile LoginPanel instance = null;
+  
+  public static LoginPanel getInstance()
+  {
+    return instance;
+  }
+  
   public LoginPanel() 
   {
+    instance = this;
     initComponents();
     
     txtNickname.selectAll();
@@ -138,16 +146,9 @@ public class LoginPanel extends javax.swing.JPanel
 
   private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
     String nickname = this.txtNickname.getText();
-    String password = this.txtPassword.getText();
     try
     {
-      //long challenge = ClientThread.Server.login1(nickname);
       ClientThread.Server.login1(new Event(new Object[]{nickname}));
-      //long hash      = CHAP.createChecksum(challenge, password);
-      
-      // The Client request a login
-//      if(!ClientThread.Server.login2(nickname, hash))
-//         JOptionPane.showMessageDialog( this, "Login fehlgeschlagen (PW oder Username falsch?)", "Fehler" ,JOptionPane.ERROR_MESSAGE );
     }
     catch(Exception ex)
     {
@@ -175,5 +176,15 @@ public class LoginPanel extends javax.swing.JPanel
   {
     g.setColor(new Color(0, 0, 0, 150));
     g.fillRect(0, 0, getWidth(), getHeight());
+  }
+  
+  public void continueLogin(long challenge)
+  {
+    String nickname = this.txtNickname.getText();
+    String password = this.txtPassword.getText();
+    long   hash     = CHAP.createChecksum(challenge, password);
+      
+    // The Client request a login
+    ClientThread.Server.login2(new Event(new Object[]{nickname, hash}));
   }
 }

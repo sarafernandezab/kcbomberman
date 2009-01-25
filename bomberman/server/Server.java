@@ -21,6 +21,7 @@ package bomberman.server;
 
 import bomberman.util.CHAP;
 import bomberman.client.api.ServerListenerInterface;
+import bomberman.net.Event;
 import bomberman.server.api.GameInfo;
 import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.UserListTableModel;
@@ -227,7 +228,7 @@ public class Server
       try
       {
         ServerListenerInterface client = this.clients.get(session);
-        client.gameListUpdate(gameList);
+        client.gameListUpdate(new Event(new Object[]{gameList}));
       }
       catch(Exception ex)
       {
@@ -252,7 +253,7 @@ public class Server
           if(game.getCreator().equals(ent.getKey()))
             stopGame(game);
         }
-        this.clients.get(ent.getKey()).loggedOut();
+        this.clients.get(ent.getKey()).loggedOut(new Event(new Object[0]));
         players.remove(ent.getKey());        
         clients.remove(ent.getKey());
         
@@ -277,11 +278,11 @@ public class Server
     
     // Updates Playground when moved
     for(Session sess : game.getPlayerSessions())
-      clients.get(sess).playgroundUpdate(game.getPlayground());
+      clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
     
     if(game.getPlayerSessions().size() == 0)
       for(Session sess : game.getSpectatorSessions())
-        clients.get(sess).playerLeftGame();
+        clients.get(sess).playerLeftGame(new Event(new Object[0]));
   }
   
   /**
@@ -339,7 +340,7 @@ public class Server
     {
       ServerListenerInterface sli = clients.get(sess);
       if(sli != null)
-        clients.get(sess).gameStopped(1); // Condition 1 means "Stopped by Server"
+        clients.get(sess).gameStopped(new Event(new Object[]{1})); // Condition 1 means "Stopped by Server"
     }
     
     // Send gameStopped() message to all spectators
@@ -347,7 +348,7 @@ public class Server
     {
       ServerListenerInterface sli = clients.get(sess);
       if(sli != null)
-        clients.get(sess).gameStopped(1);
+        clients.get(sess).gameStopped(new Event(new Object[]{1}));
     }
     
     // Log-Message
@@ -386,11 +387,11 @@ public class Server
     {
       // Updates Playground when moved
       for(Session sess : game.getPlayerSessions())
-        clients.get(sess).playgroundUpdate(game.getPlayground()); // TODO: sync
+        clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
             
       // Updates Playground for Spectators when moved
       for(Session sess : game.getSpectatorSessions())
-        clients.get(sess).playgroundUpdate(game.getPlayground());
+        clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
       return true;
     }
     else
@@ -400,8 +401,6 @@ public class Server
   /**
    * A client player wants to place a bomb at his current position.
    * @param session
-   * @return
-   * @throws java.rmi.RemoteException
    */
   public boolean placeBomb(Session session) 
   {
@@ -429,7 +428,7 @@ public class Server
     String answer = players.get(session) + ": " + message;
 
     for(Session sess : clients.keySet())    
-      clients.get(sess).receiveChatMessage(answer); // TODO: Spielende Player ausblenden
+      clients.get(sess).receiveChatMessage(new Event(new Object[]{answer})); // TODO: Spielende Player ausblenden
   }
   
   /**
@@ -462,7 +461,7 @@ public class Server
    * @param hash
    * @return
    */
-  public boolean login2(String username, long hash)
+  public boolean login2(String username, long hash, ServerListenerInterface sli)
   {
     if(this.chap.isValid(username)) // Has this username performed a login1?
     {
@@ -474,9 +473,9 @@ public class Server
         long challenge = this.chap.getChallenge(username);
         long myHash    = CHAP.createChecksum(challenge, pw);
         
-        ///if(myHash == hash)
-        //  return login(username, pw, sli);
-        //else
+        if(myHash == hash)
+          return login(username, pw, sli);
+        else
           return false;
       }
     }
@@ -532,7 +531,7 @@ public class Server
       clients.put(session, sli);
 
       // loggedin action
-      sli.loggedIn(session);
+      sli.loggedIn(new Event(new Object[]{session}));
 
       // Build list of usernames
       ArrayList<String> nicknames = new ArrayList<String>();
@@ -541,7 +540,7 @@ public class Server
 
       // Notify all users of the new user 
       for(Session sess : clients.keySet())    
-        clients.get(sess).userListUpdate(nicknames);
+        clients.get(sess).userListUpdate(new Event(new Object[]{nicknames}));
 
       // Updates GameList
       gameListUpdate();
@@ -564,20 +563,18 @@ public class Server
     gameListUpdate();
     
      // Build list of usernames
-    ArrayList<String> nicknames = new ArrayList<String>();
+    List<String> nicknames = new ArrayList<String>();
     for(Session sess : players.keySet())    
       nicknames.add(players.get(sess).getNickname());
     
     // Notify all users of the new user 
     for(Session sess : clients.keySet())    
-      clients.get(sess).userListUpdate(nicknames);
+      clients.get(sess).userListUpdate(new Event(new Object[]{nicknames}));
   }
   
   /**
    * Stopps and deletes a game.
    * @param gameName
-   * @return
-   * @throws java.rmi.RemoteException
    */
   public boolean stopGame(String gameName)
   {
@@ -587,10 +584,9 @@ public class Server
   }
   
    /**
-   * 
+   * A spectator wants to join a game.
    * @param session
    * @param gameName
-   * @return
    */
   public void joinViewGame(Session session, String gameName)
   {
@@ -602,12 +598,12 @@ public class Server
     Game game = games.get(gameName);    
     game.getSpectatorSessions().add(session);
      // Notify the client that it has joined the game
-    this.clients.get(session).gameJoined(gameName);
+    this.clients.get(session).gameJoined(new Event(new Object[]{gameName}));
     
     if(game.isRunning())
     {
-      this.clients.get(session).gameStarted(true);
-      clients.get(session).playgroundUpdate(game.getPlayground());
+      this.clients.get(session).gameStarted(new Event(new Object[]{true}));
+      clients.get(session).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
     }
   }
   
@@ -639,11 +635,14 @@ public class Server
     game.getPlayerSessions().add(session);
     
     // Notify the client that it has joined the game
-    this.clients.get(session).gameJoined(gameName);
+    this.clients.get(session).gameJoined(new Event(new Object[]{gameName}));
    
     // Sends loginMessage to Waiting Panel
     for(Session sess : game.getPlayerSessions())
-      clients.get(sess).receiveChatMessage(players.get(session).getNickname() + " has joined Game");
+    {
+      clients.get(sess).receiveChatMessage(new Event(new Object[]{
+        players.get(session).getNickname() + " has joined Game"}));
+    }
 
     // Check if the game has now four players.
     // If this is the case, we have to send a game start
@@ -652,11 +651,11 @@ public class Server
     {
       for(Session sess : game.getPlayerSessions())
       {
-        this.clients.get(sess).gameStarted(false);
+        this.clients.get(sess).gameStarted(new Event(new Object[]{false}));
       }
       for(Session sess : game.getSpectatorSessions())
       {
-        this.clients.get(sess).gameStarted(true);
+        this.clients.get(sess).gameStarted(new Event(new Object[]{true}));
       }
     }
     
@@ -730,23 +729,23 @@ public class Server
         for(Session sess : sessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
-          client.gameStarted(false);
+          client.gameStarted(new Event(new Object[]{false}));
         }
         
         // Send start message to all Spectators 
         for(Session sess : specSessions)
         {
           ServerListenerInterface client = this.clients.get(sess);
-          client.gameStarted(true);
+          client.gameStarted(new Event(new Object[]{true}));
         }
         
         // Updates Playground when moved
         for(Session sess : game.getPlayerSessions())
-          clients.get(sess).playgroundUpdate(game.getPlayground());
+          clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
         
         // Updates Playground when moved
         for(Session sess : game.getSpectatorSessions())
-          clients.get(sess).playgroundUpdate(game.getPlayground());
+          clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
         
         // Add AI-controlled players if there are not enough human players
         game.addAI();
@@ -790,7 +789,7 @@ public class Server
     {
       try
       {
-        clients.get(sess).loggedOut();
+        clients.get(sess).loggedOut(new Event(new Object[0]));
       }
       catch(Exception ex)
       {

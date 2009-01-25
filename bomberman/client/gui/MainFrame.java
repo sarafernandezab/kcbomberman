@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ package bomberman.client.gui;
 import bomberman.client.AudioThread;
 import bomberman.client.ClientThread;
 import bomberman.client.io.Resource;
+import bomberman.net.Event;
 import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -31,8 +32,8 @@ import javax.swing.JFrame;
 
 /**
  * The main application window.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class MainFrame extends JFrame
 {
@@ -63,7 +64,7 @@ public class MainFrame extends JFrame
           if(ClientThread.Session != null)
           {
             System.out.println("Send logout message to server...");
-            ClientThread.Server.logout(ClientThread.Session);
+            ClientThread.Server.logout(new Event(new Object[]{ClientThread.Session}));
           }
         }
         catch(Exception ex)
