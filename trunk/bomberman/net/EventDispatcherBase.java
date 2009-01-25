@@ -44,7 +44,12 @@ public class EventDispatcherBase
     this.out = out;
   }
   
-  protected void dispatchEvent(Event event)
+  /**
+   * This method MUST be synchronized due to heavily asynchronous calls.
+   * Otherwise the XML serialized data could be scattered on client side.
+   * @param event
+   */
+  protected synchronized void dispatchEvent(Event event)
   {
     try
     {
