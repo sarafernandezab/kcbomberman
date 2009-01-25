@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (c) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -36,7 +35,7 @@ import javax.swing.text.Document;
 /**
  * Lobby for all player where you can start games and chat
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  */
 public class LobbyPanel extends javax.swing.JPanel 
 {
@@ -216,7 +215,7 @@ public class LobbyPanel extends javax.swing.JPanel
       bomberman.client.ClientThread.Server.sendChatMessage(bomberman.client.ClientThread.Session, text);
       this.txtChatInput.setText("");
     }
-    catch(RemoteException ex)
+    catch(Exception ex)
     {
       ex.printStackTrace();
     }

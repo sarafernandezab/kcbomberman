@@ -20,7 +20,6 @@
 package bomberman.server;
 
 import bomberman.server.api.Element;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -105,7 +104,7 @@ public class ServerLoop extends Thread
               this.server.getPlayerToGame().remove(sess);
             }
           }
-          catch (RemoteException re)
+          catch (Exception re)
           {
             re.printStackTrace();
           }
@@ -118,7 +117,7 @@ public class ServerLoop extends Thread
           // And update the game and user list on client side
           this.server.refresh();
         }
-        catch(RemoteException ex)
+        catch(Exception ex)
         {
           ex.printStackTrace();
         }

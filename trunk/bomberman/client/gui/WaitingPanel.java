@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,8 +24,6 @@ import bomberman.client.io.Resource;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.rmi.RemoteException;
-import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.plaf.basic.BasicTextAreaUI;
 
@@ -35,7 +33,7 @@ import javax.swing.plaf.basic.BasicTextAreaUI;
  * game create has a button to start the game before four players
  * have joined.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  */
 public class WaitingPanel extends javax.swing.JPanel 
 {
@@ -142,7 +140,7 @@ public class WaitingPanel extends javax.swing.JPanel
     {
       ClientThread.Server.startGame(bomberman.client.ClientThread.Session, this.gameName);     
     }
-    catch(RemoteException rexc)
+    catch(Exception rexc)
     {
       rexc.printStackTrace();
     }    

@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,13 +25,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import bomberman.server.api.ServerInterface;
-import bomberman.server.rmi.RMIClientSocketFactoryImpl;
 import java.awt.AWTEvent;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.Socket;
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 
@@ -43,7 +43,7 @@ import java.rmi.NotBoundException;
 public class ClientThread extends Thread
 {
   public static ServerInterface Server;
-  public static ServerListener  ServerListener;
+  public static ClientInput  ServerListener;
   public static Session         Session;
   
   private String hostname;
@@ -56,7 +56,6 @@ public class ClientThread extends Thread
   @Override
   public void run()
   {
-    Registry registry;
     try
     {
       Toolkit.getDefaultToolkit().getSystemEventQueue().push(
@@ -76,7 +75,7 @@ public class ClientThread extends Thread
       // Create main frame
       new MainFrame().setVisible(true);
       
-      ServerListener = new ServerListener();
+      
       
       boolean retry = true;
       
@@ -84,24 +83,13 @@ public class ClientThread extends Thread
       {
         try
         {
-          if(this.hostname == null)
-            registry = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
-          else
-          {
-            RMIClientSocketFactoryImpl.ServerHost = this.hostname;
-            System.out.println("Search registry on host " + hostname + "...");
-            registry = LocateRegistry.getRegistry(hostname, Registry.REGISTRY_PORT);
-          }
-
-          Server = (ServerInterface)registry.lookup("KCBombermanServer");
+          // Connect to server
+          Socket socket  = new Socket("localhost", 4242);
+          Server         = new ClientOutput(socket.getOutputStream());
+          ServerListener = new ClientInput(socket.getInputStream());
           retry = false;
         }
         catch(ConnectException ex)
-        {
-          System.out.println("Server läuft nicht. Warte...");
-          Thread.sleep(1000);
-        }
-        catch(NotBoundException ne)
         {
           System.out.println("Server läuft nicht. Warte...");
           Thread.sleep(1000);

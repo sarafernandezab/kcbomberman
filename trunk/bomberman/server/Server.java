@@ -22,12 +22,9 @@ package bomberman.server;
 import bomberman.util.CHAP;
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.api.GameInfo;
-import bomberman.server.api.InvalidSessionException;
 import bomberman.server.api.ServerInterface;
 import bomberman.server.gui.ServerControlPanel;
 import bomberman.server.gui.UserListTableModel;
-import bomberman.server.rmi.RMIClientSocketFactoryImpl;
-import bomberman.server.rmi.RMIServerSocketFactoryImpl;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -36,8 +33,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -48,9 +43,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Christian Lins (christian.lins@web.de)
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
  */
-public class Server extends UnicastRemoteObject implements ServerInterface  
+public class Server implements ServerInterface  
 {
-  public static final long serialVersionUID = 23482528;
   
   private static Server instance;
   
@@ -105,12 +99,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   private Database  database  = null;
   private Highscore highscore = null;
   
-  public Server() throws RemoteException
+  public Server()
   {
-    super(1098, new RMIClientSocketFactoryImpl(), new RMIServerSocketFactoryImpl());
     instance = this;
-    
-    setLog(System.out);
     
     // Load database and highscore
     try
@@ -146,10 +137,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    */
   private void checkSession(Session session)
-          throws InvalidSessionException
   {
-    if(!clients.containsKey(session))
-      throw new InvalidSessionException();
+    //if(!clients.containsKey(session))
+    //  throw new InvalidSessionException();
   }
   
   /**
@@ -212,9 +202,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   /**
    * Sends a game list update to all client that are not playing.
    */
-  private void gameListUpdate() throws RemoteException
+  private void gameListUpdate()
   {
-    ArrayList<GameInfo> gameList = new ArrayList<GameInfo>();
+    List<GameInfo> gameList = new ArrayList<GameInfo>();
     Set<String> gameNames = this.games.keySet();
     for(String str : gameNames)
     {
@@ -247,7 +237,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   /**
    * Logout with username. This method is used by the Server GUI.
    */ 
-  public void logout(String userName) throws RemoteException
+  public void logout(String userName)
   {
     for(Entry<Session, Player> ent : players.entrySet())
     {
@@ -273,7 +263,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * Removes Player from Playground, e.g. when he presses the 
    * Escape-Key
    */  
-  public void leaveGame(Session session) throws RemoteException
+  public void leaveGame(Session session)
   {
     Game game = playerToGame.get(session);
     
@@ -295,8 +285,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   /**
    * Logs out a client. 
    */
-  public void logout(Session session)  
-    throws RemoteException          
+  public void logout(Session session)          
   {
     checkSession(session);
     
@@ -331,9 +320,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * playing this specific game. Additionally this method stops all
    * AIPlayerThreads running with this game.
    * @param game
-   * @throws java.rmi.RemoteException
    */
-  public void stopGame(Game game) throws RemoteException
+  public void stopGame(Game game)
   {
     game.setRunning(false);
     
@@ -378,9 +366,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param x
    * @param y
    * @return
-   * @throws java.rmi.RemoteException
    */
-  public boolean move(Session session, int x, int y) throws RemoteException
+  public boolean move(Session session, int x, int y)
   {
     if(x == y)
       return false;
@@ -415,7 +402,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @throws java.rmi.RemoteException
    */
   public boolean placeBomb(Session session) 
-          throws RemoteException
   {
     checkSession(session);
     
@@ -433,10 +419,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * Client wants to send a chat message to a public channel.
    * @param session
    * @param message
-   * @throws java.rmi.RemoteException
    */
   public void sendChatMessage(Session session, String message) 
-          throws RemoteException
   {
     checkSession(session);
     
@@ -475,10 +459,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param username
    * @param hash
    * @return
-   * @throws java.rmi.RemoteException
    */
-  public boolean login2(String username, long hash, ServerListenerInterface sli)
-    throws RemoteException
+  public boolean login2(String username, long hash)
   {
     if(this.chap.isValid(username)) // Has this username performed a login1?
     {
@@ -490,9 +472,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface
         long challenge = this.chap.getChallenge(username);
         long myHash    = CHAP.createChecksum(challenge, pw);
         
-        if(myHash == hash)
-          return login(username, pw, sli);
-        else
+        ///if(myHash == hash)
+        //  return login(username, pw, sli);
+        //else
           return false;
       }
     }
@@ -507,16 +489,14 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param sli
    * @param ip
    * @return
-   * @throws java.rmi.RemoteException
    */
   private boolean login(String nickname, String password, ServerListenerInterface sli) 
-    throws RemoteException
   {
     try
     {
       Session session = new Session();
 
-      System.out.println(nickname + " hat sich eingeloggt: " + getClientHost());
+//      System.out.println(nickname + " hat sich eingeloggt: " + getClientHost());
 
       // Checks if user is allowed to login
       if(database.getPassword(nickname) == null)
@@ -529,10 +509,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface
       players.put(session, player);
 
       // register in IPlist
-      playerToIP.put(session, getClientHost());
+//      playerToIP.put(session, getClientHost());
 
       // Logger
-      logger.log("login", getClientHost());    
+//      logger.log("login", getClientHost());    
 
       // Userlist update
       if(ServerControlPanel.getInstance() != null)
@@ -575,9 +555,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   
   /**
    * Sends both user and game list to all clients.
-   * @throws java.rmi.RemoteException
    */
-  public void refresh() throws RemoteException
+  public void refresh()
   {
      // Updates GameList
     gameListUpdate();
@@ -598,7 +577,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    * @throws java.rmi.RemoteException
    */
-  public boolean stopGame(String gameName) throws RemoteException
+  public boolean stopGame(String gameName)
   {
     // All players of this Game will logged out        
     stopGame(games.get(gameName));
@@ -610,9 +589,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
    */
-  public boolean joinViewGame(Session session, String gameName) throws RemoteException
+  public void joinViewGame(Session session, String gameName)
   {
     checkSession(session);
     
@@ -628,9 +606,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     {
       this.clients.get(session).gameStarted(true);
       clients.get(session).playgroundUpdate(game.getPlayground());
-    }       
-      
-    return false;
+    }
   }
   
   /**
@@ -640,18 +616,18 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @return
    * @throws java.rmi.RemoteException
    */
-  public boolean joinGame(Session session, String gameName) throws RemoteException
+  public void joinGame(Session session, String gameName)
   { 
     checkSession(session);
     
     Game game = games.get(gameName);
    
     if(game == null || game.isRunning())
-      return false; // No such game
+      return; // No such game
     
     Player player = players.get(session);   
     if(!game.addPlayer(player))
-      return false;
+      return;
     
     playerToGame.put(session, game);
     // Logger
@@ -683,8 +659,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface
     }
     
     gameListUpdate();
-    
-    return false;
   }
   
   /**
@@ -692,10 +666,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
    */
   public boolean createGame(Session session, String gameName) 
-          throws RemoteException
   {
     checkSession(session);
     
@@ -729,10 +701,8 @@ public class Server extends UnicastRemoteObject implements ServerInterface
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
    */
   public boolean startGame(Session session, String gameName) 
-          throws RemoteException
   {
     checkSession(session);
     
@@ -811,7 +781,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface
   /**
    * When stopping server logout all users.
    */
-  public void logoutAll() throws RemoteException
+  public void logoutAll()
   {    
     // Send gameStopped() message to all players
     for(Session sess : clients.keySet())

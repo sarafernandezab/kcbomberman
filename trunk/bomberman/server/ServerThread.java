@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008-2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,27 +20,21 @@
 package bomberman.server;
 
 import java.net.BindException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.ExportException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import javax.swing.JOptionPane;
 
 /**
- * This thread starts a RMI registry and the @see{Server} and then
- * waits for the server to exit.
- * @author Christian Lins (christian.lins@web.de)
+ * This thread opens a ServerSocket and waits for incoming connections.
+ * @author Christian Lins
  */
 public class ServerThread extends Thread
 {
-  /** The RMI registry instance */
-  private static Registry Registry = null;
   
   /** Reference to the started server */
   private Server server;
   
   public ServerThread(boolean daemon)
-          throws RemoteException
   {
     super("ServerThread");
     setDaemon(daemon);
@@ -63,16 +57,8 @@ public class ServerThread extends Thread
   {
     try
     {      
-      // Create local registry
-      if(Registry == null)
-      {
-        Registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
-       // Registry = Registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
-      }
-      
       // Bind server to name
       this.server = new Server();
-      Registry.rebind("KCBombermanServer", server);      
       
       try
       {
@@ -87,18 +73,20 @@ public class ServerThread extends Thread
         System.err.println("As a result no persistent database/highscore available!");
       }
       
-      System.out.println("Bombermanserver bereit ...");
+      // Create server socket
+      ServerSocket ssocket = new ServerSocket(4242); // Port 4242, all interfaces
+      
+      System.out.println("Bomberman Server running ...");
 
-      // Wait for the server
-      synchronized(this)
+      // Wait for incoming connections
+      for(;;)
       {
-        notifyAll();
-        wait();
+        Socket      socket = ssocket.accept();
+        ServerInput input  = new ServerInput(socket.getInputStream());
+        input.run();
       }
-      this.server.logoutAll();
-      System.out.println("Server gestoppt!");
     }
-    catch(ExportException ex)
+    catch(Exception ex)
     {
       if(ex.getCause() instanceof BindException)
       {
@@ -117,11 +105,6 @@ public class ServerThread extends Thread
       
       System.exit(1);
     }
-    catch(Exception ex)
-    {
-      ex.printStackTrace();
-      System.exit(1);
-    }
   }
   
   /**
@@ -133,7 +116,7 @@ public class ServerThread extends Thread
   {
     try
     {
-      Registry.unbind("KCBombermanServer");
+     // Registry.unbind("KCBombermanServer");
       notify();
     }
     catch(Exception ex)

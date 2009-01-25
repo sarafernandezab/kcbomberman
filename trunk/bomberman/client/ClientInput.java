@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,9 +29,7 @@ import bomberman.server.Playground;
 import bomberman.server.Session;
 import bomberman.server.api.GameInfo;
 
-import bomberman.server.rmi.RMIClientSocketFactoryImpl;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -40,17 +38,16 @@ import javax.swing.SwingUtilities;
 /**
  * Callback class for the Server to Client connection.
  * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  */
-public class ServerListener 
-        extends UnicastRemoteObject 
-        implements ServerListenerInterface
+public class ClientInput implements ServerListenerInterface
 {
-  private String gameStoppedMessage;
+  private String      gameStoppedMessage;
+  private InputStream in;
   
-  public ServerListener() throws RemoteException
+  public ClientInput(InputStream in)
   {
-    super(1097);
+    this.in = in;
   }
   
   /**
@@ -61,7 +58,6 @@ public class ServerListener
    * @throws java.rmi.RemoteException
    */
   public void explosion(int x, int y, int distance)
-    throws RemoteException
   {
     new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
 
@@ -77,7 +73,6 @@ public class ServerListener
    * @throws java.rmi.RemoteException
    */
   public void gameListUpdate(List<GameInfo> gameInfo)
-    throws RemoteException
   {
     LobbyPanel lp = MainFrame.getInstance().getLobbyPanel();
 
@@ -99,9 +94,8 @@ public class ServerListener
   /**
    * Notifies the Client that a game he was waiting for has started.
    * @param spectStatus
-   * @throws java.rmi.RemoteException
    */
-  public void gameStarted(boolean spectStatus) throws RemoteException
+  public void gameStarted(boolean spectStatus)
   {
     // Create a new playground
     MainFrame.getInstance()
@@ -122,7 +116,7 @@ public class ServerListener
    * </ul>
    * @throws java.rmi.RemoteException
    */
-  public void gameStopped(int condition) throws RemoteException
+  public void gameStopped(int condition)
   {
     this.gameStoppedMessage = null;
     
@@ -160,7 +154,7 @@ public class ServerListener
    * @param gameName
    * @throws java.rmi.RemoteException
    */
-  public void gameJoined(String gameName) throws RemoteException
+  public void gameJoined(String gameName)
   {
     System.out.println("Game joined");
      
@@ -174,7 +168,7 @@ public class ServerListener
    * @param message
    * @throws java.rmi.RemoteException
    */
-  public void receiveChatMessage(String message) throws RemoteException
+  public void receiveChatMessage(String message)
   {    
     if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
     {
@@ -192,9 +186,8 @@ public class ServerListener
    * Set the session
    * Switch the user gui to the LobbyPanel
    * @param session
-   * @throws java.rmi.RemoteException
    */
-  public void loggedIn(Session session) throws RemoteException
+  public void loggedIn(Session session)
   {
     bomberman.client.ClientThread.Session = session;
     
@@ -204,24 +197,22 @@ public class ServerListener
   
   /**
    * Notifies the Client that he was logged out. Shows the StartPanel
-   * @throws java.rmi.RemoteException
    */   
-  public void loggedOut() throws RemoteException
+  public void loggedOut()
   {    
     MainFrame.getInstance().setVisible(false);
     
     bomberman.client.ClientThread.Session = null;
     bomberman.client.ClientThread.Server  = null;
     
-    new ClientThread(RMIClientSocketFactoryImpl.ServerHost).start();
+    //new ClientThread(RMIClientSocketFactoryImpl.ServerHost).start();
   }
   
   /**
    * Clientside update of the playground
    * @param playground
-   * @throws java.rmi.RemoteException
    */
-  public void playgroundUpdate(Playground playground) throws RemoteException
+  public void playgroundUpdate(Playground playground)
   {
     ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
   }
@@ -231,7 +222,7 @@ public class ServerListener
    * @param users
    * @throws java.rmi.RemoteException
    */
-  public void userListUpdate(List<String> users) throws RemoteException
+  public void userListUpdate(List<String> users)
   {
     LobbyPanel lobby = MainFrame.getInstance().getLobbyPanel();
     lobby.setUserList(users);
@@ -243,9 +234,8 @@ public class ServerListener
    * @param x
    * @param y
    * @param playerNumber
-   * @throws java.rmi.RemoteException
    */
-  public void playerDied(int x, int y, int playerNumber) throws RemoteException
+  public void playerDied(int x, int y, int playerNumber)
   {
     new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
 
@@ -257,7 +247,7 @@ public class ServerListener
    * This method is called when players leaves game.
    * @throws java.rmi.RemoteException
    */
-  public void playerLeftGame() throws RemoteException
+  public void playerLeftGame()
   {
     MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
     MainFrame.getInstance().resetSize();

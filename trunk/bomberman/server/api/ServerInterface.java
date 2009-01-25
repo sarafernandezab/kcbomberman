@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,18 +19,14 @@
 
 package bomberman.server.api;
 
-import bomberman.client.api.ServerListenerInterface;
 import bomberman.server.Session;
-
-import java.rmi.Remote;
-import java.rmi.RemoteException;
 
 /**
  * Main interface for the game server. 
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins (cli@openoffice.org)
  * @author Kai Ritterbusch
  */
-public interface ServerInterface extends Remote
+public interface ServerInterface
 {  
   /**
    * Client wants to login with the given username. This method is
@@ -40,10 +36,8 @@ public interface ServerInterface extends Remote
    * @param sli
    * @return A challenge > 0 if the username is valid, otherwise 0 is
    * returned.
-   * @throws java.rmi.RemoteException
    */
-  long login1(String username)
-    throws RemoteException;
+  long login1(String username);
   
   /**
    * Second part of the Challenge Handshake Authentification Protocol (CHAP).
@@ -52,62 +46,46 @@ public interface ServerInterface extends Remote
    * @param username
    * @param hash
    * @return
-   * @throws java.rmi.RemoteException
    */
-  boolean login2(String username, long hash, ServerListenerInterface sli)
-    throws RemoteException;
+  boolean login2(String username, long hash);
   
   /**
    * The client notfies the server that it was logged out (mostly
    * implicit through closing the client's frame).
    * @param session
-   * @throws java.rmi.RemoteException
    */
-  void logout(Session session)
-    throws RemoteException;
+  void logout(Session session);
   
   /**
    * Sends a chat message to the public channel.
    * @param session
    * @param message
-   * @throws java.rmi.RemoteException
-   * @throws bomberman.server.api.InvalidSessionException
    */
-  void sendChatMessage(Session session, String message)
-    throws RemoteException, InvalidSessionException;
+  void sendChatMessage(Session session, String message);
   
   /**
    * Creates a new game on the server.
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
-   * @throws bomberman.server.api.InvalidSessionException
    */
-  boolean createGame(Session session, String gameName)
-    throws RemoteException, InvalidSessionException;
+  boolean createGame(Session session, String gameName);
 
   /**
    * A player wants to join the game.
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
-   * @throws bomberman.server.api.InvalidSessionException
    */
-  boolean joinGame(Session session, String gameName)
-    throws RemoteException, InvalidSessionException;
+  void joinGame(Session session, String gameName);
   
   /**
    * A spectator wants to join the game.
    * @param session
    * @param gameName
    * @return
-   * @throws java.rmi.RemoteException
-   * @throws bomberman.server.api.InvalidSessionException
    */
-  boolean joinViewGame(Session session, String gameName)
-    throws RemoteException, InvalidSessionException;
+  void joinViewGame(Session session, String gameName);
   
   /**
    * The creator of a game wants to start the game through his 
@@ -119,11 +97,8 @@ public interface ServerInterface extends Remote
    * the creator of the game. The return value is only for debugging reasons,
    * because every client that waits for the game is notfied through the
    * @see{ServerListenerInterface} that the game was started.
-   * @throws java.rmi.RemoteException
-   * @throws bomberman.server.api.InvalidSessionException
    */
-  boolean startGame(Session session, String gameName)
-    throws RemoteException, InvalidSessionException;
+  boolean startGame(Session session, String gameName);
   
     /**
    * Is called when a Client has pressed its moving keys.
@@ -134,20 +109,16 @@ public interface ServerInterface extends Remote
    * @param x Direction on x-axis.
    * @param y Direction on y-axis
    * @return 
-   * @throws java.rmi.RemoteException
    */
-  boolean move(Session session, int x, int y) 
-    throws RemoteException, InvalidSessionException;
+  boolean move(Session session, int x, int y);
   
   /**
    * Is called when a client has pressed 'Space' which is
    * usually the key for placing a bomb.
    * @param session
    * @return
-   * @throws java.rmi.RemoteException
    */
-  boolean placeBomb(Session session)
-    throws RemoteException, InvalidSessionException;
+  boolean placeBomb(Session session);
   
     
   /**
@@ -155,16 +126,12 @@ public interface ServerInterface extends Remote
    * usually the key for leaving a game
    * @param session
    * @return
-   * @throws java.rmi.RemoteException
    */
-  void leaveGame(Session session) 
-    throws RemoteException;
+  void leaveGame(Session session);
   
   /**
-   * is called when server stops
-   * @throws java.rmi.RemoteException
+   * Is called when server stops
    */
-  void logoutAll()
-    throws RemoteException;
+  void logoutAll();
           
 }
