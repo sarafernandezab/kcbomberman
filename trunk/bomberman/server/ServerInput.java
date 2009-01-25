@@ -32,69 +32,92 @@ import java.io.InputStream;
 class ServerInput extends EventReceiverBase implements ServerInterface 
 {
 
-  public ServerInput(InputStream in)
+  private ServerOutput out = null;
+  
+  public ServerInput(InputStream in, ServerOutput out)
   {
     super(in);
+    this.out = out;
   }
   
   public void createGame(Event event) 
   {
-    
+    Session session  = (Session)event.getArguments()[0];
+    String  gameName = (String)event.getArguments()[1];
+    Server.getInstance().createGame(session, gameName);
   }
 
   public void joinGame(Event event) 
   {
-
+    Session session  = (Session)event.getArguments()[0];
+    String  gameName = (String)event.getArguments()[1];
+    Server.getInstance().joinGame(session, gameName);
   }
 
   public void joinViewGame(Event event) 
   {
-
+    Session session  = (Session)event.getArguments()[0];
+    String  gameName = (String)event.getArguments()[1];
+    Server.getInstance().joinViewGame(session, gameName);
   }
 
   public void leaveGame(Event event) 
   {
-
+    Session session  = (Session)event.getArguments()[0];
+    Server.getInstance().leaveGame(session);
   }
 
   public void login1(Event event)
   {
-    System.out.println("ServerInput::login1(" + event.getArguments()[0] + ")");
+    System.out.println("ServerInput.login1(" + event.getArguments()[0] + ")");
+    long challenge = Server.getInstance().login1((String)event.getArguments()[0]);
+    this.out.continueLogin(new Event(new Object[]{challenge}));
   }
 
   public void login2(Event event) 
   {
-    
+    System.out.println("ServerInput.login2()");
+    Server.getInstance().login2(
+            (String)event.getArguments()[0], (Long)event.getArguments()[1], this.out);
   }
 
   public void logout(Event event) 
   {
-  
+    Session session = (Session)event.getArguments()[0];
+    Server.getInstance().logout(session);
   }
 
   public void logoutAll(Event event) 
   {
-
+    Server.getInstance().logoutAll();
   }
 
   public void move(Event event) 
   {
-
+    Session session = (Session)event.getArguments()[0];
+    int     x       = (Integer)event.getArguments()[1];
+    int     y       = (Integer)event.getArguments()[1];
+    Server.getInstance().move(session, x, y);
   }
 
   public void placeBomb(Event event) 
   {
-
+    Session session = (Session)event.getArguments()[0];
+    Server.getInstance().placeBomb(session);
   }
 
   public void sendChatMessage(Event event) 
   {
-
+    Session session = (Session)event.getArguments()[0];
+    String  message = (String)event.getArguments()[1];
+    Server.getInstance().sendChatMessage(session, message);
   }
 
   public void startGame(Event event) 
   {
-
+    Session session  = (Session)event.getArguments()[0];
+    String  gameName = (String)event.getArguments()[1];
+    Server.getInstance().startGame(session, gameName);
   }
 
 }

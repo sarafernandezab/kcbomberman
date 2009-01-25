@@ -78,7 +78,7 @@ public abstract class EventReceiverBase extends Thread
         if(line.equals("END"))
         {
           Event event = (Event)xstream.fromXML(buffer.toString());
-          System.out.println("Event received: " + event.getMethodName());
+          System.out.println(this + " Event received: " + event.getMethodName());
           buffer = new StringBuffer();
           processEvent(event);
         }

@@ -153,7 +153,7 @@ public class PlaygroundPanel
       if(spectatorStatus == true)
       {      
         if(event.getKeyCode() == KeyEvent.VK_ESCAPE)        
-          ClientThread.ServerListener.playerLeftGame();
+          ClientThread.ServerListener.playerLeftGame(new Event(new Object[]{}));
         return;
       }
       switch(event.getKeyCode())
@@ -192,7 +192,7 @@ public class PlaygroundPanel
         {
           ClientThread.Server.leaveGame(
                   new Event(new Object[]{ClientThread.Session}));          
-          ClientThread.ServerListener.playerLeftGame();
+          ClientThread.ServerListener.playerLeftGame(new Event(new Object[]{}));
           break;
         }
       }

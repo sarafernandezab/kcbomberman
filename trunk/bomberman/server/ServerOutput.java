@@ -22,11 +22,7 @@ package bomberman.server;
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.net.Event;
 import bomberman.net.EventDispatcherBase;
-import bomberman.server.api.GameInfo;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  * Sends Events to a connected client.
@@ -42,59 +38,87 @@ class ServerOutput extends EventDispatcherBase implements ServerListenerInterfac
   
   public void continueLogin(Event event)
   {
-    
+    System.out.println("ServerOutput.continueLogin()");
+    event.setMethodName("continueLogin");
+    dispatchEvent(event);
   }
   
-  public void explosion(int x, int y, int distance) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void explosion(Event event) 
+  {
+    event.setMethodName("explosion");
+    dispatchEvent(event);
   }
 
-  public void gameJoined(String gameName) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void gameJoined(Event event) 
+  {
+    event.setMethodName("gameJoined");
+    dispatchEvent(event);
   }
 
-  public void gameListUpdate(List<GameInfo> gameList) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void gameListUpdate(Event event) 
+  {
+    event.setMethodName("gameListUpdate");
+    dispatchEvent(event);
   }
 
-  public void gameStarted(boolean specStatus) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void gameStarted(Event event) 
+  {
+    event.setMethodName("gameStarted");
+    dispatchEvent(event);
   }
 
-  public void gameStopped(int condition) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void gameStopped(Event event) 
+  {
+    event.setMethodName("gameStopped");
+    dispatchEvent(event);
   }
 
-  public void loggedIn(Session session) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void loggedIn(Event event) 
+  {
+    event.setMethodName("loggedIn");
+    dispatchEvent(event);
   }
 
-  public void loggedOut() {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void loggedOut(Event event) 
+  {
+    event.setMethodName("loggedOut");
+    dispatchEvent(event);
   }
 
-  public void playerDied(int x, int y, int playerNumber) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void playerDied(Event event) 
+  {
+    event.setMethodName("playerDied");
+    dispatchEvent(event);
   }
 
-  public void playerLeftGame() {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void playerLeftGame(Event event) 
+  {
+    event.setMethodName("playerLeftGame");
+    dispatchEvent(event);
   }
 
-  public void playgroundUpdate(Playground playground) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void playgroundUpdate(Event event) 
+  {
+    event.setMethodName("playgroundUpdate");
+    dispatchEvent(event);
   }
 
-  public void receiveChatMessage(String message) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void receiveChatMessage(Event event) 
+  {
+    event.setMethodName("receiveChatMessage");
+    dispatchEvent(event);
   }
 
-  public void userListUpdate(List<String> users) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void userListUpdate(Event event) 
+  {
+    event.setMethodName("userListUpdate");
+    dispatchEvent(event);
   }
 
-  public void youDied() {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public void youDied(Event event) 
+  {
+    event.setMethodName("youDied");
+    dispatchEvent(event);
   }
 
 }

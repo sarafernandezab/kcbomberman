@@ -19,11 +19,7 @@
 
 package bomberman.client.api;
 
-import bomberman.server.Playground;
-import bomberman.server.Session;
 import bomberman.net.Event;
-import bomberman.server.api.GameInfo;
-import java.util.List;
 
 /**
  * Callback interface for the clients.
@@ -37,54 +33,59 @@ public interface ServerListenerInterface
    * On the playground the Client is currently playing,
    * an explosion has occurred.
    * This methods requests the Client gui to display this explosion.
-   * @param x
-   * @param y
-   * @param distance
+   * The Event parameter contains three arguments (int x, int y, int distance)
    */
-  public void explosion(int x, int y, int distance);
+   void explosion(Event event);
   
   /**
    * The server notifies the client player that a player has died.
-   * @throws java.rmi.RemoteException
+   * The Event parameter contains three arguments (int x, int y, int playerNumber)
    */
-  public void playerDied(int x, int y, int playerNumber);
+  void playerDied(Event event);
   
   /**
    * The Client receives a chat message.
-   * @param message
+   * Event parameter contains one argument (String message)
    */
-  public void receiveChatMessage(String message);
+  void receiveChatMessage(Event event);
   
+  /**
+   * Server acknowledges part one of the CHAP method and requests the
+   * client to continue with part 2.
+   * @param event
+   */
   void continueLogin(Event event);
   
   /**
    * The Client was successfully logged in.
-   * @param session
+   * Event parameter contains one argument (Session session)
    */
-  public void loggedIn(Session session);
+  void loggedIn(Event event);
   
   /**
    * The Client was logged out.
+   * Event parameter contains no argument.
    */
-  public void loggedOut();
+  void loggedOut(Event event);
   
   /**
    * Transmittes an updated playground to the client.
    * The Playground is complete, so that no inconsistencies can occur.
+   * Event parameter contains one argument (Playground playground).
    */
-  public void playgroundUpdate(Playground playground);
+  void playgroundUpdate(Event event);
   
   /**
    * The server sends an update of the game list.
-   * @param gameList
+   * Event parameter contains one argument (List<GameInfo> gameList)
    */
-  public void gameListUpdate(List<GameInfo> gameList);
+  void gameListUpdate(Event event);
   
   /**
    * Notifies the client that is has joined the game.
-   * @param gameName
+   * Event parameter contains one argument (String gameName).
    */
-  public void gameJoined(String gameName);
+  void gameJoined(Event event);
   
   /**
    * Notifies the Client that the game it was playing in was
@@ -95,30 +96,33 @@ public interface ServerListenerInterface
    *  <li>1: Game was stopped by admin</li>
    *  <li>2: You won the game</li>
    * </ul>
+   * Event parameter contains one argument (int condition).
    */
-  public void gameStopped(int condition);
+  void gameStopped(Event event);
   
   /**
    * Is called if the server starts the game this client has joined.
+   * Event parameter contains one argument (boolean specStatus).
    */
-  public void gameStarted(boolean specStatus);
+  void gameStarted(Event event);
  
   /**
    * Updates the user list in the LobbyPanel.
-   * @param users
-   * @throws java.rmi.RemoteException
+   * Event parameter contains one argument (List<String> users).
    */
-  public void userListUpdate(List<String> users);
+  void userListUpdate(Event event);
   
   /**
    * This method is called when players leaves game.
-   * @throws java.rmi.RemoteException
+   * Event parameter contains one argument (int playerNumber).
+   * TODO: Currently not supported!
    */   
-  public void playerLeftGame();
+  void playerLeftGame(Event event);
   
   /**
    * This Method is called when Player died and therefore lost the game.
-   * @throws java.rmi.RemoteException
+   * Event parameter contains no arguments (void).
    */
-  public void youDied();
+  void youDied(Event event);
+
 }

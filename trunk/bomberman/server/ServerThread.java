@@ -72,8 +72,9 @@ public class ServerThread extends Thread
       // Wait for incoming connections
       for(;;)
       {
-        Socket      socket = ssocket.accept();
-        ServerInput input  = new ServerInput(socket.getInputStream());
+        Socket       socket = ssocket.accept();
+        ServerOutput output = new ServerOutput(socket.getOutputStream());
+        ServerInput  input  = new ServerInput(socket.getInputStream(), output);
         input.run();
       }
     }

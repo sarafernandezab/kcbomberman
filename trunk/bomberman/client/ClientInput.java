@@ -21,6 +21,7 @@ package bomberman.client;
 
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.client.gui.LobbyPanel;
+import bomberman.client.gui.LoginPanel;
 import bomberman.client.gui.MainFrame;
 import bomberman.client.gui.PlaygroundPanel;
 import bomberman.client.gui.WaitingPanel;
@@ -51,20 +52,26 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
     super(in);
   }
   
+  /**
+   * Receives a challenge from the Server.
+   * @param event
+   */
   public void continueLogin(Event event)
   {
-    
+    System.out.println("ClientInput.continueLogin()");
+    long challenge = (Long)event.getArguments()[0];
+    LoginPanel.getInstance().continueLogin(challenge);
   }
   
   /**
    * An explosion has occurred that the Client must show.
-   * @param x
-   * @param y
-   * @param distance
-   * @throws java.rmi.RemoteException
    */
-  public void explosion(int x, int y, int distance)
+  public void explosion(Event event)
   {
+    int x        = (Integer)event.getArguments()[0];
+    int y        = (Integer)event.getArguments()[1];
+    int distance = (Integer)event.getArguments()[2];
+
     new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
 
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
@@ -75,18 +82,17 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
    * Notifies the Client about an update of the game list, e.g.
    * someone else has created a new game or an existing game was
    * started elsewhere.
-   * @param gameInfo
-   * @throws java.rmi.RemoteException
    */
-  public void gameListUpdate(List<GameInfo> gameInfo)
+  public void gameListUpdate(Event event)
   {
+    List<GameInfo> gameInfo = (List<GameInfo>)event.getArguments()[0];
     LobbyPanel lp = MainFrame.getInstance().getLobbyPanel();
 
-    ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
+    List<List<Object>> data = new ArrayList<List<Object>>();
 
     for (GameInfo ginfo : gameInfo)
     {
-      ArrayList<Object> row = new ArrayList<Object>();
+      List<Object> row = new ArrayList<Object>();
       row.add(ginfo.getName());
       row.add(ginfo.getCreator());
       row.add(ginfo.getPlayerCount());
@@ -99,10 +105,10 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   
   /**
    * Notifies the Client that a game he was waiting for has started.
-   * @param spectStatus
    */
-  public void gameStarted(boolean spectStatus)
+  public void gameStarted(Event event)
   {
+    boolean spectStatus = (Boolean)event.getArguments()[0];
     // Create a new playground
     MainFrame.getInstance()
       .setContentPane(new PlaygroundPanel(Playground.DEFAULT_WIDTH, Playground.DEFAULT_HEIGHT, spectStatus));
@@ -120,10 +126,10 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
    *  <li>1: Game was stopped by admin</li>
    *  <li>2: You won the game</li>
    * </ul>
-   * @throws java.rmi.RemoteException
    */
-  public void gameStopped(int condition)
+  public void gameStopped(Event event)
   {
+    int condition = (Integer)event.getArguments()[0];
     this.gameStoppedMessage = null;
     
     switch(condition)
@@ -156,12 +162,11 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   }
   
   /**
-   * is called when client joined a game
-   * @param gameName
-   * @throws java.rmi.RemoteException
+   * Is called when client joined a game.
    */
-  public void gameJoined(String gameName)
+  public void gameJoined(Event event)
   {
+    String gameName = (String)event.getArguments()[0];
     System.out.println("Game joined");
      
     MainFrame.getInstance().setContentPane(new WaitingPanel(gameName));
@@ -171,11 +176,10 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   /**
    * Notifies the Client that he can receive a chat message
    * Shows the message in LobbyPanel
-   * @param message
-   * @throws java.rmi.RemoteException
    */
-  public void receiveChatMessage(String message)
-  {    
+  public void receiveChatMessage(Event event)
+  {
+    String message = (String)event.getArguments()[0];
     if(MainFrame.getInstance().getContentPane() instanceof LobbyPanel)
     {
       LobbyPanel lobby = (LobbyPanel)MainFrame.getInstance().getContentPane();
@@ -191,10 +195,10 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   /**
    * Set the session
    * Switch the user gui to the LobbyPanel
-   * @param session
    */
-  public void loggedIn(Session session)
+  public void loggedIn(Event event)
   {
+    Session session = (Session)event.getArguments()[0];
     bomberman.client.ClientThread.Session = session;
     
     MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
@@ -203,8 +207,9 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   
   /**
    * Notifies the Client that he was logged out. Shows the StartPanel
+   * @param event Ignored
    */   
-  public void loggedOut()
+  public void loggedOut(Event event)
   {    
     MainFrame.getInstance().setVisible(false);
     
@@ -216,20 +221,19 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   
   /**
    * Clientside update of the playground
-   * @param playground
    */
-  public void playgroundUpdate(Playground playground)
+  public void playgroundUpdate(Event event)
   {
+    Playground playground = (Playground)event.getArguments()[0];
     ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
   }
   
   /**
    * Updates the user list in the LobbyPanel.
-   * @param users
-   * @throws java.rmi.RemoteException
    */
-  public void userListUpdate(List<String> users)
+  public void userListUpdate(Event event)
   {
+    List<String> users = (List<String>)event.getArguments()[0];
     LobbyPanel lobby = MainFrame.getInstance().getLobbyPanel();
     lobby.setUserList(users);
   }
@@ -237,12 +241,12 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   /**
    * This method is called for every player that dies on the playground
    * this Client is playing on.
-   * @param x
-   * @param y
-   * @param playerNumber
    */
-  public void playerDied(int x, int y, int playerNumber)
+  public void playerDied(Event event)
   {
+    int x = (Integer)event.getArguments()[0];
+    int y = (Integer)event.getArguments()[1];
+    int playerNumber = (Integer)event.getArguments()[2];
     new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
 
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
@@ -251,9 +255,8 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   
    /**
    * This method is called when players leaves game.
-   * @throws java.rmi.RemoteException
    */
-  public void playerLeftGame()
+  public void playerLeftGame(Event event)
   {
     MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
     MainFrame.getInstance().resetSize();
@@ -262,7 +265,7 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   /**
    * This Method is called when Player died and therefore lost the game
    */ 
-  public void youDied()
+  public void youDied(Event event)
   {
     SwingUtilities.invokeLater(new Runnable() 
     {
@@ -274,4 +277,5 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
       }
     });
   }
+
 }

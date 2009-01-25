@@ -40,73 +40,73 @@ class ClientOutput extends EventDispatcherBase implements ServerInterface
   public void createGame(Event event)
   {
     event.setMethodName("createGame");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void joinGame(Event event)
   {
     event.setMethodName("joinGame");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void joinViewGame(Event event)
   {
     event.setMethodName("joinViewGame");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void leaveGame(Event event)
   {
     event.setMethodName("leaveGame");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void login1(Event event) 
   {
     event.setMethodName("login1");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void login2(Event event)
   {
     event.setMethodName("login2");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void logout(Event event)
   {
     event.setMethodName("logout");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void logoutAll(Event event)
   {
     event.setMethodName("logoutAll");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void move(Event event)
   {
     event.setMethodName("move");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void placeBomb(Event event)
   {
     event.setMethodName("placeBomb");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void sendChatMessage(Event event)
   {
     event.setMethodName("sendChatMessage");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
   public void startGame(Event event)
   {
     event.setMethodName("startGame");
-    sendEvent(event);
+    dispatchEvent(event);
   }
 
 }

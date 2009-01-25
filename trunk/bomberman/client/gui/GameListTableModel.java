@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,17 +25,18 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 
 /**
  * Custom TableModel for LobbyPanel, Gamelist
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * @author Kai Ritterbusch
  */
 public class GameListTableModel extends AbstractTableModel
 {
   private String[]		columnNames = {"Spielname","Ersteller","Spielerzahl","Status"};      // Spaltennamen 
-  private ArrayList< ArrayList<Object> > data = new ArrayList< ArrayList<Object> >(); // Daten
+  private List< List<Object> > data = new ArrayList< List<Object> >(); // Daten
   private boolean[]		sortColumnDesc;   // Sortierungsstatus
   
   public GameListTableModel()
@@ -47,7 +48,7 @@ public class GameListTableModel extends AbstractTableModel
    * Inser new Row into Table
    * @param row
    */
-  public void addRow(ArrayList<Object> row)
+  public void addRow(List<Object> row)
   {
     data.add(row);
     this.fireTableRowsInserted(data.size()-1, data.size()-1);
@@ -128,7 +129,7 @@ public class GameListTableModel extends AbstractTableModel
    * Initialize data for the table
    * @param data
    */
-  public void setData(ArrayList<ArrayList<Object>> data)
+  public void setData(List<List<Object>> data)
   {
     this.data = data;
     fireTableDataChanged();
@@ -163,7 +164,7 @@ public class GameListTableModel extends AbstractTableModel
    * Returns size of Rows
    * @return
    */
-  public ArrayList getRows()
+  public List getRows()
   {   
     return data; 
   }
@@ -242,9 +243,9 @@ public class GameListTableModel extends AbstractTableModel
   {
     if(data.size() == 0)
       return;
-    Collections.sort(data, new Comparator<ArrayList>()
+    Collections.sort(data, new Comparator<List>()
     {
-      public int compare(ArrayList v1, ArrayList v2)
+      public int compare(List v1, List v2)
       {        
         int size1 = v1.size();
         if(col >= size1)

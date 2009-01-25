@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.net.Event;
 import bomberman.server.api.Element;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,9 @@ import java.util.Random;
 
 /**
  * The Server loop. This thread is running in a loop while the
- * RMI @see{Server} is running.
- * @author Christian Lins (christian.lins@web.de)
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
+ * RMI @see{Server} is running. TODO: Necessary as RMI is no longer used?
+ * @author Christian Lins
+ * @author Kai Ritterbusch
  */
 public class ServerLoop extends Thread
 {
@@ -89,14 +90,15 @@ public class ServerLoop extends Thread
         {
           try
           {
-            this.server.getClients().get(sess).playerDied(x, y, ((Player)e).getID());
+            this.server.getClients().get(sess).playerDied(
+                    new Event(new Object[]{x, y, ((Player)e).getID()}));
             
             // Save this death to highscore list. 
             // Note: !(e instanceof AIPlayer) is obsolet at this point
             if (e.equals(this.server.getPlayers().get(sess)))
             {
               // Send youDied() message to client
-              this.server.getClients().get(sess).youDied();
+              this.server.getClients().get(sess).youDied(new Event(new Object[0]));
 
               // Remove session from game; this is important, otherwise
               // the game would not stop
@@ -175,7 +177,8 @@ public class ServerLoop extends Thread
             // (if not AIPlayer)
             if (game.getPlayerSessions().size() > 0)
             {
-              this.server.getClients().get(game.getPlayerSessions().get(0)).gameStopped(2);
+              this.server.getClients().get(game.getPlayerSessions().get(0))
+                      .gameStopped(new Event(new Object[]{2}));
               
               // We have to store the game result in the Highscore list
               this.server.getHighscore().hasWonGame(game.getPlayers().get(0).getNickname());
@@ -186,7 +189,8 @@ public class ServerLoop extends Thread
             {
               for(Session sess : game.getSpectatorSessions())
               {
-                this.server.getClients().get(sess).gameStopped(0);
+                this.server.getClients().get(sess)
+                        .gameStopped(new Event(new Object[]{0}));
               }
             }            
             System.out.println("remove Game ----------");
@@ -206,12 +210,14 @@ public class ServerLoop extends Thread
             // Updates Playground when moved
             for (Session sess : game.getPlayerSessions())
             {
-              this.server.getClients().get(sess).playgroundUpdate(game.getPlayground());
+              this.server.getClients().get(sess).playgroundUpdate(
+                      new Event(new Object[]{game.getPlayground()}));
             }
             // Updates Playground for Spectator when moved
             for (Session sess : game.getSpectatorSessions())
             {
-              this.server.getClients().get(sess).playgroundUpdate(game.getPlayground());
+              this.server.getClients().get(sess).playgroundUpdate(
+                      new Event(new Object[]{game.getPlayground()}));
             }
           }
         }
@@ -231,11 +237,13 @@ public class ServerLoop extends Thread
           int dist = (Integer) explData.get(3);
           for (Session sess : game.getPlayerSessions())
           {
-            this.server.getClients().get(sess).explosion(x, y, dist);
+            this.server.getClients().get(sess)
+                    .explosion(new Event(new Object[]{x, y, dist}));
           }
           for (Session sess : game.getSpectatorSessions())
           {
-            this.server.getClients().get(sess).explosion(x, y, dist);
+            this.server.getClients().get(sess)
+                    .explosion(new Event(new Object[]{x, y, dist}));
           }
 
           boolean top = false;
