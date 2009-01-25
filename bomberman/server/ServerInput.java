@@ -96,7 +96,7 @@ class ServerInput extends EventReceiverBase implements ServerInterface
   {
     Session session = (Session)event.getArguments()[0];
     int     x       = (Integer)event.getArguments()[1];
-    int     y       = (Integer)event.getArguments()[1];
+    int     y       = (Integer)event.getArguments()[2];
     Server.getInstance().move(session, x, y);
   }
 
