@@ -19,105 +19,94 @@
 
 package bomberman.client;
 
-import bomberman.server.Session;
-import bomberman.server.api.Event;
+import bomberman.net.Event;
+import bomberman.net.EventDispatcherBase;
 import bomberman.server.api.ServerInterface;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.OutputStream;
-import java.util.List;
 
 /**
  * This class is the glue between Server and Client. It takes calls from the
  * Client and makes Events from it. These Events are sent to the Server.
- * @author Christian Lins (cli@openoffice.org)
+ * @author Christian Lins
  */
-class ClientOutput implements ServerInterface
+class ClientOutput extends EventDispatcherBase implements ServerInterface
 {
 
-  private OutputStream  out     = null;
-  private XStream       xstream = new XStream(new DomDriver());
-
-  /**
-   * 
-   * @param out Must be a BufferedOutputStream with an underlying Socket.
-   */
   public ClientOutput(OutputStream out)
   {
-    this.out = out;
+    super(out);
   }
   
-  private void sendEvent(Event event)
+  public void createGame(Event event)
   {
-    this.xstream.toXML(event, out);
-  }
-  
-  public boolean createGame(Session session, String gameName)
-  {
-    Event event = new Event("createGame", new Object[] {session, gameName});
-    sendEvent(event);
-    return true;
-  }
-
-  public void joinGame(Session session, String gameName)
-  {
-    Event event = new Event("joinGame", new Object[]{session, gameName});
+    event.setMethodName("createGame");
     sendEvent(event);
   }
 
-  public void joinViewGame(Session session, String gameName)
+  public void joinGame(Event event)
   {
-    Event event = new Event("joinViewGame", new Object[]{session, gameName});
+    event.setMethodName("joinGame");
     sendEvent(event);
   }
 
-  public void leaveGame(Session session)
+  public void joinViewGame(Event event)
   {
-    Event event = new Event("leaveGame", new Object[]{session});
+    event.setMethodName("joinViewGame");
     sendEvent(event);
   }
 
-  public long login1(String username) 
+  public void leaveGame(Event event)
   {
-    Event event = new Event("login1", new Object[]{username});
+    event.setMethodName("leaveGame");
     sendEvent(event);
-    return 0;
   }
 
-  public boolean login2(String username, long hash)
+  public void login1(Event event) 
   {
-    Event event = new Event("login2", new Object[]{username, hash});
+    event.setMethodName("login1");
     sendEvent(event);
-    return true;
   }
 
-  public void logout(Session session)
+  public void login2(Event event)
   {
+    event.setMethodName("login2");
+    sendEvent(event);
   }
 
-  public void logoutAll()
+  public void logout(Event event)
   {
-
+    event.setMethodName("logout");
+    sendEvent(event);
   }
 
-  public boolean move(Session session, int x, int y)
+  public void logoutAll(Event event)
   {
-    return false;
+    event.setMethodName("logoutAll");
+    sendEvent(event);
   }
 
-  public boolean placeBomb(Session session)
+  public void move(Event event)
   {
-    return false;
+    event.setMethodName("move");
+    sendEvent(event);
   }
 
-  public void sendChatMessage(Session session, String message)
+  public void placeBomb(Event event)
   {
-
+    event.setMethodName("placeBomb");
+    sendEvent(event);
   }
 
-  public boolean startGame(Session session, String gameName)
+  public void sendChatMessage(Event event)
   {
-    return false;
+    event.setMethodName("sendChatMessage");
+    sendEvent(event);
+  }
+
+  public void startGame(Event event)
+  {
+    event.setMethodName("startGame");
+    sendEvent(event);
   }
 
 }

@@ -20,7 +20,8 @@
 package bomberman.server;
 
 import bomberman.client.api.ServerListenerInterface;
-import bomberman.server.api.Event;
+import bomberman.net.Event;
+import bomberman.net.EventDispatcherBase;
 import bomberman.server.api.GameInfo;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -28,23 +29,20 @@ import java.io.OutputStream;
 import java.util.List;
 
 /**
- *
- * @author Christian Lins (cli@openoffice.org)
+ * Sends Events to a connected client.
+ * @author Christian Lins
  */
-class ServerOutput implements ServerListenerInterface
+class ServerOutput extends EventDispatcherBase implements ServerListenerInterface
 {
 
-  private OutputStream  out     = null;
-  private XStream       xstream = new XStream(new DomDriver());
-  
   public ServerOutput(OutputStream out)
   {
-    this.out = out;
+    super(out);
   }
   
-  private void sendEvent(Event event)
+  public void continueLogin(Event event)
   {
-    this.xstream.toXML(event, out);
+    
   }
   
   public void explosion(int x, int y, int distance) {

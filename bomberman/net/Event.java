@@ -16,10 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package bomberman.server.api;
+package bomberman.net;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Capsulates a method call and/or method result between server and client.
@@ -29,20 +28,12 @@ import java.util.List;
  */
 public class Event implements Serializable
 {
-
-  public static final int TYPE_CALL   = 0;
-  public static final int TYPE_RESULT = 1;
   
   /** Name of the method being called on this event */
   private String   methodName = null;
   
   /** Method parameters, may be null */
   private Object[] arguments  = null;
-  
-  /** The result, may be null (e.g. on void methods) */
-  private Object   result     = null;
-  
-  private int      type       = 0;
   
   /**
    * Most serializers need a default constructor.
@@ -57,10 +48,9 @@ public class Event implements Serializable
     this.methodName = methodName;
   }
   
-  public Event(String methodName, Object ret)
+  public Event(Object[] param)
   {
-    this.methodName = methodName;
-    this.result     = ret;
+    this.arguments = param;
   }
 
   public Object[] getArguments() 
@@ -73,11 +63,6 @@ public class Event implements Serializable
     return methodName;
   }
 
-  public Object getResult() 
-  {
-    return result;
-  }
-
   public void setArguments(Object[] arguments) 
   {
     this.arguments = arguments;
@@ -86,16 +71,6 @@ public class Event implements Serializable
   public void setMethodName(String methodName) 
   {
     this.methodName = methodName;
-  }
-
-  public void setResult(Object result) 
-  {
-    this.result = result;
-  }
-  
-  public int getType()
-  {
-    return this.type;
   }
   
 }

@@ -22,6 +22,7 @@ package bomberman.server.gui;
 import bomberman.server.Database;
 import bomberman.server.Game;
 import bomberman.server.Highscore;
+import bomberman.server.Server;
 import bomberman.server.ServerThread;
 import bomberman.server.gui.UserListTableModel;
 
@@ -63,7 +64,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     setThread(thread);
     instance = this;
     
-    Database db = thread.getServer().getDatabase();
+    Database db = Server.getInstance().getDatabase();
     for(String user : db.getUsers())
     {
       ArrayList<Object> data = new ArrayList<Object>();
@@ -367,7 +368,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     {
       if(this.getServerThread() != null)
       {
-        serverThread.getServer().logoutAll();
+        Server.getInstance().logoutAll();
         this.serverThread.stopThread();      
         setThread(null);    
         
@@ -397,7 +398,7 @@ public class ServerControlPanel extends javax.swing.JPanel
       int i = tblUserList.getSelectedRow();
   
       String username = tblUserList.getModel().getValueAt(i, 0).toString();
-      serverThread.getServer().logout(username);       
+      Server.getInstance().logout(username);       
       ((UserListTableModel)tblUserList.getModel()).setValueAt("offline", i, 1);
       addLogMessages(username + " wurde gekickt");
     }
@@ -416,7 +417,7 @@ public class ServerControlPanel extends javax.swing.JPanel
    {
     if(liGames.getSelectedValue() == null)
       return;
-      getServerThread().getServer().stopGame(liGames.getSelectedValue().toString());
+    Server.getInstance().stopGame(liGames.getSelectedValue().toString());
     ((DefaultListModel)liGames.getModel()).removeElement(liGames.getSelectedValue());    
    }
    catch(Exception e)
@@ -440,7 +441,7 @@ public class ServerControlPanel extends javax.swing.JPanel
    * @param evt
    */
   private void btnRemoveUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveUserActionPerformed
-    serverThread.getServer().getDatabase().removeUser(((UserListTableModel)tblUserList.getModel()).getValueAt(tblUserList.getSelectedRow(), 0).toString());
+    Server.getInstance().getDatabase().removeUser(((UserListTableModel)tblUserList.getModel()).getValueAt(tblUserList.getSelectedRow(), 0).toString());
     ((UserListTableModel)tblUserList.getModel()).deleteRow(tblUserList.getSelectedRow());
   }//GEN-LAST:event_btnRemoveUserActionPerformed
 
@@ -456,7 +457,7 @@ public class ServerControlPanel extends javax.swing.JPanel
    
       if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
       {
-        Highscore highscore = this.serverThread.getServer().getHighscore();
+        Highscore highscore = Server.getInstance().getHighscore();
         HighscoreHtmlExporter.export(highscore, new FileOutputStream(fc.getSelectedFile()));
       }
     }

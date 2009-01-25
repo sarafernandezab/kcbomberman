@@ -19,7 +19,9 @@
 
 package bomberman.server;
 
+import bomberman.net.Event;
 import bomberman.server.api.ServerInterface;
+import bomberman.net.EventReceiverBase;
 import java.io.InputStream;
 
 /**
@@ -27,74 +29,72 @@ import java.io.InputStream;
  * is an adapter to the bloat Server class.
  * @author Christian Lins
  */
-class ServerInput extends Thread implements ServerInterface 
+class ServerInput extends EventReceiverBase implements ServerInterface 
 {
 
-  private InputStream in;
-  
   public ServerInput(InputStream in)
   {
-    this.in = in;
+    super(in);
   }
   
-  public boolean createGame(Session session, String gameName) 
+  public void createGame(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    
   }
 
-  public void joinGame(Session session, String gameName) 
+  public void joinGame(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public void joinViewGame(Session session, String gameName) 
+  public void joinViewGame(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public void leaveGame(Session session) 
+  public void leaveGame(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public long login1(String username) 
+  public void login1(Event event)
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    System.out.println("ServerInput::login1(" + event.getArguments()[0] + ")");
   }
 
-  public boolean login2(String username, long hash) 
+  public void login2(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+    
   }
 
-  public void logout(Session session) 
+  public void logout(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+  
   }
 
-  public void logoutAll() 
+  public void logoutAll(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public boolean move(Session session, int x, int y) 
+  public void move(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public boolean placeBomb(Session session) 
+  public void placeBomb(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public void sendChatMessage(Session session, String message) 
+  public void sendChatMessage(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
-  public boolean startGame(Session session, String gameName) 
+  public void startGame(Event event) 
   {
-    throw new UnsupportedOperationException("Not supported yet.");
+
   }
 
 }

@@ -31,21 +31,10 @@ import javax.swing.JOptionPane;
 public class ServerThread extends Thread
 {
   
-  /** Reference to the started server */
-  private Server server;
-  
   public ServerThread(boolean daemon)
   {
     super("ServerThread");
     setDaemon(daemon);
-  }
-  
-  /**
-   * @return The associated RMI server instance.
-   */
-  public Server getServer()
-  {
-    return this.server;
   }
   
   /**
@@ -57,14 +46,16 @@ public class ServerThread extends Thread
   {
     try
     {      
-      // Bind server to name
-      this.server = new Server();
+      // Create Server instance
+      Server.getInstance();
       
       try
       {
         // Set a shutdown hook that stores the changed highscore and database
         Runtime.getRuntime().addShutdownHook(
-                new ShutdownThread(server.getDatabase(), server.getHighscore()));
+                new ShutdownThread(
+                  Server.getInstance().getDatabase(), 
+                  Server.getInstance().getHighscore()));
       }
       catch(Exception ex)
       {
