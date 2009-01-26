@@ -29,7 +29,7 @@ import bomberman.client.io.Resource;
 import bomberman.net.Event;
 import bomberman.net.EventReceiverBase;
 import bomberman.server.Playground;
-import bomberman.server.Session;
+import bomberman.server.api.Session;
 import bomberman.server.api.GameInfo;
 
 import java.io.InputStream;
@@ -199,7 +199,7 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   public void loggedIn(Event event)
   {
     Session session = (Session)event.getArguments()[0];
-    bomberman.client.ClientThread.Session = session;
+    ClientThread.getInstance().Session = session;
     
     MainFrame.getInstance().setContentPane(MainFrame.getInstance().getLobbyPanel());
     MainFrame.getInstance().setVisible(true);
@@ -213,8 +213,8 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   {    
     MainFrame.getInstance().setVisible(false);
     
-    bomberman.client.ClientThread.Session = null;
-    bomberman.client.ClientThread.Server  = null;
+    ClientThread.getInstance().Session = null;
+    ClientThread.getInstance().Server  = null;
     
     //new ClientThread(RMIClientSocketFactoryImpl.ServerHost).start();
   }

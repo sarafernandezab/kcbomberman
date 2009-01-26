@@ -39,12 +39,12 @@ public class MainFrame extends JFrame
 {
   private static MainFrame instance = null;
   
-  private LobbyPanel lobbyPanel = new LobbyPanel();
-  
   public static MainFrame getInstance()
   {
     return instance;
   }
+  
+  private LobbyPanel lobbyPanel = new LobbyPanel();
   
   public MainFrame()
   {
@@ -61,10 +61,11 @@ public class MainFrame extends JFrame
       {
         try
         {
-          if(ClientThread.Session != null)
+          if(ClientThread.getInstance().Session != null)
           {
             System.out.println("Send logout message to server...");
-            ClientThread.Server.logout(new Event(new Object[]{ClientThread.Session}));
+            ClientThread.getInstance().Server.logout(
+                    new Event(new Object[]{ClientThread.getInstance().Session}));
           }
         }
         catch(Exception ex)

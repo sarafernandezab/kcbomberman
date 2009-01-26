@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Session;
 import bomberman.net.Event;
 import bomberman.server.api.Element;
 import java.util.ArrayList;

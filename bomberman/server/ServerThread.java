@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.api.ServerInterface;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -65,7 +66,7 @@ public class ServerThread extends Thread
       }
       
       // Create server socket
-      ServerSocket ssocket = new ServerSocket(4242); // Port 4242, all interfaces
+      ServerSocket ssocket = new ServerSocket(ServerInterface.DEFAULT_PORT);
       
       System.out.println("Bomberman Server running ...");
 

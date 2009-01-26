@@ -140,8 +140,8 @@ public class WaitingPanel extends javax.swing.JPanel
   {     
     try
     {
-      ClientThread.Server.startGame(
-              new Event(new Object[]{bomberman.client.ClientThread.Session, this.gameName}));     
+      ClientThread.getInstance().Server.startGame(
+              new Event(new Object[]{bomberman.client.ClientThread.getInstance().Session, this.gameName}));     
     }
     catch(Exception rexc)
     {

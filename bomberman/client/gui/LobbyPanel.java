@@ -19,15 +19,15 @@
 
 package bomberman.client.gui;
 
+import bomberman.client.ClientThread;
 import bomberman.net.Event;
-import bomberman.server.Session;
+import bomberman.server.api.Session;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
@@ -213,8 +213,8 @@ public class LobbyPanel extends javax.swing.JPanel
     String text = this.txtChatInput.getText();
     try
     {
-      bomberman.client.ClientThread.Server.sendChatMessage(
-              new Event(new Object[]{bomberman.client.ClientThread.Session, text}));
+      ClientThread.getInstance().Server.sendChatMessage(
+              new Event(new Object[]{ClientThread.getInstance().Session, text}));
       this.txtChatInput.setText("");
     }
     catch(Exception ex)
@@ -230,8 +230,8 @@ public class LobbyPanel extends javax.swing.JPanel
       String gameName = JOptionPane.showInputDialog(msg, "Neues Spiel");
       if(gameName != null)
       {
-        Session session = bomberman.client.ClientThread.Session;
-        bomberman.client.ClientThread.Server.createGame(
+        Session session = ClientThread.getInstance().Session;
+        ClientThread.getInstance().Server.createGame(
                 new Event(new Object[]{session, gameName}));
       }
     }   
@@ -248,8 +248,8 @@ public class LobbyPanel extends javax.swing.JPanel
       if(row >= 0)
       {
         String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-        bomberman.client.ClientThread.Server.joinGame(
-                new Event(new Object[] {bomberman.client.ClientThread.Session, name}));
+        ClientThread.getInstance().Server.joinGame(
+                new Event(new Object[] {ClientThread.getInstance().Session, name}));
       }
       else
       {
@@ -269,8 +269,8 @@ public class LobbyPanel extends javax.swing.JPanel
       if(row >= 0)
       {
         String name = (String)((GameListTableModel)tblGamelist.getModel()).getValueAt(row, 0);
-        bomberman.client.ClientThread.Server.joinViewGame(
-                new Event(new Object[]{bomberman.client.ClientThread.Session, name}));
+        ClientThread.getInstance().Server.joinViewGame(
+                new Event(new Object[]{ClientThread.getInstance().Session, name}));
       }
       else
       {

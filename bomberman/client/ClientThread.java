@@ -20,7 +20,7 @@
 package bomberman.client;
 
 import bomberman.client.gui.MainFrame;
-import bomberman.server.Session;
+import bomberman.server.api.Session;
 import bomberman.server.api.ServerInterface;
 import java.awt.AWTEvent;
 import java.awt.Container;
@@ -28,7 +28,9 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.ConnectException;
 
 /**
@@ -38,15 +40,44 @@ import java.rmi.ConnectException;
  */
 public class ClientThread extends Thread
 {
-  public static ServerInterface Server;
-  public static ClientInput     ServerListener;
-  public static Session         Session;
   
-  private String hostname;
+  private static ClientThread instance = new ClientThread();
   
-  public ClientThread(String hostname)
+  /**
+   * This method is not synchronized as the instance is created at class
+   * initialization.
+   * @return
+   */
+  public static ClientThread getInstance()
   {
-    this.hostname = hostname;
+    return instance;
+  }
+  
+  public ServerInterface Server;
+  public ClientInput     ServerListener;
+  public Session         Session;
+  
+  private String hostname = "localhost";
+  private int    port     = ServerInterface.DEFAULT_PORT;
+  
+  private ClientThread()
+  {
+  }
+  
+  public void connect(String hostname)
+    throws ConnectException, IOException, UnknownHostException
+  {
+    String[] hp = hostname.split(":");
+    if(hp[0].length() > 0)
+      this.hostname = hp[0];
+    if(hp.length > 1)
+      this.port = Integer.parseInt(hp[1]);
+    
+    // Connect to server
+    Socket socket  = new Socket(this.hostname, this.port);
+    Server         = new ClientOutput(socket.getOutputStream());
+    ServerListener = new ClientInput(socket.getInputStream());
+    ServerListener.start();
   }
   
   @Override
@@ -70,29 +101,6 @@ public class ClientThread extends Thread
       
       // Create main frame
       new MainFrame().setVisible(true);
-      
-      
-      
-      boolean retry = true;
-      
-      do
-      {
-        try
-        {
-          // Connect to server
-          Socket socket  = new Socket("localhost", 4242);
-          Server         = new ClientOutput(socket.getOutputStream());
-          ServerListener = new ClientInput(socket.getInputStream());
-          ServerListener.run();
-          retry = false;
-        }
-        catch(ConnectException ex)
-        {
-          System.out.println("Server läuft nicht. Warte...");
-          Thread.sleep(1000);
-        }
-      }
-      while(retry);
     }
     catch (Exception ex) 
     {
@@ -115,4 +123,5 @@ public class ClientThread extends Thread
       }
     }
   }
+
 }

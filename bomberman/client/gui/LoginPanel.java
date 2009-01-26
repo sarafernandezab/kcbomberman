@@ -76,6 +76,8 @@ public class LoginPanel extends javax.swing.JPanel
     btnClear = new javax.swing.JButton();
     txtPassword = new javax.swing.JPasswordField();
     lblPassword = new javax.swing.JLabel();
+    txtServer = new javax.swing.JTextField();
+    lblServer = new javax.swing.JLabel();
 
     setNextFocusableComponent(txtNickname);
 
@@ -101,6 +103,9 @@ public class LoginPanel extends javax.swing.JPanel
     lblPassword.setForeground(java.awt.Color.white);
     lblPassword.setText("Passwort:");
 
+    lblServer.setForeground(new java.awt.Color(255, 255, 255));
+    lblServer.setText("Server:");
+
     org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
@@ -108,16 +113,20 @@ public class LoginPanel extends javax.swing.JPanel
       .add(layout.createSequentialGroup()
         .addContainerGap()
         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-          .add(lblNickname)
-          .add(lblPassword))
-        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+          .add(layout.createSequentialGroup()
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+              .add(lblNickname)
+              .add(lblPassword)
+              .add(lblServer))
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+              .add(txtNickname, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+              .add(txtPassword, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+              .add(txtServer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)))
           .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
             .add(btnClear)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-            .add(btnLogin))
-          .add(txtNickname, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-          .add(txtPassword, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
+            .add(btnLogin)))
         .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -132,6 +141,10 @@ public class LoginPanel extends javax.swing.JPanel
           .add(txtPassword, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
           .add(lblPassword))
         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+          .add(txtServer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+          .add(lblServer))
+        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 13, Short.MAX_VALUE)
         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
           .add(btnLogin)
           .add(btnClear))
@@ -148,7 +161,8 @@ public class LoginPanel extends javax.swing.JPanel
     String nickname = this.txtNickname.getText();
     try
     {
-      ClientThread.Server.login1(new Event(new Object[]{nickname}));
+      ClientThread.getInstance().connect(this.txtServer.getText());
+      ClientThread.getInstance().Server.login1(new Event(new Object[]{nickname}));
     }
     catch(Exception ex)
     {
@@ -163,8 +177,10 @@ public class LoginPanel extends javax.swing.JPanel
   private javax.swing.JButton btnLogin;
   private javax.swing.JLabel lblNickname;
   private javax.swing.JLabel lblPassword;
+  private javax.swing.JLabel lblServer;
   private javax.swing.JTextField txtNickname;
   private javax.swing.JPasswordField txtPassword;
+  private javax.swing.JTextField txtServer;
   // End of variables declaration//GEN-END:variables
   
   /**
@@ -185,6 +201,6 @@ public class LoginPanel extends javax.swing.JPanel
     long   hash     = CHAP.createChecksum(challenge, password);
       
     // The Client request a login
-    ClientThread.Server.login2(new Event(new Object[]{nickname, hash}));
+    ClientThread.getInstance().Server.login2(new Event(new Object[]{nickname, hash}));
   }
 }
