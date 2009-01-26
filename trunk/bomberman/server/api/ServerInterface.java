@@ -31,6 +31,8 @@ import bomberman.net.Event;
 public interface ServerInterface
 {
 
+  static final int DEFAULT_PORT = 0xB000;
+  
   /**
    * Client wants to login with the given username. This method is
    * part one of the Challenge Handshake Authentification Protocol (CHAP)

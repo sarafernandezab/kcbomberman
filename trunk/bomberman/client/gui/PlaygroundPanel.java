@@ -153,46 +153,46 @@ public class PlaygroundPanel
       if(spectatorStatus == true)
       {      
         if(event.getKeyCode() == KeyEvent.VK_ESCAPE)        
-          ClientThread.ServerListener.playerLeftGame(new Event(new Object[]{}));
+          ClientThread.getInstance().ServerListener.playerLeftGame(new Event(new Object[]{}));
         return;
       }
       switch(event.getKeyCode())
       {
         case KeyEvent.VK_UP:
         {
-          ClientThread.Server.move(
-                  new Event(new Object[]{ClientThread.Session, 0, -1}));
+          ClientThread.getInstance().Server.move(
+                  new Event(new Object[]{ClientThread.getInstance().Session, 0, -1}));
           break;
         }
         case KeyEvent.VK_DOWN:
         {
-          ClientThread.Server.move(
-                  new Event(new Object[]{ClientThread.Session, 0, +1}));
+          ClientThread.getInstance().Server.move(
+                  new Event(new Object[]{ClientThread.getInstance().Session, 0, +1}));
           break;
         }
         case KeyEvent.VK_LEFT:
         {
-          ClientThread.Server.move(
-                  new Event(new Object[]{ClientThread.Session, -1, 0}));
+          ClientThread.getInstance().Server.move(
+                  new Event(new Object[]{ClientThread.getInstance().Session, -1, 0}));
           break;
         }
         case KeyEvent.VK_RIGHT:
         {
-          ClientThread.Server.move(
-                  new Event(new Object[]{ClientThread.Session, +1, 0}));
+          ClientThread.getInstance().Server.move(
+                  new Event(new Object[]{ClientThread.getInstance().Session, +1, 0}));
           break;
         }
         case KeyEvent.VK_SPACE:
         {
-          ClientThread.Server.placeBomb(
-                  new Event(new Object[]{ClientThread.Session}));
+          ClientThread.getInstance().Server.placeBomb(
+                  new Event(new Object[]{ClientThread.getInstance().Session}));
           break;
         }
         case KeyEvent.VK_ESCAPE:
         {
-          ClientThread.Server.leaveGame(
-                  new Event(new Object[]{ClientThread.Session}));          
-          ClientThread.ServerListener.playerLeftGame(new Event(new Object[]{}));
+          ClientThread.getInstance().Server.leaveGame(
+                  new Event(new Object[]{ClientThread.getInstance().Session}));          
+          ClientThread.getInstance().ServerListener.playerLeftGame(new Event(new Object[]{}));
           break;
         }
       }

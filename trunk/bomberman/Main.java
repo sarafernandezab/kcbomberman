@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,11 +26,11 @@ import bomberman.server.gui.ServerFrame;
 
 /**
  * Main entry point of both Server and Client.
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins
  */
 public class Main 
 {
-  public static boolean Debugging = true;
+  public static boolean Debugging = false;
   
   public static void main(String[] args)
     throws Exception
@@ -52,7 +52,7 @@ public class Main
       {
         startClient = true;
       }
-      else if(args[n].equals("-d"))
+      else if(args[n].equals("-d") || args[n].equals("--debug"))
       {
         Debugging = true;
       }
@@ -64,7 +64,7 @@ public class Main
       {
         startServer = true;
       }
-      else if(args[n].equals("-h"))
+      else if(args[n].equals("-h") || args[n].equals("--hostname"))
       {
         hostname = args[n+1];
       }
@@ -88,6 +88,6 @@ public class Main
     }
     
     if(startClient)
-      new ClientThread(hostname).start();
+      ClientThread.getInstance().start();
   }
 }

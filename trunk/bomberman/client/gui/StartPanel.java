@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ import javax.swing.JPanel;
 
 /**
  * Shows the splash screen and the login window.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class StartPanel extends JPanel
 {
@@ -50,7 +50,7 @@ public class StartPanel extends JPanel
       {
         int x = getWidth() / 2 - 200;
         int y = getHeight() - 150;
-        loginPanel.setBounds(x, y, 400, 100);
+        loginPanel.setBounds(x, y, 400, 130);
       }
     });
   }

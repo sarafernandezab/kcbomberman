@@ -19,6 +19,7 @@
 
 package bomberman.server;
 
+import bomberman.server.api.Session;
 import bomberman.util.CHAP;
 import bomberman.client.api.ServerListenerInterface;
 import bomberman.net.Event;
@@ -47,16 +48,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Server  
 {
   
-  private static Server instance = null;
+  private static volatile Server instance = null;
   
   /**
    * @return Current instance of Server.
    */
-  public static synchronized Server getInstance()
+  public static Server getInstance()
   {
     if(instance == null)
     {
-      instance = new Server();
+      synchronized(Server.class)
+      {
+        instance = new Server();
+      }
     }
     return instance;
   }
@@ -130,19 +134,6 @@ public class Server
     if(ServerControlPanel.getInstance() != null)
       ServerControlPanel.getInstance().addLogMessages("ServerInstanz erstellt");
     System.out.println("ServerInstanz erstellt");
-  }
-  
-  /**
-   * Checks if the Session is still valid. If it is not
-   * valid an InvalidSessionException is thrown to the remote
-   * client.
-   * @param session
-   * @return
-   */
-  private void checkSession(Session session)
-  {
-    //if(!clients.containsKey(session))
-    //  throw new InvalidSessionException();
   }
   
   /**
@@ -290,7 +281,8 @@ public class Server
    */
   public void logout(Session session)          
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return;
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
@@ -375,7 +367,8 @@ public class Server
     if(x == y)
       return false;
         
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return false;
     
     // Get Game
     Game game = playerToGame.get(session);
@@ -404,7 +397,8 @@ public class Server
    */
   public boolean placeBomb(Session session) 
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return false;
     
     Player player = this.players.get(session);
     if(player != null)
@@ -423,7 +417,8 @@ public class Server
    */
   public void sendChatMessage(Session session, String message) 
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return;
     
     String answer = players.get(session) + ": " + message;
 
@@ -436,10 +431,8 @@ public class Server
    * part one of the Challenge Handshake Authentification Protocol (CHAP)
    * and returns a challenge that is valid for a few seconds (default: 30s).
    * @param username
-   * @param sli
    * @return A challenge > 0 if the username is valid, otherwise 0 is
    * returned.
-   * @throws java.rmi.RemoteException
    */
   public long login1(String username)
   {
@@ -590,7 +583,8 @@ public class Server
    */
   public void joinViewGame(Session session, String gameName)
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return;
     
     // Logger
     logger.log("joinViewGame", playerToIP.get(session));
@@ -616,7 +610,8 @@ public class Server
    */
   public void joinGame(Session session, String gameName)
   { 
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return;
     
     Game game = games.get(gameName);
    
@@ -670,7 +665,8 @@ public class Server
    */
   public boolean createGame(Session session, String gameName) 
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return false;
     
     // Logger
     logger.log("createGame", playerToIP.get(session));
@@ -705,7 +701,8 @@ public class Server
    */
   public boolean startGame(Session session, String gameName) 
   {
-    checkSession(session);
+    if(!clients.containsKey(session))
+      return false;
     
     // Logger
     logger.log("login", playerToIP.get(session));
