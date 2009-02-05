@@ -76,7 +76,7 @@ public class ServerThread extends Thread
         Socket       socket = ssocket.accept();
         ServerOutput output = new ServerOutput(socket.getOutputStream());
         ServerInput  input  = new ServerInput(socket.getInputStream(), output);
-        input.run();
+        input.start();
       }
     }
     catch(Exception ex)
