@@ -271,14 +271,7 @@ public class Server
     
     // Removes player from game
     game.removePlayer(session);
-    
-    // Updates Playground when moved
-    for(Session sess : game.getPlayerSessions())
-      clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
-    
-    if(game.getPlayerSessions().size() == 0)
-      for(Session sess : game.getSpectatorSessions())
-        clients.get(sess).playerLeftGame(new Event(new Object[0]));
+    game.forcePlaygroundUpdate();
   }
   
   /**
@@ -591,7 +584,7 @@ public class Server
     if(game.isRunning())
     {
       this.clients.get(session).gameStarted(new Event(new Object[]{true}));
-      clients.get(session).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
+      game.forcePlaygroundUpdate();
     }
   }
   
@@ -730,13 +723,7 @@ public class Server
           client.gameStarted(new Event(new Object[]{true}));
         }
         
-        // Updates Playground when moved
-        for(Session sess : game.getPlayerSessions())
-          clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
-        
-        // Updates Playground when moved
-        for(Session sess : game.getSpectatorSessions())
-          clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
+        game.forcePlaygroundUpdate();
         
         // Add AI-controlled players if there are not enough human players
         game.addAI();
