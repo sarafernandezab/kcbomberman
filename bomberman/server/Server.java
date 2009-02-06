@@ -32,8 +32,6 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -369,13 +367,13 @@ public class Server
    * @param y
    * @return
    */
-  public boolean move(Session session, int x, int y)
+  public void move(Session session, int x, int y)
   {
     if(x == y)
-      return false;
+      return;
         
     if(!clients.containsKey(session))
-      return false;
+      return;
     
     // Get Game
     Game game = playerToGame.get(session);
@@ -383,23 +381,8 @@ public class Server
     // Get Player
     Player player = players.get(session);    
     
-    if(game.movePlayer(player, x, y))
-    {
-      // Updates Playground when moved
-      for(Session sess : game.getPlayerSessions())
-        clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
-            
-      // Updates Playground for Spectators when moved
-      for(Session sess : game.getSpectatorSessions())
-        clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
-
-      return true;
-    }
-    else
-    {
-      // The move was invalid
-      return false;
-    }
+    // Move the player within the game
+    game.movePlayer(player, x, y);
   }
   
   /**

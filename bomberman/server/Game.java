@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,19 +27,20 @@ import java.util.List;
 
 /**
  * Represents a game that can be created and started by the users.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class Game implements Serializable
-{ 
-  private Session       creator        = null;
-  private String        gameName       = null;
-  private List<Session> playerSessions = new ArrayList<Session>();
-  private List<Player>  players        = new ArrayList<Player>();
-  private List<Session> spectSessions  = new ArrayList<Session>();
-  private Playground    playground;
-  private boolean       playgroundUpdateRequired = false;
-  private boolean       running        = false;
+{
+
+  private Session          creator        = null;
+  private String           gameName       = null;
+  private List<Session>    playerSessions = new ArrayList<Session>();
+  private List<Player>     players        = new ArrayList<Player>();
+  private List<Session>    spectSessions  = new ArrayList<Session>();
+  private Playground       playground;
+  private volatile boolean playgroundUpdateRequired = false;
+  private boolean          running        = false;
   
   public Game(String name, Session creator)
   {
@@ -225,6 +226,8 @@ public class Game implements Serializable
   {
     if(dx == 0 && dy == 0)
       return true;
+    
+    this.playgroundUpdateRequired = true;
     
     // Check if we can move in that direction
     int nx = player.getX() + dx;

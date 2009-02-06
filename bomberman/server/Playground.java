@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,11 +25,13 @@ import java.io.Serializable;
 
 /**
  * Logical Playground where the Server manages a game.
- * @author Kai Ritterbusch (kai.ritterbusch@googlemail.com)
- * @author Christian Lins (christian.lins@web.de)
+ * This class is serializable and takes most of the network bandwidth.
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class Playground implements Serializable
 {
+
   public static final int DEFAULT_WIDTH  = 17;
   public static final int DEFAULT_HEIGHT = 15;
   
@@ -78,23 +80,24 @@ public class Playground implements Serializable
           matrix[x][y][0] = new ExplodableWall(x, y); // Exploadable wall
  
           // Extras are placed later when a Wall explodes.
+          // Currently done in ExplosionConsumer
         }
       }
     }
   }
-
+ 
   /**
-   * Width of the playground
-   * @return width of the playground in px
-   */   
+   * Rename tp getColumns
+   * @return
+   */
   public int getWidth()
   {
     return cols;
   }
   
   /**
-   * Height of the Playground
-   * @return height of the playground in px
+   * TODO: rename to getRows
+   * @return
    */
   public int getHeight()
   {

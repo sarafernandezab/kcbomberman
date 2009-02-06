@@ -24,8 +24,7 @@ import bomberman.net.Event;
 import java.util.Map.Entry;
 
 /**
- * The Server loop. This thread is running in a loop while the
- * RMI @see{Server} is running. TODO: Necessary as RMI is no longer used?
+ * The Server loop.
  * @author Christian Lins
  * @author Kai Ritterbusch
  */
