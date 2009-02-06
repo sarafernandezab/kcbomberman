@@ -26,11 +26,12 @@ import java.util.List;
 
 /**
  * Player
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class Player extends Element implements Explodable
 {
+
   static enum MoveDirection
   {
     UP,
