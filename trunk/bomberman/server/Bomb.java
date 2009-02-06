@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <christian.lins@web.de>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@ import java.io.Serializable;
 
 /**
  * The BOMB!
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 class Bomb extends Element implements Explodable, Serializable
 {
-  // Transient fields
+  // Transient fields; so they are not serialized
   private transient Player    player;
   private transient BombTimer timer;
   
@@ -46,16 +46,22 @@ class Bomb extends Element implements Explodable, Serializable
   }
   
   /**
-   * Bomb explode
+   * Bomb explodes.
    */
   void explode()
   {
-    System.out.println(this + " explodiert!");
-    player.bombs.remove(this);
-    player.game.getPlayground().setElement(gridX, gridY, 0, null);
-    
-    Server.getInstance().notifyExplosion(player.game, gridX, gridY, player.bombDistance);
-    timer.cancel();
+    try
+    {
+      System.out.println(this + " explodes!");
+      player.bombs.remove(this);
+      player.game.getPlayground().setElement(gridX, gridY, 0, null);
+      timer.cancel();
+      Server.getInstance().notifyExplosion(player.game, gridX, gridY, player.bombDistance);
+    }
+    catch(Exception ex)
+    {
+      ex.printStackTrace();
+    }
   }
   
   /**

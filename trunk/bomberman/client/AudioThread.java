@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <christian.lins@web.de>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,11 +27,10 @@ import javazoom.jl.player.Player;
 
 /**
  * Thread playing a AudioClip.
- * @author Christian Lins (christian.lins@web.de)
+ * @author Christian Lins
  */
 public class AudioThread extends Thread
 {
-  public static int Instances = 0;
   
   private AudioClip   clip = null;
   private InputStream in   = null;
@@ -82,4 +81,5 @@ public class AudioThread extends Thread
       ex.printStackTrace();
     }
   }
+
 }

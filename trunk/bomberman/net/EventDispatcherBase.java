@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- *
+ * Writes Events to an output stream.
  * @author Christian Lins
  */
 public class EventDispatcherBase 

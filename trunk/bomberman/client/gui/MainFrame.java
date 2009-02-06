@@ -76,7 +76,7 @@ public class MainFrame extends JFrame
     };
     this.addWindowListener(listener);
     
-    new AudioThread(Resource.getAsStream("resource/sfx/battle.mp3")).start();
+    new AudioThread(Resource.getAsURL("resource/sfx/battle.mp3")).start();
   }
   
   public void resetSize()
