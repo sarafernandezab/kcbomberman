@@ -42,6 +42,7 @@ public class PlaygroundPanel
   extends JPanel
   implements KeyListener
 {
+
   private ElementPainter[][] elementPainter;
   private boolean spectatorStatus = false;
   
@@ -205,12 +206,17 @@ public class PlaygroundPanel
   
   public void updatePlaygroundView(Playground playground)
   {
-    int width  = playground.getWidth();
-    int height = playground.getHeight();
+    int cols = playground.getWidth();
+    int rows = playground.getHeight();
     
-    for(int x = 0; x < width; x++)
-      for(int y = 0; y < height; y++)
-       elementPainter[x][y].setElement(playground.getElement(x, y));
-    repaint(); 
+    for(int x = 0; x < cols; x++)
+    {
+      for(int y = 0; y < rows; y++)
+      {
+        elementPainter[x][y].setElement(playground.getElement(x, y));
+      }
+    }
+    repaint();
   }
+
 }

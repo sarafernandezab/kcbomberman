@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,33 +30,38 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.HashMap;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JComponent;
 
 /**
  * Paints an Element on a PlaygroundPanel.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 public class ElementPainter extends JComponent
 {
+
   public static final int    DEFAULT_SIZE    = 40;
   public static final String EXPLOSION_IMAGE =  "resource/gfx/explosion/expl";
   public static final String PLAYER_DIE_IMAGE = "resource/gfx/player";
   
-  private static HashMap<String, Image> ImageCache;
+  private static Map<String, Image> ImageCache;
   
   /**
    * Loads Images from filesystem and puts them into cache
    */
   static
   {
-    ImageCache = new HashMap<String, Image>();
+    ImageCache = new ConcurrentHashMap<String, Image>();
+
     // Explosion-Image
     for(int n = 1; n <= 5; n++)
     {
       Image img = Resource.getImage(EXPLOSION_IMAGE + n + ".png").getImage();
       ImageCache.put(EXPLOSION_IMAGE + n + ".png", img);
     }
+
     // Player-Die-Image
     for(int n = 1; n <= 4; n++)
     {
