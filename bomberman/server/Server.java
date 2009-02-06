@@ -37,7 +37,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Main KC Bomberman Server class. This huge singleton class contains most
@@ -102,9 +104,10 @@ public class Server
   /** 
    * Queue that stores the explosion events for processing.
    * This queue is automatically synchronized and therefor thread-safe.
+   * A linked queue is probably faster than an array queue for our purposes of FIFO.
    */
-  private Queue<List<Object>>  explosions   = new ArrayBlockingQueue<List<Object>>(25);
-  private Logger logger = new Logger();
+  private BlockingQueue<List<Object>>  explosions   = new LinkedBlockingQueue<List<Object>>(25);
+  private Logger    logger    = new Logger();
   private Database  database  = null;
   private Highscore highscore = null;
   
@@ -125,10 +128,13 @@ public class Server
       System.out.println("No persistent database/highscore found!");
     }
 
-    Thread updater = new ServerLoop(this);
-    //updater.setPriority(Thread.MIN_PRIORITY);
-    updater.setDaemon(true);
-    updater.start();
+    Thread mainLoop = new ServerLoop(this);
+    mainLoop.setDaemon(true);
+    mainLoop.start();
+    
+    Thread explosionConsumer = new ExplosionConsumer(this);
+    explosionConsumer.setDaemon(true);
+    explosionConsumer.start();
     
     // Log-Message
     if(ServerControlPanel.getInstance() != null)
@@ -147,7 +153,7 @@ public class Server
   /**
    * @return Queue storing the explosion events.
    */
-  Queue<List<Object>> getExplosions()
+  BlockingQueue<List<Object>> getExplosions()
   {
     return this.explosions;
   }
@@ -184,13 +190,14 @@ public class Server
    * @param distance
    */
   void notifyExplosion(Game game, int x, int y, int distance)
+    throws InterruptedException
   {
     List<Object> data = new ArrayList<Object>();
     data.add(game);
     data.add(x);
     data.add(y);
     data.add(distance);
-    this.explosions.add(data);
+    this.explosions.put(data);
   }
   
   /**
@@ -385,10 +392,14 @@ public class Server
       // Updates Playground for Spectators when moved
       for(Session sess : game.getSpectatorSessions())
         clients.get(sess).playgroundUpdate(new Event(new Object[]{game.getPlayground()}));
+
       return true;
     }
     else
+    {
+      // The move was invalid
       return false;
+    }
   }
   
   /**
