@@ -32,7 +32,6 @@ import bomberman.server.Playground;
 import bomberman.server.api.Session;
 import bomberman.server.api.GameInfo;
 
-import java.applet.Applet;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
