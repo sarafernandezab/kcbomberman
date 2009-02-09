@@ -21,6 +21,7 @@ package bomberman.net;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -69,7 +70,7 @@ public abstract class EventReceiverBase extends Thread
     try
     {
       BufferedReader inreader = new BufferedReader(new InputStreamReader(in));
-      XStream        xstream  = new XStream(new DomDriver());
+      XStream        xstream  = new XStream(new XppDriver());
       StringBuffer   buffer   = new StringBuffer();
 
       String line = inreader.readLine();

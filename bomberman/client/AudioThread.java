@@ -23,6 +23,8 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.io.InputStream;
 import java.net.URL;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Mixer;
 import javazoom.jl.player.Player;
 
 /**
@@ -31,6 +33,15 @@ import javazoom.jl.player.Player;
  */
 public class AudioThread extends Thread
 {
+  
+  static
+  {
+    Mixer.Info[] minfo = AudioSystem.getMixerInfo();
+    for(Mixer.Info minf : minfo)
+    {
+      System.out.println(minf);
+    }
+  }
   
   private AudioClip   clip = null;
   private InputStream in   = null;
