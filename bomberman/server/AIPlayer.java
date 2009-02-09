@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,8 +29,8 @@ import java.util.List;
 /**
  * An AI-controlled player. The AI uses a modified A* algorithm for
  * path finding.
- * @author Kai Ritterbusch (kai.ritterbusch@fh-osnabrueck.de)
- * @author Christian Lins (christian.lins@web.de)
+ * @author Kai Ritterbusch
+ * @author Christian Lins
  */
 class AIPlayer extends Player
 {
@@ -65,7 +65,7 @@ class AIPlayer extends Player
     
     for(Element e : elements)
     {
-      if(e instanceof Explodable)
+      if(e instanceof Explodable && !(e instanceof Extra))
         explodables++;
     }
     
@@ -141,21 +141,40 @@ class AIPlayer extends Player
       return false;
   }
   
+  private boolean isExtra(Point pnt)
+  {
+    Element[] el = this.playground.getElement(pnt.x, pnt.y);
+    if(el == null)
+      return false;
+    return el[0] instanceof Extra;
+  }
+  
   /**
    * Calculates a path to a possible bombing spot
    */
   private List<int[]> calculateTargetPath()
   {			
     // The A* Algorithm			
-    List<int[]> openNodes   = new ArrayList<int[]>(); // Noch nicht besuchte Nodes
-    List<int[]> closedNodes = new ArrayList<int[]>(); // Schon abgearbeitete Punkte
+    List<int[]> openNodes   = new ArrayList<int[]>(); // Not yet visited nodes
+    List<int[]> closedNodes = new ArrayList<int[]>(); // Already visited nodes
 			
     // Initialize with starting point (add = push = at end of list)
     openNodes.add(new int[] {gridX, gridY, 0, 0}); // Starting point (gridX, gridY) is the current player position
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0); // pop()
-      if(isTargetZone(new Point(node[0], node[1])) || closedNodes.size() > 15) // Ist der Nachbarpunkt sprengbar?
+      Point pnt  = new Point(node[0], node[1]);
+      
+      if(checkForBomb(pnt) != null)
+      {
+        // A bomb in the path is a really bad idea or we must know
+        // when this bomb explodes...
+        // And placing a bomb next to a ticking other is a even worse idea...
+        continue;
+      }
+      else if(isTargetZone(pnt) || // Are the neighbours of point explodable?
+              isExtra(pnt) ||      // Or is it an extra we can collect?
+              closedNodes.size() > 15)
       {
         // Den Pfad zurückverfolgen
         List<int[]> path = new ArrayList<int[]>();
@@ -224,11 +243,11 @@ class AIPlayer extends Player
     int y = bomb.getY();
 			
     // the A* Algorithmus			
-    List<int[]> openNodes   = new ArrayList<int[]>();   // Noch nicht besuchte Nodes
-    List<int[]> closedNodes = new ArrayList<int[]>(); // Schon  abgearbeitete Punkte
+    List<int[]> openNodes   = new ArrayList<int[]>(); // Not yet travelled nodes
+    List<int[]> closedNodes = new ArrayList<int[]>(); // Travelled nodes
     
     // Initialize with starting point
-    openNodes.add(0, new int[] {x, y, 0, 0}); // Startpunkt (x, y) ist die Bombe
+    openNodes.add(0, new int[] {x, y, 0, 0}); // Starting point (x, y) is the bomb
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0);
@@ -284,13 +303,11 @@ class AIPlayer extends Player
 
     return null;
   }
-		
-  // Prüft ob eine Bombe in meiner Nähe liegt.
-  // Gibt false zurück, wenn keine Bombe in der Nähe ist.
+
   /**
-   * Checks if bomb is near the player
+   * Checks if bomb is near the player.
    * @param bomb
-   * @return false if no Bomb exsits
+   * @return null if no Bomb is found
    */
   private Element checkForBomb(Point bomb)
   {
@@ -312,19 +329,24 @@ class AIPlayer extends Player
     {
       if(this.playground.getElement(matrixX+i, matrixY) != null &&
          this.playground.getElement(matrixX+i, matrixY)[0] instanceof Bomb)
+      {
         return this.playground.getElement(matrixX+i, matrixY)[0];
+      }
       else if(this.playground.getElement(matrixX-i, matrixY) != null &&
-              this.playground.getElement(matrixX-i, matrixY)[0] instanceof Bomb)		   
+              this.playground.getElement(matrixX-i, matrixY)[0] instanceof Bomb)
+      {
         return this.playground.getElement(matrixX-i, matrixY)[0];
+      }
       else if(this.playground.getElement(matrixX, matrixY+i) != null &&
               this.playground.getElement(matrixX, matrixY+i)[0] instanceof Bomb)
+      {
         return this.playground.getElement(matrixX, matrixY+i)[0];
+      }
       else if(this.playground.getElement(matrixX, matrixY-i) != null &&
               this.playground.getElement(matrixX, matrixY-i)[0] instanceof Bomb)
+      {
         return this.playground.getElement(matrixX, matrixY-i)[0];
-      else if(this.playground.getElement(matrixX, matrixY) != null &&
-              this.playground.getElement(matrixX, matrixY)[0] instanceof Bomb)
-        return this.playground.getElement(matrixX, matrixY)[0]; 
+      }
     }
     return null;
   }
@@ -365,7 +387,7 @@ class AIPlayer extends Player
       if(!wannaMove(node[0] - gridX, node[1] - gridY))  // Move expects relative direction
         currentPath = new ArrayList<int[]>();           // Delete path because it must be invalid
     }
-    else if(bombs.size() < 1)                           // You can put a bomb
+    else if(bombs.size() < super.bombCount)             // You can put a bomb
     {
       if(isTargetZone(new Point(gridX, gridY)))
       {
@@ -374,7 +396,7 @@ class AIPlayer extends Player
         if(currentPath == null)
         {
           currentPath = new ArrayList<int[]>();
-		placeBomb(); // Suicide
+          placeBomb(); // Suicide
         }
       }
       else
@@ -396,4 +418,5 @@ class AIPlayer extends Player
       }
     }
   }
+
 }

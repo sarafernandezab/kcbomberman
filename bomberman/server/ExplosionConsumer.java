@@ -125,9 +125,9 @@ class ExplosionConsumer extends Thread
   {
     Random rn = new Random();
     float i = rn.nextFloat();
-    if(i < 0.1)
+    if(i < 0.15)
       return new ExtraDistance(x, y);
-    else if(i < 0.2)
+    else if(i < 0.25)
       return new ExtraBomb(x, y);
     else      
       return null;
