@@ -23,6 +23,7 @@ import bomberman.client.ClientThread;
 import bomberman.net.Event;
 import bomberman.server.Playground;
 
+import bomberman.server.api.Element;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -204,6 +205,20 @@ public class PlaygroundPanel
     }
   }
   
+  private boolean equalsElements(Element[] newElements, Element[] oldElements)
+  {
+    if(newElements == null || oldElements == null)
+      return false;
+
+    for(int n = 0; n < newElements.length; n++)
+    {
+      if((newElements[n] == null && oldElements[n] != null) || 
+         (newElements[n] != null && !newElements[n].equals(oldElements[n])))
+        return false;
+    }
+    return true;
+  }
+  
   public void updatePlaygroundView(Playground playground)
   {
     int cols = playground.getWidth();
@@ -213,10 +228,15 @@ public class PlaygroundPanel
     {
       for(int y = 0; y < rows; y++)
       {
-        elementPainter[x][y].setElement(playground.getElement(x, y));
+        Element[] newElements = playground.getElement(x, y);
+        Element[] oldElements = elementPainter[x][y].getElement();
+        if(!equalsElements(newElements, oldElements))
+        {
+          elementPainter[x][y].setElement(newElements);
+          elementPainter[x][y].repaint();
+        }
       }
     }
-    repaint();
   }
 
 }
