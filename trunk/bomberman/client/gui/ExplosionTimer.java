@@ -1,7 +1,7 @@
 /*
  *  KC Bomberman
- *  Copyright 2008 Christian Lins <christian.lins@web.de>
- *  Copyright 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
+ *  Copyright (C) 2008,2009 Christian Lins <cli@openoffice.org>
+ *  Copyright (C) 2008 Kai Ritterbusch <kai.ritterbusch@googlemail.com>
  * 
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,24 +19,21 @@
 
 package bomberman.client.gui;
 
-import java.util.Timer;
-
-
 /**
- * Subclass from AnimationTimer
- * Implements the Explosion Animation
- * @author Christian Lins (christian.lins@web.de)
+ * Subclass of AnimationTimer. Implements the Explosion Animation,
+ * @author Christian Lins
  */
 class ExplosionTimer extends AnimationTimer
 {
-  private int            calls = 0;
+
+  private int calls = 0;
   
   public ExplosionTimer(ElementPainter painter, int delay, int period)
   {
     super(painter, delay, period);
   }
   
-   /**
+  /**
    * Cancel Timer
    * @return
    */
@@ -47,7 +44,7 @@ class ExplosionTimer extends AnimationTimer
     return super.cancel();
   }
 
-   /**
+  /**
    * Run the Animation
    */
   @Override
@@ -59,4 +56,5 @@ class ExplosionTimer extends AnimationTimer
     painter.nextExplosionImage();
     painter.repaint();
   }
+
 }

@@ -78,7 +78,8 @@ public class ElementPainter extends JComponent
   private int     dieStage = 0;
   private ExplosionTimer explTimer;
   private DieTimer dieTimer;
-  private Element element;
+  private Element   element;
+  private Element[] elements;
   private int playerNumber;
   
   public ElementPainter()
@@ -171,7 +172,7 @@ public class ElementPainter extends JComponent
     }
     
     // Draw explosion if one has occurred
-    if(explStage > 0 && (getElement() == null || (getElement() instanceof Explodable)))
+    if(explStage > 0 && (element == null || (element instanceof Explodable)))
     {
       Image img = ImageCache.get(EXPLOSION_IMAGE + (explStage + 1) + ".png");
       g.drawImage(img, 0, 0, null);      
@@ -211,7 +212,8 @@ public class ElementPainter extends JComponent
    */
   public void setElement(Element[] elements)
   {
-    this.element = elements[0];
+    this.element  = elements[0];
+    this.elements = elements;
     
     for(int n = 0; n < elements.length; n++)
     {
@@ -232,12 +234,8 @@ public class ElementPainter extends JComponent
     }
   }
 
-  /**
-   * Getter for this.element
-   * @return
-   */
-  public Element getElement()
+  public Element[] getElement()
   {
-    return element;
+    return elements;
   }
 }

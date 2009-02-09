@@ -27,7 +27,6 @@ import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
 import javax.swing.JFrame;
 
 /**
@@ -49,7 +48,7 @@ public class MainFrame extends JFrame
   public MainFrame()
   {
     instance = this;
-    setTitle("Bomberman - von Kai Ritterbusch und Christian Lins");
+    setTitle("KC Bomberman - A Free Java Bomberman Clone");
     resetSize();
     setContentPane(new StartPanel());
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -96,8 +95,7 @@ public class MainFrame extends JFrame
   }
 
   /**
-   * One Instance of the LobbyPanel for the whole game
-   * 
+   * One Instance of the LobbyPanel for the whole game.
    * @return instance of LobbyPanel
    */   
   public LobbyPanel getLobbyPanel() 
@@ -112,4 +110,5 @@ public class MainFrame extends JFrame
       instance = null;
     super.setVisible(state);
   }
+
 }
