@@ -21,11 +21,9 @@ package bomberman.client;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.io.InputStream;
 import java.net.URL;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Mixer;
-import javazoom.jl.player.Player;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Thread playing a AudioClip.
@@ -34,62 +32,53 @@ import javazoom.jl.player.Player;
 public class AudioThread extends Thread
 {
   
-  static
+  private static volatile AudioThread instance = new AudioThread();
+  
+  public static void playSound(URL url)
   {
-    Mixer.Info[] minfo = AudioSystem.getMixerInfo();
-    for(Mixer.Info minf : minfo)
+    try
     {
-      System.out.println(minf);
+      AudioThread.instance.queue.put(url);
+    }
+    catch(InterruptedException ex)
+    {
+      ex.printStackTrace();
     }
   }
   
-  private AudioClip   clip = null;
-  private InputStream in   = null;
+  // The queue has a maximum capacity of Integer.MAX_VALUE, so it will probably
+  // never block at put operation, but block on take if empty.
+  private BlockingQueue<URL> queue = new LinkedBlockingQueue<URL>();
   
   private AudioThread()
   {
     setPriority(MAX_PRIORITY);
+    start();
   }
   
-  public AudioThread(URL url)
-  {
-    this();
-    
-    this.clip = Applet.newAudioClip(url);
-  }
-  
-  public AudioThread(InputStream in)
-  {
-    this.in = in;
-  }
-  
-   /**
+  /**
    * Plays the sound
    */
   @Override
   public void run()
   {
-    try
+    for(;;)
     {
-      if(clip != null)
+      try
       {
-        this.clip.play();
-
-        // Rescue the thread from the garbage collection, 
-        // because this causes the AudioClip to stop too early.
-        // While sleeping the Thread does only consume little memory and
-        // no CPU which can be accepted.
-        sleep(10000);
+        URL       url  = this.queue.take();
+        AudioClip clip = Applet.newAudioClip(url);
+        clip.play();
+        
+        // This is a workaround to prevent multiple clips from starting
+        // at exactly the same time, which causes garbage on some audio systems.
+        // Increase the sleep time if necessary.
+        Thread.sleep(100); 
       }
-      else
+      catch(Exception ex)
       {
-        Player player = new Player(in);
-        player.play();
+        ex.printStackTrace();
       }
-    }
-    catch(Exception ex)
-    {
-      ex.printStackTrace();
     }
   }
 

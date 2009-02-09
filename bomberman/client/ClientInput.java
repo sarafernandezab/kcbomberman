@@ -32,6 +32,7 @@ import bomberman.server.Playground;
 import bomberman.server.api.Session;
 import bomberman.server.api.GameInfo;
 
+import java.applet.Applet;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +73,8 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
     int y        = (Integer)event.getArguments()[1];
     int distance = (Integer)event.getArguments()[2];
 
-    new AudioThread(Resource.getAsStream("resource/sfx/explosion.mp3")).start();
-
+    AudioThread.playSound(Resource.getAsURL("resource/sfx/explosion.wav"));
+    
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawExplosion(x, y, distance);
   }
@@ -247,8 +248,8 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
     int x = (Integer)event.getArguments()[0];
     int y = (Integer)event.getArguments()[1];
     int playerNumber = (Integer)event.getArguments()[2];
-    new AudioThread(Resource.getAsStream("resource/sfx/scream.mp3")).start();
-
+    AudioThread.playSound(Resource.getAsURL("resource/sfx/scream.wav"));
+    
     PlaygroundPanel pp = (PlaygroundPanel)MainFrame.getInstance().getContentPane();
     pp.drawDieAnimation(x, y, playerNumber);
   }
