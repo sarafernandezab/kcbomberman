@@ -225,7 +225,11 @@ public class ClientInput extends EventReceiverBase implements ServerListenerInte
   public void playgroundUpdate(Event event)
   {
     Playground playground = (Playground)event.getArguments()[0];
-    ((PlaygroundPanel)MainFrame.getInstance().getContentPane()).updatePlaygroundView(playground);
+    if(MainFrame.getInstance().getContentPane() instanceof PlaygroundPanel)
+    {
+      ((PlaygroundPanel)MainFrame.getInstance().getContentPane())
+          .updatePlaygroundView(playground);
+    }
   }
   
   /**

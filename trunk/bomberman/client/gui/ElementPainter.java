@@ -21,15 +21,11 @@ package bomberman.client.gui;
 
 import bomberman.client.io.Resource;
 import bomberman.server.api.Element;
-
 import bomberman.server.api.Explodable;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import java.awt.Image;
-import java.util.HashMap;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JComponent;
@@ -73,6 +69,7 @@ public class ElementPainter extends JComponent
     }
   }
   
+  private volatile boolean repaintNeeded = true;
   private Image[] images    = new Image[5];
   private int     explStage = 0;
   private int     dieStage = 0;
@@ -161,7 +158,7 @@ public class ElementPainter extends JComponent
    */   
   @Override
   public void paintComponent(Graphics g)
-  {    
+  {
     g.setColor(Color.GREEN.darker().darker());
     g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -183,6 +180,8 @@ public class ElementPainter extends JComponent
       Image img = ImageCache.get(PLAYER_DIE_IMAGE + this.playerNumber + "/" + (dieStage + 20) + ".png");
       g.drawImage(img, 0, 0, null);      
     }
+    
+    repaintNeeded = false;
   }
   
   /**
@@ -232,6 +231,8 @@ public class ElementPainter extends JComponent
         }
       }
     }
+    
+    repaintNeeded = true;
   }
 
   public Element[] getElement()

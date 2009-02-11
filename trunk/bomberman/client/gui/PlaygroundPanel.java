@@ -22,14 +22,17 @@ package bomberman.client.gui;
 import bomberman.client.ClientThread;
 import bomberman.net.Event;
 import bomberman.server.Playground;
-
 import bomberman.server.api.Element;
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.ImageCapabilities;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.VolatileImage;
 import javax.swing.JPanel;
 
 /**
@@ -46,6 +49,8 @@ public class PlaygroundPanel
 
   private ElementPainter[][] elementPainter;
   private boolean spectatorStatus = false;
+  private VolatileImage buffer;
+  private Graphics      bufferGraphics;
   
   public PlaygroundPanel(int cols, int rows, boolean spectatorStatus)
   {
@@ -76,6 +81,7 @@ public class PlaygroundPanel
       } 
     }    
     
+    setDoubleBuffered(false);
     MainFrame.getInstance().setSize(
         (cols + 2) * ElementPainter.DEFAULT_SIZE,
         (rows + 2) * ElementPainter.DEFAULT_SIZE);
@@ -205,18 +211,28 @@ public class PlaygroundPanel
     }
   }
   
-  private boolean equalsElements(Element[] newElements, Element[] oldElements)
+  @Override
+  protected void paintComponent(Graphics g)
   {
-    if(newElements == null || oldElements == null)
-      return false;
-
-    for(int n = 0; n < newElements.length; n++)
+    if(bufferGraphics == null)
     {
-      if((newElements[n] == null && oldElements[n] != null) || 
-         (newElements[n] != null && !newElements[n].equals(oldElements[n])))
-        return false;
+      if(buffer == null)
+      {
+        try
+        {
+          buffer = createVolatileImage(getWidth(), getHeight(), 
+            new ImageCapabilities(true));
+        }
+        catch(AWTException ex)
+        {
+          ex.printStackTrace();
+        }
+      }
+      bufferGraphics = buffer.createGraphics();
     }
-    return true;
+
+    super.paintComponent(bufferGraphics);
+    g.drawImage(buffer, 0, 0, null);
   }
   
   public void updatePlaygroundView(Playground playground)
@@ -229,14 +245,11 @@ public class PlaygroundPanel
       for(int y = 0; y < rows; y++)
       {
         Element[] newElements = playground.getElement(x, y);
-        Element[] oldElements = elementPainter[x][y].getElement();
-        if(!equalsElements(newElements, oldElements))
-        {
-          elementPainter[x][y].setElement(newElements);
-          elementPainter[x][y].repaint();
-        }
+        elementPainter[x][y].setElement(newElements);
       }
     }
+    
+    repaint();
   }
 
 }
