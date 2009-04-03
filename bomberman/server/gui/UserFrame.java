@@ -161,7 +161,7 @@ public class UserFrame extends javax.swing.JFrame
       this.setVisible(false);
     }
     else
-      JOptionPane.showMessageDialog( this, "Das Passwort und die Bestätigung stimmen nicht überein!!" );
+      JOptionPane.showMessageDialog( this, "Das Passwort und die Bestaetigung stimmen nicht ueberein!!" );
   }//GEN-LAST:event_btnOkActionPerformed
 
   private void txtPw2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPw2ActionPerformed

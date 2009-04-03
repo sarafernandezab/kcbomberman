@@ -157,7 +157,7 @@ public class ServerControlPanel extends javax.swing.JPanel
     btnHighscoreExport = new javax.swing.JButton();
     lblExportHighscore = new javax.swing.JLabel();
 
-    lblCaption.setText("Hier können Sie den KC Bomberman Server verwalten:");
+    lblCaption.setText("Hier koennen Sie den KC Bomberman Server verwalten:");
 
     btnStartServer.setText("Server starten");
     btnStartServer.addActionListener(new java.awt.event.ActionListener() {
