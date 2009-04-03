@@ -176,7 +176,7 @@ class AIPlayer extends Player
               isExtra(pnt) ||      // Or is it an extra we can collect?
               closedNodes.size() > 15)
       {
-        // Den Pfad zurückverfolgen
+        // Backtrace the path
         List<int[]> path = new ArrayList<int[]>();
         path.add(0, node);
         while(closedNodes.size() > 0)
@@ -251,7 +251,7 @@ class AIPlayer extends Player
     while(openNodes.size() > 0)
     {
       int[] node = openNodes.remove(0);
-      if(node[0] != x && node[1] != y || closedNodes.size() > 15) // Ist der Punkt sicher?
+      if(node[0] != x && node[1] != y || closedNodes.size() > 15) // Is this point save?
       {
         // check path
         List<int[]> path = new ArrayList<int[]>();

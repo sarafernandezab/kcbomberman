@@ -253,7 +253,7 @@ public class LobbyPanel extends javax.swing.JPanel
       }
       else
       {
-        JOptionPane.showMessageDialog(this, "Bitte wähle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Bitte waehle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
       }
     }
     catch(Exception ex)
@@ -274,7 +274,7 @@ public class LobbyPanel extends javax.swing.JPanel
       }
       else
       {
-        JOptionPane.showMessageDialog(this, "Bitte wähle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Bitte waehle erst ein Spiel!", "Bomberman", JOptionPane.INFORMATION_MESSAGE);
       }
     }
     catch(Exception ex)
