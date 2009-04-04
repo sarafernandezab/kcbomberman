@@ -12,6 +12,6 @@ cp -r DEBIAN $PACKAGE_ROOT/
 cp helpers/kcbomberman $PACKAGE_ROOT/usr/bin/kcbomberman
 cp helpers/kcbomberman-server $PACKAGE_ROOT/usr/bin/kcbomberman-server
 #cp helpers/sonews.conf.sample $PACKAGE_ROOT/etc/sonews/sonews.conf
-cp kcbomberman.jar $PACKAGE_ROOT/usr/share/java/
 jar -uf kcbomberman.jar resource/
+cp kcbomberman.jar $PACKAGE_ROOT/usr/share/java/
 dpkg-deb --build $PACKAGE_ROOT 
