@@ -9,6 +9,5 @@ Architecture: all
 Depends: sun-java6-jre | openjdk-6-jre | java-virtual-machine,
  java2-runtime, libxstream-java, libxpp3-java,
  libswing-layout-java
-Suggests: kitten
 Description: kcbomberman 
  KC Bomberman is clone of the classic Bomberman game written in Java.
